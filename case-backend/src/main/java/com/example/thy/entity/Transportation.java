@@ -12,7 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name = "transportation")
+@Table(name = "transportation",
+        uniqueConstraints = @UniqueConstraint(
+                name = "unique_transportation",
+                columnNames = {"origin_location_id", "destination_location_id", "transportation_type"}
+        ))
 public class Transportation extends BaseEntity {
 
     @ManyToOne
