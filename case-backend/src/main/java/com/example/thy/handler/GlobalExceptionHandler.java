@@ -1,10 +1,7 @@
 package com.example.thy.handler;
 
 import com.example.thy.dto.ErrorResponse;
-import com.example.thy.exception.LocationAlreadyExistsException;
-import com.example.thy.exception.LocationNotFoundException;
-import com.example.thy.exception.TransportationAlreadyExistsException;
-import com.example.thy.exception.TransportationNotFoundException;
+import com.example.thy.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -38,6 +35,11 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleTransportationNotFoundException(TransportationNotFoundException ex) {
         return new ErrorResponse("TRANSPORTATION_NOT_FOUND", "Transportation not found with given id. " + ex.getId());
+    }
+
+    @ExceptionHandler(GeneralException.class) // Tüm Exception türlerini yakalar
+    public ErrorResponse handleGeneralException(GeneralException ex) {
+        return new ErrorResponse("ERROR", ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class) // Tüm Exception türlerini yakalar

@@ -36,11 +36,17 @@ public class LocationController {
     {
         return ResponseEntity.ok().body(locationService.save(location));
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<LocationDto> UpdateLocation(@RequestBody LocationDto location)
+    {
+        return ResponseEntity.ok().body(locationService.update(location));
+    }
     @DeleteMapping("/deleteById/{id}")
-    public ResponseEntity<String> deleteLocationById(@PathVariable Long id)
+    public ResponseEntity<Void> deleteLocationById(@PathVariable Long id)
     {
         locationService.deleteById(id);
-        return ResponseEntity.ok().body("Deleted Successfully");
+        return ResponseEntity.ok().build();
     }
 
 
