@@ -21,12 +21,12 @@ public class LocationController {
 
 
     @GetMapping("/findAll")
-    public ResponseEntity<List<Location>> findAllLocations(){
+    public ResponseEntity<List<LocationDto>> findAllLocations(){
         return ResponseEntity.ok().body(locationService.findAll());
     }
 
     @GetMapping("/findById/{id}")
-    public ResponseEntity<Location> findLocationById(@PathVariable Long id)
+    public ResponseEntity<LocationDto> findLocationById(@PathVariable Long id)
     {
         return ResponseEntity.ok().body(locationService.findById(id));
     }

@@ -5,7 +5,9 @@ import jakarta.persistence.Column;
 import lombok.Data;
 
 @Data
-public class LocationDto  extends BaseDto {
+public class LocationDto {
+    private Long id;
+
     private String country;
 
     private String City;
