@@ -24,25 +24,37 @@ public class RouteService {
 
     public List<RouteDto> findAllValidRoutes(RouteRequestDto routeRequestDto) {
         List<RouteDto> validRoutes = new ArrayList<>();
-        List<TransportationDto> transportationDtoListByOriginLocation = transportationService.findByOriginLocationId(routeRequestDto.getStartLocationId());
+        List<TransportationDto> firstTransportationDtoListByOriginLocation = transportationService.findByOriginLocationId(routeRequestDto.getStartLocationId());
 
-        transportationDtoListByOriginLocation.forEach(transportationDto -> {
+        firstTransportationDtoListByOriginLocation.forEach(firstTransportationDto -> {
 
-            if(Objects.equals(transportationDto.getDestinationLocation().getId(), routeRequestDto.getEndLocationId()) && transportationDto.getTransportationType().equals(TransportationTypeEnum.FLIGHT)){
+            if (Objects.equals(firstTransportationDto.getDestinationLocation().getId(), routeRequestDto.getEndLocationId()) && firstTransportationDto.getTransportationType().equals(TransportationTypeEnum.FLIGHT)) {
                 RouteDto routeDto = new RouteDto();
-                routeDto.getValidRoutes().add(new RouteLocationDto(transportationDto.getOriginLocation(),transportationDto.getTransportationType()));
-                routeDto.getValidRoutes().add(new RouteLocationDto(transportationDto.getOriginLocation()));
+                routeDto.getValidRoutes().add(new RouteLocationDto(firstTransportationDto.getOriginLocation(), firstTransportationDto.getTransportationType()));
+                routeDto.getValidRoutes().add(new RouteLocationDto(firstTransportationDto.getOriginLocation()));
                 validRoutes.add(routeDto);
-            }else{
-                List<TransportationDto> transportationDtoListByOriginLocation1    = transportationService.findByOriginLocationId(transportationDto.getDestinationLocation().getId());
+            } else {
+                List<TransportationDto> secondTransportationDtoListByOriginLocation = transportationService.findByOriginLocationId(firstTransportationDto.getDestinationLocation().getId());
 
-                transportationDtoListByOriginLocation1.forEach(transportationDto1 -> {
-                    if(Objects.equals(transportationDto1.getDestinationLocation().getId(), routeRequestDto.getEndLocationId())){
+                secondTransportationDtoListByOriginLocation.forEach(secondTransportationDto -> {
+                    if (Objects.equals(secondTransportationDto.getDestinationLocation().getId(), routeRequestDto.getEndLocationId())) {
                         RouteDto routeDto = new RouteDto();
-                        routeDto.getValidRoutes().add(new RouteLocationDto(transportationDto.getOriginLocation(),transportationDto.getTransportationType()));
-                        routeDto.getValidRoutes().add(new RouteLocationDto(transportationDto1.getOriginLocation(),transportationDto1.getTransportationType()));
-                        routeDto.getValidRoutes().add(new RouteLocationDto(transportationDto1.getDestinationLocation()));
+                        routeDto.getValidRoutes().add(new RouteLocationDto(firstTransportationDto.getOriginLocation(), firstTransportationDto.getTransportationType()));
+                        routeDto.getValidRoutes().add(new RouteLocationDto(secondTransportationDto.getOriginLocation(), secondTransportationDto.getTransportationType()));
+                        routeDto.getValidRoutes().add(new RouteLocationDto(secondTransportationDto.getDestinationLocation()));
                         validRoutes.add(routeDto);
+                    } else {
+                        List<TransportationDto> thirdTransportationDtoListByOriginLocation = transportationService.findByOriginLocationId(secondTransportationDto.getDestinationLocation().getId());
+                        thirdTransportationDtoListByOriginLocation.forEach(thirdTransportationDto -> {
+                            if (Objects.equals(thirdTransportationDto.getDestinationLocation().getId(), routeRequestDto.getEndLocationId())) {
+                                RouteDto routeDto = new RouteDto();
+                                routeDto.getValidRoutes().add(new RouteLocationDto(firstTransportationDto.getOriginLocation(), firstTransportationDto.getTransportationType()));
+                                routeDto.getValidRoutes().add(new RouteLocationDto(secondTransportationDto.getOriginLocation(), secondTransportationDto.getTransportationType()));
+                                routeDto.getValidRoutes().add(new RouteLocationDto(thirdTransportationDto.getOriginLocation(), thirdTransportationDto.getTransportationType()));
+                                routeDto.getValidRoutes().add(new RouteLocationDto(thirdTransportationDto.getDestinationLocation()));
+                                validRoutes.add(routeDto);
+                            }
+                        });
                     }
                 });
             }
