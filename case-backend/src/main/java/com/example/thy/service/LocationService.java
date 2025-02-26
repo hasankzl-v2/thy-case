@@ -71,6 +71,9 @@ public class LocationService {
         Location savedLocation = location.get();
 
         try {
+            if(locationDto.getName()!=null) {
+                savedLocation.setName(locationDto.getName());
+            }
             if(locationDto.getLocationCode()!=null) {
                 savedLocation.setLocationCode(locationDto.getLocationCode());
             }
@@ -89,6 +92,9 @@ public class LocationService {
     }
 
     private void validateLocationData(LocationDto locationDto) {
+        if(locationDto.getName()!=null && locationDto.getName().isEmpty()) {
+            throw new GeneralException("Name should not be empty");
+        }
         if(locationDto.getCountry()!=null && locationDto.getCountry().isEmpty()) {
             throw new GeneralException("Country should not be empty");
         }

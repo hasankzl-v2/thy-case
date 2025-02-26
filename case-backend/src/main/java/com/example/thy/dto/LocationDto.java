@@ -12,6 +12,13 @@ public class LocationDto {
             type = "Long",
             example = "1")
     private Long id;
+
+    @Schema(
+            description = "name of the location",
+            name = "name",
+            type = "String",
+            example = "Sabiha Gokcen Airport")
+    private String name;
     @Schema(
             description = "country of the location",
             name = "country",

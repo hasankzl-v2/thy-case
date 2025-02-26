@@ -19,6 +19,9 @@ public class Location extends BaseEntity {
 
 
     @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
     private String country;
 
     @Column(nullable = false)
