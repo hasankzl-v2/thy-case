@@ -1,7 +1,6 @@
 package com.example.thy.service;
 
 import com.example.thy.dto.LocationDto;
-import com.example.thy.dto.TransportationDto;
 import com.example.thy.entity.Location;
 import com.example.thy.exception.GeneralException;
 import com.example.thy.exception.LocationAlreadyExistsException;
@@ -14,7 +13,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.beans.Transient;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
