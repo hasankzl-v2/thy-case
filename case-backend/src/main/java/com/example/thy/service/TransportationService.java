@@ -14,6 +14,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -103,22 +104,27 @@ public class TransportationService {
     }
 
     private void validateTransportationDataBeforeSave(TransportationDto transportationDto) {
-        if(transportationDto.getOriginLocation() != null && transportationDto.getOriginLocation().getId() != null
-        && transportationDto.getDestinationLocation() != null && transportationDto.getDestinationLocation().getId() != null
+        if (transportationDto.getOriginLocation() != null && transportationDto.getOriginLocation().getId() != null
+                && transportationDto.getDestinationLocation() != null && transportationDto.getDestinationLocation().getId() != null
         ) {
-            if(transportationDto.getOriginLocation().getId().equals(transportationDto.getDestinationLocation().getId())) {
+            if (transportationDto.getOriginLocation().getId().equals(transportationDto.getDestinationLocation().getId())) {
                 throw new GeneralException("transport location and destination location should not be the same");
             }
         }
     }
 
     private void validateTransportationDataBeforeUpdate(TransportationDto transportationDto) {
-        if(transportationDto.getOriginLocation() != null && transportationDto.getOriginLocation().getId() != null
+        if (transportationDto.getOriginLocation() != null && transportationDto.getOriginLocation().getId() != null
                 && transportationDto.getDestinationLocation() != null && transportationDto.getDestinationLocation().getId() != null
         ) {
-            if(transportationDto.getOriginLocation().getId().equals(transportationDto.getDestinationLocation().getId())) {
+            if (transportationDto.getOriginLocation().getId().equals(transportationDto.getDestinationLocation().getId())) {
                 throw new GeneralException("transport location and destination location should not be the same");
             }
         }
+    }
+
+    public List<TransportationDto> findByOriginLocationId(Long startLocationId) {
+        List<Transportation> byOriginLocationId = transportationRepository.findByOriginLocationId(startLocationId);
+        return byOriginLocationId.stream().map(transportation -> modelMapper.map(transportation, TransportationDto.class)).toList();
     }
 }
