@@ -24,23 +24,21 @@ public class TransportationDto {
     @Schema(
             description = "destination location of the transportation",
             name = "destinationLocation",
-            type = "LocationDto",
-            example = "{id:1}")
+            type = "LocationDto")
     @NotNull(message = "destination Location should not be set")
     private LocationDto destinationLocation;
     @Schema(
             description = "origin location of the transportation",
             name = "originLocation",
-            type = "LocationDto",
-            example = "{id:1}")
+            type = "LocationDto")
     @NotNull(message = "originLocation should be set")
     private LocationDto originLocation;
 
     @Schema(
             description = "allowed oparation days for transportation",
             name = "operationDays",
-            type = "int[]",
-            example = "{id:1}")
+            type = "array",
+            example = "[1,2,3,4]")
     @NotNull(message = "operation days  should not be empty")
     private Integer[] operationDays;
 
