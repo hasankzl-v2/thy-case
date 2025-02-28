@@ -1,5 +1,6 @@
 package com.example.thy.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -8,5 +9,6 @@ import java.time.LocalDate;
 public class RouteRequestDto {
     private Long startLocationId;
     private Long endLocationId;
-    private Integer departureDay;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate departureDate;
 }

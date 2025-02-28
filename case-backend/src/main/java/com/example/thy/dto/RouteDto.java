@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.val;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +20,7 @@ public class RouteDto {
     private int flightTransferCount = 0;
     private int afterFlightTransferCount = 0;
     private int beforeFlightTransferCount = 0;
+    private final LocalDate departureDate;
     private final int departureDay;
     private final Long startLocationId;
     private final Long endLocationId;
@@ -83,9 +85,10 @@ public class RouteDto {
         return true;
     }
 
-    public RouteDto(int departureDay, Long startLocationId, Long endLocationId) {
-        this.departureDay = departureDay;
+    public RouteDto(LocalDate departureDate, Long startLocationId, Long endLocationId) {
+        this.departureDate = departureDate;
         this.startLocationId = startLocationId;
         this.endLocationId = endLocationId;
+        this.departureDay = departureDate.getDayOfWeek().getValue();
     }
 }

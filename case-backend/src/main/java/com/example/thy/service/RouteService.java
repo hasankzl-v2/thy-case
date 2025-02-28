@@ -26,7 +26,7 @@ public class RouteService {
         firstTransportationDtoListByOriginLocation.forEach(firstTransportationDto -> {
 
             if (Objects.equals(firstTransportationDto.getDestinationLocation().getId(), routeRequestDto.getEndLocationId()) && firstTransportationDto.getTransportationType().equals(TransportationTypeEnum.FLIGHT)) {
-                RouteDto routeDto = new RouteDto(routeRequestDto.getDepartureDay(),routeRequestDto.getStartLocationId(),routeRequestDto.getEndLocationId());
+                RouteDto routeDto = new RouteDto(routeRequestDto.getDepartureDate(),routeRequestDto.getStartLocationId(),routeRequestDto.getEndLocationId());
                 routeDto.addValidRoute(firstTransportationDto.getOriginLocation(),firstTransportationDto.getTransportationType(),firstTransportationDto.getOperationDays());
                 routeDto.addValidRoute(firstTransportationDto.getDestinationLocation(),firstTransportationDto.getTransportationType(),firstTransportationDto.getOperationDays());
                 validRoutesResponseDto.addRouteIfValid(routeDto);
@@ -35,7 +35,7 @@ public class RouteService {
 
                 secondTransportationDtoListByOriginLocation.forEach(secondTransportationDto -> {
                     if (Objects.equals(secondTransportationDto.getDestinationLocation().getId(), routeRequestDto.getEndLocationId())) {
-                        RouteDto routeDto =  new RouteDto(routeRequestDto.getDepartureDay(),routeRequestDto.getStartLocationId(),routeRequestDto.getEndLocationId());
+                        RouteDto routeDto =  new RouteDto(routeRequestDto.getDepartureDate(),routeRequestDto.getStartLocationId(),routeRequestDto.getEndLocationId());
                         routeDto.addValidRoute(firstTransportationDto.getOriginLocation(), firstTransportationDto.getTransportationType(), firstTransportationDto.getOperationDays());
                         routeDto.addValidRoute(secondTransportationDto.getOriginLocation(), secondTransportationDto.getTransportationType(), secondTransportationDto.getOperationDays());
                         routeDto.addValidRoute(secondTransportationDto.getDestinationLocation(), secondTransportationDto.getTransportationType(), secondTransportationDto.getOperationDays());
@@ -44,7 +44,7 @@ public class RouteService {
                         List<TransportationDto> thirdTransportationDtoListByOriginLocation = transportationService.findByOriginLocationId(secondTransportationDto.getDestinationLocation().getId());
                         thirdTransportationDtoListByOriginLocation.forEach(thirdTransportationDto -> {
                             if (Objects.equals(thirdTransportationDto.getDestinationLocation().getId(), routeRequestDto.getEndLocationId())) {
-                                RouteDto routeDto =  new RouteDto(routeRequestDto.getDepartureDay(),routeRequestDto.getStartLocationId(),routeRequestDto.getEndLocationId());
+                                RouteDto routeDto =  new RouteDto(routeRequestDto.getDepartureDate(),routeRequestDto.getStartLocationId(),routeRequestDto.getEndLocationId());
                                 routeDto.addValidRoute(firstTransportationDto.getOriginLocation(), firstTransportationDto.getTransportationType(), firstTransportationDto.getOperationDays());
                                 routeDto.addValidRoute(secondTransportationDto.getOriginLocation(), secondTransportationDto.getTransportationType(),secondTransportationDto.getOperationDays());
                                 routeDto.addValidRoute(thirdTransportationDto.getOriginLocation(), thirdTransportationDto.getTransportationType(), thirdTransportationDto.getOperationDays());

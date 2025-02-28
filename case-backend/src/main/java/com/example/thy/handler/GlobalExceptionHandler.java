@@ -39,11 +39,11 @@ public class GlobalExceptionHandler {
         return new ErrorResponse("TRANSPORTATION_NOT_FOUND", "Transportation not found with given id. " + ex.getId());
     }
 
-    @ExceptionHandler(GeneralException.class) // Tüm Exception türlerini yakalar
+    @ExceptionHandler(GeneralException.class)
     public ErrorResponse handleGeneralException(GeneralException ex) {
         return new ErrorResponse("ERROR", ex.getMessage());
     }
-    @ExceptionHandler(TransportationOperationDaysNotValidException.class) // Tüm Exception türlerini yakalar
+    @ExceptionHandler(TransportationOperationDaysNotValidException.class)
     public ErrorResponse handleTransportationOperationDaysNotValidException(Exception ex) {
         log.error(ex.getMessage(), ex);
         return new ErrorResponse("TRANSPORTATION_OPERATION_DAYS_NOT_VALID","Transportation operation days not valid.");

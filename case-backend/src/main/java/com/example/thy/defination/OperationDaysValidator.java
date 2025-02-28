@@ -11,7 +11,6 @@ public class OperationDaysValidator implements ConstraintValidator<ValidateOpera
 
     @Override
     public boolean isValid(Integer[] values, ConstraintValidatorContext context) {
-        // null acceptable
         if (values == null) return false;
 
         if (values.length > 7) {
