@@ -1,6 +1,5 @@
 package com.example.thy.dto.request;
 
-import com.example.thy.defination.FieldsMatch;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.thy.defination;
+package com.example.thy.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -8,18 +8,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE) // Class seviyesinde kullanacağız
+@Constraint(validatedBy = OperationDaysValidator.class)
+@Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = FieldsMatchValidator.class) // Validatör sınıfı
-public @interface FieldsMatch {
-
-    String message() default "Fields do not match"; // Hata mesajı
-
+public @interface ValidateOperationDays {
+    String message() default "Array must contain distinct values!";
     Class<?>[] groups() default {};
-
     Class<? extends Payload>[] payload() default {};
-
-    String firstField();
-    String secondField();
-    boolean shouldMatch();
 }

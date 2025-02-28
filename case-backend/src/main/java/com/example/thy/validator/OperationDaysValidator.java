@@ -1,4 +1,4 @@
-package com.example.thy.defination;
+package com.example.thy.validator;
 
 import com.example.thy.exception.TransportationOperationDaysNotValidException;
 import jakarta.validation.ConstraintValidator;

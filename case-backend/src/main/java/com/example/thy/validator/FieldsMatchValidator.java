@@ -1,4 +1,4 @@
-package com.example.thy.defination;
+package com.example.thy.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

@@ -1,6 +1,6 @@
 package com.example.thy.dto.request;
 
-import com.example.thy.defination.FieldsMatch;
+import com.example.thy.validator.FieldsMatch;
 import com.example.thy.dto.LocationDto;
 import com.example.thy.dto.TransportationDto;
 import com.example.thy.enums.TransportationTypeEnum;

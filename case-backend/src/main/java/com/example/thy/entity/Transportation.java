@@ -1,7 +1,7 @@
 package com.example.thy.entity;
 
 import com.example.thy.defination.CustomIntegerArrayType;
-import com.example.thy.defination.ValidateOperationDays;
+import com.example.thy.validator.ValidateOperationDays;
 import com.example.thy.enums.TransportationTypeEnum;
 import jakarta.persistence.*;
 

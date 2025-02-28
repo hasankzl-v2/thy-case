@@ -1,8 +1,7 @@
 package com.example.thy.dto.request;
 
 
-import com.example.thy.defination.FieldsMatch;
-import com.example.thy.dto.LocationDto;
+import com.example.thy.validator.FieldsMatch;
 import com.example.thy.enums.TransportationTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
