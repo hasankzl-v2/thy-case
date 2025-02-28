@@ -1,6 +1,8 @@
 package com.example.thy.service;
 
-import com.example.thy.dto.request.LocationDto;
+import com.example.thy.dto.LocationDto;
+import com.example.thy.dto.request.SaveLocationRequestDto;
+import com.example.thy.dto.request.UpdateLocationRequestDto;
 import com.example.thy.entity.Location;
 import com.example.thy.exception.GeneralException;
 import com.example.thy.exception.LocationAlreadyExistsException;
@@ -42,11 +44,9 @@ public class LocationService {
             throw new LocationNotFoundException("Location not found",id);
         }
     }
-    public LocationDto save(@Valid LocationDto locationDto){
-        if(locationDto.getId()!=null) {
-            throw new GeneralException("should not send id when saving location");
-        }
-        Location location = modelMapper.map(locationDto, Location.class);
+    public LocationDto save(@Valid SaveLocationRequestDto saveLocationRequestDto){
+
+        Location location = modelMapper.map(saveLocationRequestDto, Location.class);
         try {
             location = locationRepository.save(location);
         }catch (DataIntegrityViolationException e){
@@ -65,25 +65,25 @@ public class LocationService {
         }
     }
 
-    public LocationDto update(LocationDto locationDto) {
-        Optional<Location> location = locationRepository.findById(locationDto.getId());
+    public LocationDto update(UpdateLocationRequestDto updateLocationRequestDto) {
+        Optional<Location> location = locationRepository.findById(updateLocationRequestDto.getId());
         if (location.isEmpty()) {
-            throw new LocationNotFoundException("Location not found for update ",locationDto.getId());
+            throw new LocationNotFoundException("Location not found for update ",updateLocationRequestDto.getId());
         }
         Location savedLocation = location.get();
 
         try {
-            if(locationDto.getName()!=null) {
-                savedLocation.setName(locationDto.getName());
+            if(updateLocationRequestDto.getName()!=null) {
+                savedLocation.setName(updateLocationRequestDto.getName());
             }
-            if(locationDto.getLocationCode()!=null) {
-                savedLocation.setLocationCode(locationDto.getLocationCode());
+            if(updateLocationRequestDto.getLocationCode()!=null) {
+                savedLocation.setLocationCode(updateLocationRequestDto.getLocationCode());
             }
-            if(locationDto.getCity()!=null) {
-                savedLocation.setCity(locationDto.getCity());
+            if(updateLocationRequestDto.getCity()!=null) {
+                savedLocation.setCity(updateLocationRequestDto.getCity());
             }
-            if(locationDto.getCountry()!=null) {
-                savedLocation.setCountry(locationDto.getCountry());
+            if(updateLocationRequestDto.getCountry()!=null) {
+                savedLocation.setCountry(updateLocationRequestDto.getCountry());
             }
         savedLocation = locationRepository.save(savedLocation);
         }catch (DataIntegrityViolationException e){

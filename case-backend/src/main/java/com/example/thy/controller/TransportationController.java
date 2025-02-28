@@ -1,6 +1,8 @@
 package com.example.thy.controller;
 
-import com.example.thy.dto.request.TransportationDto;
+import com.example.thy.dto.request.SaveTransportationRequestDto;
+import com.example.thy.dto.TransportationDto;
+import com.example.thy.dto.request.UpdateTransportationRequestDto;
 import com.example.thy.service.TransportationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,16 +36,16 @@ public class TransportationController {
 
     @PostMapping("/save")
     @Operation(summary = "save transportation", description = "save transportation")
-    public ResponseEntity<TransportationDto> SaveTransportation(@Valid @RequestBody TransportationDto transportationDto)
+    public ResponseEntity<TransportationDto> SaveTransportation(@Valid @RequestBody SaveTransportationRequestDto saveTransportationRequestDto)
     {
-        return ResponseEntity.ok().body(transportationService.save(transportationDto));
+        return ResponseEntity.ok().body(transportationService.save(saveTransportationRequestDto));
     }
 
     @PutMapping("/update")
     @Operation(summary = "update transportation", description = "update transportation")
-    public ResponseEntity<TransportationDto> updateTransportation( @RequestBody TransportationDto transportationDto)
+    public ResponseEntity<TransportationDto> updateTransportation(@Valid @RequestBody UpdateTransportationRequestDto updateTransportationRequestDto)
     {
-        return ResponseEntity.ok().body(transportationService.update(transportationDto));
+        return ResponseEntity.ok().body(transportationService.update(updateTransportationRequestDto));
     }
     @DeleteMapping("/deleteById/{id}")
     @Operation(summary = "delete transportation by id", description = "delete transportation by id")

@@ -1,6 +1,5 @@
 package com.example.thy.dto;
 
-import com.example.thy.dto.request.LocationDto;
 import com.example.thy.enums.TransferTypeEnum;
 import com.example.thy.enums.TransportationTypeEnum;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package com.example.thy.dto.request;
+package com.example.thy.dto;
 
 import com.example.thy.enums.TransportationTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;

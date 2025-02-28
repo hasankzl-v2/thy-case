@@ -1,4 +1,4 @@
-package com.example.thy.dto.request;
+package com.example.thy.dto;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -42,4 +42,12 @@ public class LocationDto {
             example = "SAW")
     @NotBlank(message = "Location code should not be empty")
     private String locationCode;
+
+    public LocationDto(Long id) {
+        this.id = id;
+    }
+
+    public LocationDto(){
+
+    }
 }

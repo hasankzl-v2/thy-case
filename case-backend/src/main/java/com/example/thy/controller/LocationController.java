@@ -1,6 +1,8 @@
 package com.example.thy.controller;
 
-import com.example.thy.dto.request.LocationDto;
+import com.example.thy.dto.LocationDto;
+import com.example.thy.dto.request.SaveLocationRequestDto;
+import com.example.thy.dto.request.UpdateLocationRequestDto;
 import com.example.thy.service.LocationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -37,16 +39,16 @@ public class LocationController {
 
     @PostMapping("/save")
     @Operation(summary = "save location", description = "Save Location")
-    public ResponseEntity<LocationDto> SaveLocation(@Valid @RequestBody LocationDto location)
+    public ResponseEntity<LocationDto> SaveLocation(@Valid @RequestBody SaveLocationRequestDto saveLocationRequestDto)
     {
-        return ResponseEntity.ok().body(locationService.save(location));
+        return ResponseEntity.ok().body(locationService.save(saveLocationRequestDto));
     }
 
     @PutMapping("/update")
     @Operation(summary = "update location", description = "Update Location")
-    public ResponseEntity<LocationDto> UpdateLocation(@RequestBody LocationDto location)
+    public ResponseEntity<LocationDto> UpdateLocation(@RequestBody UpdateLocationRequestDto updateLocationRequestDto)
     {
-        return ResponseEntity.ok().body(locationService.update(location));
+        return ResponseEntity.ok().body(locationService.update(updateLocationRequestDto));
     }
     @DeleteMapping("/deleteById/{id}")
     @Operation(summary = "delete location by id", description = "delete a location by id")

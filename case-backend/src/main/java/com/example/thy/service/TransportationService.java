@@ -1,7 +1,9 @@
 package com.example.thy.service;
 
-import com.example.thy.dto.request.LocationDto;
-import com.example.thy.dto.request.TransportationDto;
+import com.example.thy.dto.LocationDto;
+import com.example.thy.dto.request.SaveTransportationRequestDto;
+import com.example.thy.dto.TransportationDto;
+import com.example.thy.dto.request.UpdateTransportationRequestDto;
 import com.example.thy.entity.Location;
 import com.example.thy.entity.Transportation;
 import com.example.thy.exception.*;
@@ -44,21 +46,18 @@ public class TransportationService {
         }
     }
 
-    public TransportationDto save(@Valid TransportationDto transportationDto) {
-        validateTransportationDataBeforeSave(transportationDto);
-        if (transportationDto.getId() != null) {
-            throw new GeneralException("should not send id when saving transportation");
-        }
-        Transportation transportation = modelMapper.map(transportationDto, Transportation.class);
+    public TransportationDto save(@Valid SaveTransportationRequestDto saveTransportationRequestDto) {
+
+        Transportation transportation = modelMapper.map(saveTransportationRequestDto.convertToDto(), Transportation.class);
         try {
             transportation = transportationRepository.save(transportation);
         } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
-            if(e.getCause() instanceof ConstraintViolationException){
+            if (e.getCause() instanceof ConstraintViolationException) {
                 String constraintName = ((ConstraintViolationException) e.getCause()).getConstraintName();
-                if(constraintName.equals("unique_transportation")){
+                if (constraintName.equals("unique_transportation")) {
                     throw new TransportationAlreadyExistsException(e.getMessage());
-                }else if(constraintName.equals("transportation_operation_days_check")){
+                } else if (constraintName.equals("transportation_operation_days_check")) {
                     throw new TransportationOperationDaysNotValidException(e.getMessage());
                 }
             }
@@ -67,34 +66,33 @@ public class TransportationService {
         return modelMapper.map(transportation, TransportationDto.class);
     }
 
-    private Location findLocationForUpdate(LocationDto sourceLocation) {
-        Optional<Location> byId = locationRepository.findById(sourceLocation.getId());
+    private Location findLocationForUpdate(Long id) {
+        Optional<Location> byId = locationRepository.findById(id);
         if (byId.isEmpty()) {
-            throw new LocationNotFoundException("Location not found when updating transportation", sourceLocation.getId());
+            throw new LocationNotFoundException("Location not found when updating transportation", id);
         }
         return byId.get();
 
     }
 
-    public TransportationDto update(TransportationDto transportationDto) {
-        validateTransportationDataBeforeUpdate(transportationDto);
-        Optional<Transportation> transportation = transportationRepository.findById(transportationDto.getId());
+    public TransportationDto update(UpdateTransportationRequestDto saveTransportationRequestDto) {
+        Optional<Transportation> transportation = transportationRepository.findById(saveTransportationRequestDto.getId());
         // if not present throw exception
         if (transportation.isEmpty()) {
-            throw new TransportationNotFoundException("Transportation not found for update", transportationDto.getId());
+            throw new TransportationNotFoundException("Transportation not found for update", saveTransportationRequestDto.getId());
         }
         Transportation savedTransportation = transportation.get();
 
         try {
             if (savedTransportation.getTransportationType() != null) {
-                savedTransportation.setTransportationType(transportationDto.getTransportationType());
+                savedTransportation.setTransportationType(saveTransportationRequestDto.getTransportationType());
             }
-            if (transportationDto.getDestinationLocation() != null && transportationDto.getDestinationLocation().getId() != null) {
-                Location location = findLocationForUpdate(transportationDto.getDestinationLocation());
+            if (saveTransportationRequestDto.getDestinationLocationId() != null) {
+                Location location = findLocationForUpdate(saveTransportationRequestDto.getDestinationLocationId());
                 savedTransportation.setDestinationLocation(location);
             }
-            if (transportationDto.getOriginLocation() != null && transportationDto.getOriginLocation().getId() != null) {
-                Location location = findLocationForUpdate(transportationDto.getOriginLocation());
+            if (saveTransportationRequestDto.getOriginLocationId() != null) {
+                Location location = findLocationForUpdate(saveTransportationRequestDto.getOriginLocationId());
                 savedTransportation.setOriginLocation(location);
             }
             savedTransportation = transportationRepository.save(savedTransportation);
@@ -111,26 +109,6 @@ public class TransportationService {
             transportationRepository.deleteById(id);
         } else {
             throw new TransportationNotFoundException("Transportation not found for delete", id);
-        }
-    }
-
-    private void validateTransportationDataBeforeSave(TransportationDto transportationDto) {
-        if (transportationDto.getOriginLocation() != null && transportationDto.getOriginLocation().getId() != null
-                && transportationDto.getDestinationLocation() != null && transportationDto.getDestinationLocation().getId() != null
-        ) {
-            if (transportationDto.getOriginLocation().getId().equals(transportationDto.getDestinationLocation().getId())) {
-                throw new GeneralException("transport location and destination location should not be the same");
-            }
-        }
-    }
-
-    private void validateTransportationDataBeforeUpdate(TransportationDto transportationDto) {
-        if (transportationDto.getOriginLocation() != null && transportationDto.getOriginLocation().getId() != null
-                && transportationDto.getDestinationLocation() != null && transportationDto.getDestinationLocation().getId() != null
-        ) {
-            if (transportationDto.getOriginLocation().getId().equals(transportationDto.getDestinationLocation().getId())) {
-                throw new GeneralException("transport location and destination location should not be the same");
-            }
         }
     }
 

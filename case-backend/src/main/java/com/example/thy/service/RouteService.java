@@ -2,7 +2,7 @@ package com.example.thy.service;
 
 import com.example.thy.dto.*;
 import com.example.thy.dto.request.RouteRequestDto;
-import com.example.thy.dto.request.TransportationDto;
+import com.example.thy.dto.TransportationDto;
 import com.example.thy.dto.response.ValidRoutesResponseDto;
 import com.example.thy.enums.TransportationTypeEnum;
 import lombok.RequiredArgsConstructor;
