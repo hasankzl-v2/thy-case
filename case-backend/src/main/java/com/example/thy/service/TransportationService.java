@@ -9,6 +9,7 @@ import com.example.thy.repository.LocationRepository;
 import com.example.thy.repository.TransportationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -51,7 +52,15 @@ public class TransportationService {
             transportation = transportationRepository.save(transportation);
         } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
-            throw new TransportationAlreadyExistsException(e.getMessage());
+            if(e.getCause() instanceof ConstraintViolationException){
+                String constraintName = ((ConstraintViolationException) e.getCause()).getConstraintName();
+                if(constraintName.equals("unique_transportation")){
+                    throw new TransportationAlreadyExistsException(e.getMessage());
+                }else if(constraintName.equals("transportation_operation_days_check")){
+                    throw new TransportationOperationDaysNotValidException(e.getMessage());
+                }
+            }
+            throw e;
         }
         return modelMapper.map(transportation, TransportationDto.class);
     }

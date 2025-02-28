@@ -43,7 +43,11 @@ public class GlobalExceptionHandler {
     public ErrorResponse handleGeneralException(GeneralException ex) {
         return new ErrorResponse("ERROR", ex.getMessage());
     }
-
+    @ExceptionHandler(TransportationOperationDaysNotValidException.class) // Tüm Exception türlerini yakalar
+    public ErrorResponse handleTransportationOperationDaysNotValidException(Exception ex) {
+        log.error(ex.getMessage(), ex);
+        return new ErrorResponse("TRANSPORTATION_OPERATION_DAYS_NOT_VALID","Transportation operation days not valid.");
+    }
     @ExceptionHandler(Exception.class) // Tüm Exception türlerini yakalar
     public ErrorResponse handleAllExceptions(Exception ex) {
         log.error(ex.getMessage(), ex);

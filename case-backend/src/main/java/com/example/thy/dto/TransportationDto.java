@@ -1,8 +1,12 @@
 package com.example.thy.dto;
 
 import com.example.thy.enums.TransportationTypeEnum;
+import com.example.thy.exception.TransportationOperationDaysNotValidException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class TransportationDto {
@@ -31,5 +35,14 @@ public class TransportationDto {
             type = "LocationDto",
             example = "{id:1}")
     private LocationDto originLocation;
+
+    @Schema(
+            description = "allowed oparation days for transportation",
+            name = "operationDays",
+            type = "int[]",
+            example = "{id:1}")
+    private Integer[] operationDays;
+
+
 
 }
