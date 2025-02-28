@@ -6,6 +6,7 @@ import com.example.thy.dto.RouteRequestDto;
 import com.example.thy.dto.ValidRoutesResponseDto;
 import com.example.thy.service.RouteService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,7 +24,7 @@ public class RouteController {
 
     private final RouteService routeService;
     @GetMapping("/findValidRoutes")
-    public ResponseEntity<ValidRoutesResponseDto> findValidRoutes(@RequestBody RouteRequestDto routeRequestDto) {
+    public ResponseEntity<ValidRoutesResponseDto> findValidRoutes(@Valid @RequestBody RouteRequestDto routeRequestDto) {
         return ResponseEntity.ok().body(routeService.findAllValidRoutes(routeRequestDto));
     }
 

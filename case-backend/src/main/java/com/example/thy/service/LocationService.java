@@ -6,12 +6,14 @@ import com.example.thy.exception.GeneralException;
 import com.example.thy.exception.LocationAlreadyExistsException;
 import com.example.thy.exception.LocationNotFoundException;
 import com.example.thy.repository.LocationRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Validated
 public class LocationService {
 
     private final LocationRepository locationRepository;
@@ -39,8 +42,7 @@ public class LocationService {
             throw new LocationNotFoundException("Location not found",id);
         }
     }
-    public LocationDto save(LocationDto locationDto){
-        validateLocationData(locationDto);
+    public LocationDto save(@Valid LocationDto locationDto){
         if(locationDto.getId()!=null) {
             throw new GeneralException("should not send id when saving location");
         }
@@ -89,20 +91,5 @@ public class LocationService {
             throw new LocationAlreadyExistsException(e.getMessage());
         }
         return modelMapper.map(savedLocation,LocationDto.class);
-    }
-
-    private void validateLocationData(LocationDto locationDto) {
-        if(locationDto.getName()!=null && locationDto.getName().isEmpty()) {
-            throw new GeneralException("Name should not be empty");
-        }
-        if(locationDto.getCountry()!=null && locationDto.getCountry().isEmpty()) {
-            throw new GeneralException("Country should not be empty");
-        }
-        if(locationDto.getLocationCode()!=null && locationDto.getLocationCode().isEmpty()) {
-            throw new GeneralException("Location code should not be empty");
-        }
-        if(locationDto.getCity()!=null && locationDto.getCity().isEmpty()) {
-            throw new GeneralException("city should not be empty");
-        }
     }
 }

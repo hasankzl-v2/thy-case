@@ -7,6 +7,7 @@ import com.example.thy.entity.Transportation;
 import com.example.thy.exception.*;
 import com.example.thy.repository.LocationRepository;
 import com.example.thy.repository.TransportationRepository;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
@@ -14,6 +15,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Validated
 public class TransportationService {
 
     private final TransportationRepository transportationRepository;
@@ -42,7 +45,7 @@ public class TransportationService {
         }
     }
 
-    public TransportationDto save(TransportationDto transportationDto) {
+    public TransportationDto save(@Valid TransportationDto transportationDto) {
         validateTransportationDataBeforeSave(transportationDto);
         if (transportationDto.getId() != null) {
             throw new GeneralException("should not send id when saving transportation");

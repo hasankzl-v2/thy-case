@@ -5,6 +5,7 @@ import com.example.thy.entity.Location;
 import com.example.thy.service.LocationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class LocationController {
 
     @PostMapping("/save")
     @Operation(summary = "save location", description = "Save Location")
-    public ResponseEntity<LocationDto> SaveLocation(@RequestBody LocationDto location)
+    public ResponseEntity<LocationDto> SaveLocation(@Valid @RequestBody LocationDto location)
     {
         return ResponseEntity.ok().body(locationService.save(location));
     }

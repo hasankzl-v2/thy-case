@@ -3,8 +3,10 @@ package com.example.thy.handler;
 import com.example.thy.dto.ErrorResponse;
 import com.example.thy.exception.*;
 import io.swagger.v3.oas.annotations.Hidden;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -48,10 +50,19 @@ public class GlobalExceptionHandler {
         log.error(ex.getMessage(), ex);
         return new ErrorResponse("TRANSPORTATION_OPERATION_DAYS_NOT_VALID","Transportation operation days not valid.");
     }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorResponse handleViolationException(Exception ex) {
+        log.error(ex.getMessage(), ex);
+        return new ErrorResponse("VIOLATION_ERROR", ex.getMessage());
+    }
+
     @ExceptionHandler(Exception.class) // Tüm Exception türlerini yakalar
     public ErrorResponse handleAllExceptions(Exception ex) {
         log.error(ex.getMessage(), ex);
         return new ErrorResponse("UNEXPECTED_ERROR", ex.getMessage());
     }
+
+
 
 }

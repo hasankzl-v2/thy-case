@@ -3,6 +3,8 @@ package com.example.thy.dto;
 import com.example.thy.enums.TransportationTypeEnum;
 import com.example.thy.exception.TransportationOperationDaysNotValidException;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -22,18 +24,21 @@ public class TransportationDto {
             name = "transportationType",
             type = "TransportationTypeEnum",
             example = "BUS")
+    @NotNull(message = "transportation Type Location should be set")
     private TransportationTypeEnum transportationType;
     @Schema(
             description = "destination location of the transportation",
             name = "destinationLocation",
             type = "LocationDto",
             example = "{id:1}")
+    @NotNull(message = "destination Location should not be set")
     private LocationDto destinationLocation;
     @Schema(
             description = "origin location of the transportation",
             name = "originLocation",
             type = "LocationDto",
             example = "{id:1}")
+    @NotNull(message = "originLocation should be set")
     private LocationDto originLocation;
 
     @Schema(
@@ -41,6 +46,7 @@ public class TransportationDto {
             name = "operationDays",
             type = "int[]",
             example = "{id:1}")
+    @NotNull(message = "operation days  should not be empty")
     private Integer[] operationDays;
 
 

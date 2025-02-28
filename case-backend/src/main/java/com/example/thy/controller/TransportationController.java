@@ -7,6 +7,7 @@ import com.example.thy.repository.TransportationRepository;
 import com.example.thy.service.TransportationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,14 +37,14 @@ public class TransportationController {
 
     @PostMapping("/save")
     @Operation(summary = "save transportation", description = "save transportation")
-    public ResponseEntity<TransportationDto> SaveTransportation(@RequestBody TransportationDto transportationDto)
+    public ResponseEntity<TransportationDto> SaveTransportation(@Valid @RequestBody TransportationDto transportationDto)
     {
         return ResponseEntity.ok().body(transportationService.save(transportationDto));
     }
 
     @PutMapping("/update")
     @Operation(summary = "update transportation", description = "update transportation")
-    public ResponseEntity<TransportationDto> updateTransportation(@RequestBody TransportationDto transportationDto)
+    public ResponseEntity<TransportationDto> updateTransportation( @RequestBody TransportationDto transportationDto)
     {
         return ResponseEntity.ok().body(transportationService.update(transportationDto));
     }
