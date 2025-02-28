@@ -11,8 +11,8 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("My API")
+                        .title("THY Case Backend")
                         .version("2.0") // ✅ OpenAPI versiyonu tanımlandı
-                        .description("Spring Boot API with Swagger Documentation"));
+                        .description("Spring Boot API with Swagger Documentation THY Case"));
     }
 }
