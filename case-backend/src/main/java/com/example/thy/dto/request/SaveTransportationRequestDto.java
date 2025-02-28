@@ -37,8 +37,8 @@ public class SaveTransportationRequestDto {
     @Schema(
             description = "allowed oparation days for transportation",
             name = "operationDays",
-            type = "int[]",
-            example = "{id:1}")
+            type = "array",
+            example = "[1,2,3,4]")
     @NotNull(message = "operation days  should not be empty")
     private Integer[] operationDays;
 

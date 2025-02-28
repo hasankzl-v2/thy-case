@@ -11,14 +11,14 @@ import java.time.LocalDate;
 public class RouteRequestDto {
     @Schema(
             description = "id of the Start location ",
-            name = "id",
+            name = "startLocationId",
             type = "Long",
             example = "1")
     @NotNull(message = "Start location id should be set")
     private Long startLocationId;
     @Schema(
             description = "id of the End location ",
-            name = "id",
+            name = "endLocationId",
             type = "Long",
             example = "1")
     @NotNull(message = "End location id  should be set")

@@ -39,7 +39,7 @@ public class UpdateTransportationRequestDto {
     @Schema(
             description = "allowed oparation days for transportation",
             name = "operationDays",
-            type = "int[]",
-            example = "{id:1}")
+            type = "array",
+            example = "[1,2,3,4,5]")
     private Integer[] operationDays;
 }
