@@ -1,9 +1,8 @@
 package com.example.thy.handler;
 
-import com.example.thy.dto.ErrorResponse;
+import com.example.thy.dto.response.ErrorResponse;
 import com.example.thy.exception.*;
 import io.swagger.v3.oas.annotations.Hidden;
-import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

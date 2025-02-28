@@ -1,12 +1,10 @@
 package com.example.thy.controller;
 
-import com.example.thy.dto.LocationDto;
-import com.example.thy.entity.Location;
+import com.example.thy.dto.request.LocationDto;
 import com.example.thy.service.LocationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

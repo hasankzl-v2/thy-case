@@ -1,13 +1,14 @@
 package com.example.thy.service;
 
 import com.example.thy.dto.*;
+import com.example.thy.dto.request.RouteRequestDto;
+import com.example.thy.dto.request.TransportationDto;
+import com.example.thy.dto.response.ValidRoutesResponseDto;
 import com.example.thy.enums.TransportationTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

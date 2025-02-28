@@ -1,9 +1,6 @@
 package com.example.thy.controller;
 
-import com.example.thy.dto.LocationDto;
-import com.example.thy.dto.TransportationDto;
-import com.example.thy.entity.Transportation;
-import com.example.thy.repository.TransportationRepository;
+import com.example.thy.dto.request.TransportationDto;
 import com.example.thy.service.TransportationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

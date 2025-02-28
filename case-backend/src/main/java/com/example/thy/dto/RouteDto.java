@@ -1,11 +1,9 @@
 package com.example.thy.dto;
 
-import com.example.thy.entity.Location;
+import com.example.thy.dto.request.LocationDto;
 import com.example.thy.enums.TransferTypeEnum;
 import com.example.thy.enums.TransportationTypeEnum;
-import lombok.Data;
 import lombok.Getter;
-import lombok.val;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ public class RouteDto {
     private final Long startLocationId;
     private final Long endLocationId;
 
-    public void addValidRoute(LocationDto locationDto, TransportationTypeEnum transportationType,Integer[] operationDays) {
+    public void addValidRoute(LocationDto locationDto, TransportationTypeEnum transportationType, Integer[] operationDays) {
         /*do not need to calculate transferType if this location is the end location*/
         if(!locationDto.getId().equals(endLocationId)){
             TransferTypeEnum transferType = findTransferTypeForLocation(transportationType);

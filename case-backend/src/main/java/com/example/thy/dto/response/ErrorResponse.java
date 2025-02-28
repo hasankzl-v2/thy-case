@@ -1,4 +1,4 @@
-package com.example.thy.dto;
+package com.example.thy.dto.response;
 
 import lombok.Data;
 

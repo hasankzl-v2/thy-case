@@ -1,5 +1,6 @@
-package com.example.thy.dto;
+package com.example.thy.dto.response;
 
+import com.example.thy.dto.RouteDto;
 import lombok.Getter;
 
 import java.util.ArrayList;

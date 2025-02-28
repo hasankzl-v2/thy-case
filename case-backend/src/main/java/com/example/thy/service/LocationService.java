@@ -1,6 +1,6 @@
 package com.example.thy.service;
 
-import com.example.thy.dto.LocationDto;
+import com.example.thy.dto.request.LocationDto;
 import com.example.thy.entity.Location;
 import com.example.thy.exception.GeneralException;
 import com.example.thy.exception.LocationAlreadyExistsException;

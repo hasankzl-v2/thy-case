@@ -1,7 +1,7 @@
 package com.example.thy.service;
 
-import com.example.thy.dto.LocationDto;
-import com.example.thy.dto.TransportationDto;
+import com.example.thy.dto.request.LocationDto;
+import com.example.thy.dto.request.TransportationDto;
 import com.example.thy.entity.Location;
 import com.example.thy.entity.Transportation;
 import com.example.thy.exception.*;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

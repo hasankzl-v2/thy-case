@@ -1,4 +1,4 @@
-package com.example.thy.dto;
+package com.example.thy.dto.request;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -1,11 +1,9 @@
 package com.example.thy;
 
-import com.example.thy.dto.RouteRequestDto;
-import com.example.thy.dto.ValidRoutesResponseDto;
+import com.example.thy.dto.request.RouteRequestDto;
+import com.example.thy.dto.response.ValidRoutesResponseDto;
 import com.example.thy.service.RouteService;
 import jakarta.annotation.PostConstruct;
-import org.checkerframework.checker.units.qual.A;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
