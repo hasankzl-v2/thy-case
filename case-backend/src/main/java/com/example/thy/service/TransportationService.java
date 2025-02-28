@@ -6,6 +6,7 @@ import com.example.thy.dto.TransportationDto;
 import com.example.thy.dto.request.UpdateTransportationRequestDto;
 import com.example.thy.entity.Location;
 import com.example.thy.entity.Transportation;
+import com.example.thy.enums.ConstraintEnum;
 import com.example.thy.exception.*;
 import com.example.thy.repository.LocationRepository;
 import com.example.thy.repository.TransportationRepository;
@@ -55,9 +56,9 @@ public class TransportationService {
             log.error(e.getMessage());
             if (e.getCause() instanceof ConstraintViolationException) {
                 String constraintName = ((ConstraintViolationException) e.getCause()).getConstraintName();
-                if (constraintName.equals("unique_transportation")) {
+                if (ConstraintEnum.UNIQUE_TRANSPORTATION.getValue().equals(constraintName)) {
                     throw new TransportationAlreadyExistsException(e.getMessage());
-                } else if (constraintName.equals("transportation_operation_days_check")) {
+                } else if (ConstraintEnum.TRANSPORTATION_OPERATION_DAYS_CHECK.getValue().equals(constraintName)) {
                     throw new TransportationOperationDaysNotValidException(e.getMessage());
                 }
             }
