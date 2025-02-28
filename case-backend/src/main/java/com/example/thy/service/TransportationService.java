@@ -41,6 +41,7 @@ public class TransportationService {
     public TransportationDto findById(Long id) {
         Optional<Transportation> optional = transportationRepository.findById(id);
         if (optional.isPresent()) {
+            log.info("Transportation found with id: {}", id);
             return modelMapper.map(optional.get(), TransportationDto.class);
         } else {
             throw new TransportationNotFoundException("Transportation not found for find", id);
@@ -64,6 +65,7 @@ public class TransportationService {
             }
             throw e;
         }
+        log.info("Saved transportation with id: {}", transportation.getId());
         return modelMapper.map(transportation, TransportationDto.class);
     }
 
@@ -101,12 +103,14 @@ public class TransportationService {
             log.error(e.getMessage());
             throw new TransportationAlreadyExistsException(e.getMessage());
         }
+        log.info("Updated transportation with id: {}", saveTransportationRequestDto.getId());
         return modelMapper.map(savedTransportation, TransportationDto.class);
     }
 
     @Transactional
     public void deleteById(Long id) {
         if (transportationRepository.existsById(id)) {
+            log.info("Deleting transportation with id: {}", id);
             transportationRepository.deleteById(id);
         } else {
             throw new TransportationNotFoundException("Transportation not found for delete", id);

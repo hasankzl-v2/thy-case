@@ -38,6 +38,7 @@ public class LocationService {
     public LocationDto findById(Long id){
         Optional<Location> location = locationRepository.findById(id);
         if (location.isPresent()) {
+            log.info("Location not found with id: {}", id);
             return modelMapper.map(location.get(), LocationDto.class);
         }
         else {
@@ -53,6 +54,7 @@ public class LocationService {
             log.error(e.getMessage());
             throw new LocationAlreadyExistsException(e.getMessage());
         }
+        log.info("Location saved with id {}", location.getId());
         return modelMapper.map(location,LocationDto.class);
     }
 
@@ -63,6 +65,7 @@ public class LocationService {
         }else{
             throw new LocationNotFoundException("Location not found",id);
         }
+        log.info("Location deleted with id {}", id);
     }
 
     public LocationDto update(UpdateLocationRequestDto updateLocationRequestDto) {
@@ -90,6 +93,7 @@ public class LocationService {
             log.error(e.getMessage());
             throw new LocationAlreadyExistsException(e.getMessage());
         }
+        log.info("Location updated with id {}", savedLocation.getId());
         return modelMapper.map(savedLocation,LocationDto.class);
     }
 }

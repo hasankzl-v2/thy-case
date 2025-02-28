@@ -57,6 +57,7 @@ public class RouteService {
                 });
             }
         });
+        log.info("Found valid routes count: {}", validRoutesResponseDto.getValidRoutes().size());
         return validRoutesResponseDto;
     }
 }
