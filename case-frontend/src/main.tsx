@@ -13,10 +13,12 @@ import RoutePage from "./pages/RoutePage.tsx";
 import TransportationPage from "./pages/TransportationPage.tsx";
 import ResponsiveAppBar from "./components/ResponsiveAppBar.tsx";
 
+import { ToastContainer } from "react-toastify";
 function Layout() {
   return (
     <>
       <ResponsiveAppBar />
+      <ToastContainer />
       <Outlet />
     </>
   );

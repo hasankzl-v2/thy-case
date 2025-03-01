@@ -1,5 +1,5 @@
 export default interface ILocationData {
-    id:number;
+    id:number | null;
     name: string,
     country: string,
     city: string,
