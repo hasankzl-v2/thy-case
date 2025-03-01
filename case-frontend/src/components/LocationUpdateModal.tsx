@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   Box,
@@ -11,24 +11,36 @@ import { Close, Add } from "@mui/icons-material";
 import ILocationData from "../types/ILocationData";
 import LocationService from "../service/LocationService";
 import { toast } from "react-toastify";
-interface LocationModalProps {
-  handleSave: () => void;
+import IErrorResponse from "../types/response/IErrorResponse";
+import ToastComponents from "./ToastComponents";
+interface LocationUpdateModalProps {
+  locationData: ILocationData;
+  modelOpen: boolean;
+  handleCancel: () => void;
+  handleConfirm: () => void;
 }
 // Modal bileşenini içeren ana bileşen
 const emptyLocation = {
-  id: null,
+  id: 0,
   name: "",
   country: "",
   city: "",
   locationCode: "",
 };
-const LocationModal = ({ handleSave }: LocationModalProps) => {
+const LocationUpdateModal = ({
+  locationData,
+  modelOpen,
+  handleCancel,
+  handleConfirm,
+}: LocationUpdateModalProps) => {
   // Modal'ın açık olup olmadığını kontrol eden state
   const [open, setOpen] = useState(false);
 
   // Form alanları için state
-  const [formData, setFormData] = useState<ILocationData>(emptyLocation);
-
+  const [formData, setFormData] = useState<ILocationData>(locationData);
+  useEffect(() => {
+    setFormData(locationData);
+  }, [locationData]);
   // Modal'ı açma
   const handleOpen = () => {
     setOpen(true);
@@ -53,25 +65,21 @@ const LocationModal = ({ handleSave }: LocationModalProps) => {
   const handleSubmit = () => {
     // Veriyi işleme (örneğin API'ye gönderme veya başka bir işlem)
     console.log("Form submitted:", formData);
-    LocationService.create(formData).then(() => {
-      toast("New Location Added Successfully");
-      handleSave();
-      handleClose(); // Modal'ı kapat
-    });
+    LocationService.update(formData)
+      .then(() => {
+        toast("Location Updated Successfully");
+        handleConfirm();
+        handleClose(); // Modal'ı kapat
+      })
+      .catch((e) => {
+        const errorRequest: IErrorResponse = e.response.data;
+        ToastComponents.showErrorToast(errorRequest);
+      });
   };
 
   return (
     <div>
-      <Button
-        startIcon={<Add />}
-        variant="contained"
-        color="success"
-        onClick={handleOpen}
-      >
-        Add New Location
-      </Button>
-
-      <Modal open={open} onClose={handleClose}>
+      <Modal open={modelOpen} onClose={() => handleCancel()}>
         <Box
           sx={{
             position: "absolute",
@@ -88,17 +96,25 @@ const LocationModal = ({ handleSave }: LocationModalProps) => {
           }}
         >
           <Typography variant="h6" component="h2" gutterBottom>
-            Location Details
+            {locationData.id}
+            Update Location
           </Typography>
 
           {/* Modal'ı kapatma butonu */}
           <IconButton
-            onClick={handleClose}
+            onClick={handleCancel}
             sx={{ position: "absolute", top: 10, right: 10 }}
           >
             <Close />
           </IconButton>
-
+          <TextField
+            label="Id"
+            name="id"
+            value={formData.id}
+            disabled
+            fullWidth
+            margin="normal"
+          />
           <TextField
             label="Name"
             name="name"
@@ -134,11 +150,11 @@ const LocationModal = ({ handleSave }: LocationModalProps) => {
 
           {/* Submit ve Cancel butonları */}
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-            <Button onClick={handleClose} color="secondary">
+            <Button onClick={() => handleCancel()} color="secondary">
               Cancel
             </Button>
             <Button onClick={handleSubmit} variant="contained" color="primary">
-              Submit
+              Update
             </Button>
           </Box>
         </Box>
@@ -147,4 +163,4 @@ const LocationModal = ({ handleSave }: LocationModalProps) => {
   );
 };
 
-export default LocationModal;
+export default LocationUpdateModal;

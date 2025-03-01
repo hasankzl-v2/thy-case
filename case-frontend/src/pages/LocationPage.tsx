@@ -5,30 +5,53 @@ import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { Box, IconButton, TextField } from "@mui/material";
 import ConfirmDialog from "../components/ConfirmationDialog";
 
 import { toast } from "react-toastify";
-import LocationModal from "../components/LocationModal";
+import LocationModal from "../components/LocationSaveModal";
+import LocationUpdateModal from "../components/LocationUpdateModal";
+
+const emtpyLocation = {
+  name: "",
+  country: "",
+  city: "",
+  locationCode: "",
+};
+
+const emtpyLocationForUpdate = {
+  id: 0,
+  name: "",
+  country: "231",
+  city: "",
+  locationCode: "",
+};
 function LocationPage() {
   const [data, setData] = useState<ILocationData[]>([]);
   const [openDialog, setOpenDialog] = useState(false); // Dialog açık mı kontrolü
   const [selectedData, setSelectedData] = useState<ILocationData | null>(); // Silinecek verinin id'si
+  const [loading, setLoading] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(0);
+  const [pageSize, setPageSize] = useState<number>(10);
+  const [totalRows, setTotalRows] = useState<number>(0);
+  const [filters, setFilters] = useState(emtpyLocation);
+  const [updateData, setUpdateData] = useState<ILocationData>(
+    emtpyLocationForUpdate
+  );
+  const [openUpdateModal, setOpenUpdateModal] = useState(false);
   useEffect(() => {
-    LocationService.getAll()
-      .then((response) => setData(response.data))
-      .catch(() => toast.error("Unexpected Error"))
-      .finally(() => setLoading(false));
-  }, []);
+    fetchData();
+  }, [page, pageSize]);
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 130 },
-    { field: "name", headerName: "Name", width: 470 },
-    { field: "country", headerName: "Country", width: 330 },
+    { field: "id", headerName: "ID", width: 130, filterable: true },
+    { field: "name", headerName: "Name", width: 470, filterable: true },
+    { field: "country", headerName: "Country", width: 330, filterable: true },
     {
       field: "locationCode",
       headerName: "Location Code",
       width: 230,
+      filterable: true,
     },
     {
       field: "Actions",
@@ -58,7 +81,8 @@ function LocationPage() {
   ];
   // Edit butonuna tıklama işlevi
   const handleEditClick = (row: ILocationData) => {
-    toast("Wow so easy! " + row.city);
+    setUpdateData(row);
+    setOpenUpdateModal(true);
   };
 
   // Delete butonuna tıklama işlevi
@@ -72,26 +96,56 @@ function LocationPage() {
       LocationService.remove(selectedData.id).then(() => {
         toast("deleted successfuly");
         setOpenDialog(false);
-        LocationService.getAll()
-          .then((response) => {
-            setData(response.data);
-          })
-          .catch(() => toast.error("Unexpected Error"));
+        refreshTable();
       });
     }
   };
 
   const handleCancelDeleteData = () => {
-    setSelectedData({}); // Silinecek verinin id'sini sakla
+    setSelectedData(emtpyLocationForUpdate); // Silinecek verinin id'sini sakla
     setOpenDialog(false); // Dialog'u aç
   };
+  const handleSearchChange = (field: keyof typeof filters, value: string) => {
+    setFilters((prev) => ({ ...prev, [field]: value }));
+  };
+  const handleSearch = () => {
+    setPage(0); // Arama yapıldığında sayfayı sıfırlıyoruz
+    fetchData();
+  };
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      LocationService.search(filters, page, pageSize)
+        .then((response) => {
+          setData(response.data.content);
+          setTotalRows(response.data.totalPages * response.data.size);
+        })
+        .catch(() => toast.error("Unexpected Error"))
+        .finally(() => setLoading(false));
+    } catch (error) {
+      console.error("Veri çekme hatası:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const handleSave = () => {
-    LocationService.getAll()
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch(() => toast.error("Unexpected Error"));
+    refreshTable();
+  };
+
+  const handleUpdateCancel = () => {
+    setOpenUpdateModal(false);
+    setUpdateData(emtpyLocationForUpdate);
+  };
+  const handleUpdateConfirm = () => {
+    setOpenUpdateModal(false);
+    setUpdateData(emtpyLocationForUpdate);
+    refreshTable();
+  };
+  const refreshTable = () => {
+    setFilters(emtpyLocation);
+    setPage(0);
+    fetchData();
   };
   const paginationModel = { page: 0, pageSize: 5 };
   return (
@@ -106,12 +160,53 @@ function LocationPage() {
         >
           <LocationModal handleSave={handleSave} />
         </div>
+
+        <Box sx={{ display: "flex", gap: 2, paddingBottom: 2 }}>
+          <TextField
+            label="Name"
+            variant="outlined"
+            size="small"
+            value={filters.name}
+            onChange={(e) => handleSearchChange("name", e.target.value)}
+          />
+          <TextField
+            label="Country"
+            variant="outlined"
+            size="small"
+            value={filters.country}
+            onChange={(e) => handleSearchChange("country", e.target.value)}
+          />
+          <TextField
+            label="City"
+            variant="outlined"
+            size="small"
+            value={filters.city}
+            onChange={(e) => handleSearchChange("city", e.target.value)}
+          />
+          <TextField
+            label="Location Code"
+            variant="outlined"
+            size="small"
+            value={filters.locationCode}
+            onChange={(e) => handleSearchChange("locationCode", e.target.value)}
+          />
+          <Button variant="contained" onClick={handleSearch}>
+            Search
+          </Button>
+        </Box>
         <DataGrid
           rows={data}
           columns={columns}
           initialState={{ pagination: { paginationModel } }}
-          pageSizeOptions={[5, 10]}
           sx={{ border: 0 }}
+          pageSizeOptions={[2, 10, 20]}
+          rowCount={totalRows}
+          paginationMode="server"
+          loading={loading}
+          onPaginationModelChange={(model) => {
+            setPage(model.page);
+            setPageSize(model.pageSize);
+          }}
         />
       </Paper>
       <ConfirmDialog
@@ -119,6 +214,12 @@ function LocationPage() {
         isOpen={openDialog}
         handleCancel={handleCancelDeleteData}
         handleConfirm={handleDeleteData}
+      />
+      <LocationUpdateModal
+        locationData={updateData}
+        modelOpen={openUpdateModal}
+        handleCancel={handleUpdateCancel}
+        handleConfirm={handleUpdateConfirm}
       />
     </div>
   );
