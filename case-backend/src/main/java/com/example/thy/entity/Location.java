@@ -25,10 +25,10 @@ public class Location extends BaseEntity {
     private String country;
 
     @Column(nullable = false)
-    private String City;
+    private String city;
 
     @Column(unique = true, nullable = false)
-    private String LocationCode;
+    private String locationCode;
 
     @OneToMany(mappedBy = "originLocation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transportation> originTransportations;

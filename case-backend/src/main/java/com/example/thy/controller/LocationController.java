@@ -13,6 +13,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,44 +44,52 @@ public class LocationController {
     @ApiResponse(responseCode = "200", description = "Successful Request",
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = LocationDto.class))))
-    public ResponseEntity<List<LocationDto>> findAllLocations(){
+    public ResponseEntity<List<LocationDto>> findAllLocations() {
         return ResponseEntity.ok().body(locationService.findAll());
     }
 
     @GetMapping("/findById/{id}")
     @Operation(summary = "find location by id", description = "Returns a location by id")
     @ApiResponse(responseCode = "200", description = "Successful Request",
-            content = @Content(mediaType = "application/json",schema = @Schema(implementation = LocationDto.class)))
-    public ResponseEntity<LocationDto> findLocationById(@PathVariable Long id)
-    {
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = LocationDto.class)))
+    public ResponseEntity<LocationDto> findLocationById(@PathVariable Long id) {
         return ResponseEntity.ok().body(locationService.findById(id));
     }
 
     @PostMapping("/save")
     @Operation(summary = "save location", description = "Save Location")
     @ApiResponse(responseCode = "200", description = "Successful Request",
-            content = @Content(mediaType = "application/json",schema = @Schema(implementation = LocationDto.class)))
-    public ResponseEntity<LocationDto> SaveLocation(@Valid @RequestBody SaveLocationRequestDto saveLocationRequestDto)
-    {
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = LocationDto.class)))
+    public ResponseEntity<LocationDto> SaveLocation(@Valid @RequestBody SaveLocationRequestDto saveLocationRequestDto) {
         return ResponseEntity.ok().body(locationService.save(saveLocationRequestDto));
     }
 
     @PutMapping("/update")
     @Operation(summary = "update location", description = "Update Location")
     @ApiResponse(responseCode = "200", description = "Successful Request",
-            content = @Content(mediaType = "application/json",schema = @Schema(implementation = LocationDto.class)))
-    public ResponseEntity<LocationDto> UpdateLocation(@RequestBody UpdateLocationRequestDto updateLocationRequestDto)
-    {
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = LocationDto.class)))
+    public ResponseEntity<LocationDto> UpdateLocation(@RequestBody UpdateLocationRequestDto updateLocationRequestDto) {
         return ResponseEntity.ok().body(locationService.update(updateLocationRequestDto));
     }
+
     @DeleteMapping("/deleteById/{id}")
     @Operation(summary = "delete location by id", description = "delete a location by id")
     @ApiResponse(responseCode = "200", description = "Successful Request")
-    public ResponseEntity<Void> deleteLocationById(@PathVariable Long id)
-    {
+    public ResponseEntity<Void> deleteLocationById(@PathVariable Long id) {
         locationService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
+
+    @PostMapping("/search")
+    @Operation(summary = "Search location", description = "Search Location")
+    @ApiResponse(responseCode = "200", description = "Successful Request",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = LocationDto.class)))
+    public ResponseEntity<Page<LocationDto>> SaveLocation(
+            @RequestBody LocationDto locationDto,
+            @PageableDefault(size = 10, sort = "name") Pageable pageable
+    ) {
+        return ResponseEntity.ok().body(locationService.searchLocations(locationDto, pageable));
+    }
 
 }
