@@ -5,5 +5,5 @@ export default interface ITransportationData {
     transportationType: string,
     destinationLocation: ILocationData,
     originLocation: ILocationData
-    operationDays: Array<number> 
+    operationDays: Array<number>  |null
   }

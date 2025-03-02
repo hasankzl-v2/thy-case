@@ -13,17 +13,10 @@ import LocationService from "../service/LocationService";
 import { toast } from "react-toastify";
 import IErrorResponse from "../types/response/IErrorResponse";
 import ToastComponents from "./ToastComponents";
+import { emptyLocation } from "../Constants";
 interface LocationModalProps {
   handleSave: () => void;
 }
-// Modal bileşenini içeren ana bileşen
-const emptyLocation = {
-  id: null,
-  name: "",
-  country: "",
-  city: "",
-  locationCode: "",
-};
 const LocationModal = ({ handleSave }: LocationModalProps) => {
   // Modal'ın açık olup olmadığını kontrol eden state
   const [open, setOpen] = useState(false);

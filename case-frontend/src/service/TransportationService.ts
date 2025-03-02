@@ -1,13 +1,14 @@
 import http from "../http-commons";
 import ITransportationData from "../types/ITransportationData";
 import ISaveLocationRequest from "../types/request/ISaveLocationRequest";
+import ISearchTransportationRequest from "../types/request/ISearchTransportationRequest";
 import ITransportationSearchResponse from "../types/response/ISearchTransportationResponse";
 
 const getAll = () => {
     return http.get<Array<ITransportationData>>("/transportation/findAll");
   };
   
-  const search = (data : ITransportationData| {},page:number,size:number) =>{
+  const search = (data : ISearchTransportationRequest| {},page:number,size:number) =>{
     return http.post<ITransportationSearchResponse>(`/transportation/search?page=${page}&size=${size}`, data);
   }
   const get = (id: any) => {

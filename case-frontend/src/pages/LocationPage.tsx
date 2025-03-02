@@ -13,21 +13,8 @@ import LocationModal from "../components/LocationSaveModal";
 import LocationUpdateModal from "../components/LocationUpdateModal";
 import IErrorResponse from "../types/response/IErrorResponse";
 import ToastComponents from "../components/ToastComponents";
+import { emptyLocation } from "../Constants";
 
-const emtpyLocation = {
-  name: "",
-  country: "",
-  city: "",
-  locationCode: "",
-};
-
-const emtpyLocationForUpdate = {
-  id: 0,
-  name: "",
-  country: "231",
-  city: "",
-  locationCode: "",
-};
 function LocationPage() {
   const [data, setData] = useState<ILocationData[]>([]);
   const [openDialog, setOpenDialog] = useState(false); // Dialog açık mı kontrolü
@@ -36,10 +23,8 @@ function LocationPage() {
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [totalRows, setTotalRows] = useState<number>(0);
-  const [filters, setFilters] = useState(emtpyLocation);
-  const [updateData, setUpdateData] = useState<ILocationData>(
-    emtpyLocationForUpdate
-  );
+  const [filters, setFilters] = useState<ILocationData>(emptyLocation);
+  const [updateData, setUpdateData] = useState<ILocationData>(emptyLocation);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
   useEffect(() => {
     fetchData();
@@ -102,7 +87,7 @@ function LocationPage() {
   };
 
   const handleCancelDeleteData = () => {
-    setSelectedData(emtpyLocationForUpdate);
+    setSelectedData(emptyLocation);
     setOpenDialog(false);
   };
   const handleSearchChange = (field: keyof typeof filters, value: string) => {
@@ -135,15 +120,15 @@ function LocationPage() {
 
   const handleUpdateCancel = () => {
     setOpenUpdateModal(false);
-    setUpdateData(emtpyLocationForUpdate);
+    setUpdateData(emptyLocation);
   };
   const handleUpdateConfirm = () => {
     setOpenUpdateModal(false);
-    setUpdateData(emtpyLocationForUpdate);
+    setUpdateData(emptyLocation);
     refreshTable();
   };
   const refreshTable = () => {
-    setFilters(emtpyLocation);
+    setFilters(emptyLocation);
     setPage(0);
     fetchData();
   };
@@ -162,6 +147,13 @@ function LocationPage() {
         </div>
 
         <Box sx={{ display: "flex", gap: 2, paddingBottom: 2 }}>
+          <TextField
+            label="Id"
+            variant="outlined"
+            size="small"
+            value={filters.id}
+            onChange={(e) => handleSearchChange("id", e.target.value)}
+          />
           <TextField
             label="Name"
             variant="outlined"

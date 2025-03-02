@@ -13,6 +13,7 @@ import LocationService from "../service/LocationService";
 import { toast } from "react-toastify";
 import IErrorResponse from "../types/response/IErrorResponse";
 import ToastComponents from "./ToastComponents";
+import { emptyLocation } from "../Constants";
 interface LocationUpdateModalProps {
   locationData: ILocationData;
   modelOpen: boolean;
@@ -20,13 +21,7 @@ interface LocationUpdateModalProps {
   handleConfirm: () => void;
 }
 // Modal bileşenini içeren ana bileşen
-const emptyLocation = {
-  id: 0,
-  name: "",
-  country: "",
-  city: "",
-  locationCode: "",
-};
+
 const LocationUpdateModal = ({
   locationData,
   modelOpen,
