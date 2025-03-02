@@ -11,6 +11,8 @@ import ConfirmDialog from "../components/ConfirmationDialog";
 import { toast } from "react-toastify";
 import LocationModal from "../components/LocationSaveModal";
 import LocationUpdateModal from "../components/LocationUpdateModal";
+import IErrorResponse from "../types/response/IErrorResponse";
+import ToastComponents from "../components/ToastComponents";
 
 const emtpyLocation = {
   name: "",
@@ -79,13 +81,11 @@ function LocationPage() {
       },
     },
   ];
-  // Edit butonuna tıklama işlevi
   const handleEditClick = (row: ILocationData) => {
     setUpdateData(row);
     setOpenUpdateModal(true);
   };
 
-  // Delete butonuna tıklama işlevi
   const handleDeleteClick = (row: ILocationData) => {
     setSelectedData(row);
     setOpenDialog(true);
@@ -102,14 +102,14 @@ function LocationPage() {
   };
 
   const handleCancelDeleteData = () => {
-    setSelectedData(emtpyLocationForUpdate); // Silinecek verinin id'sini sakla
-    setOpenDialog(false); // Dialog'u aç
+    setSelectedData(emtpyLocationForUpdate);
+    setOpenDialog(false);
   };
   const handleSearchChange = (field: keyof typeof filters, value: string) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
   };
   const handleSearch = () => {
-    setPage(0); // Arama yapıldığında sayfayı sıfırlıyoruz
+    setPage(0);
     fetchData();
   };
 
@@ -121,10 +121,10 @@ function LocationPage() {
           setData(response.data.content);
           setTotalRows(response.data.totalPages * response.data.size);
         })
-        .catch(() => toast.error("Unexpected Error"))
+        .catch((e: IErrorResponse) => ToastComponents.showErrorToast(e))
         .finally(() => setLoading(false));
     } catch (error) {
-      console.error("Veri çekme hatası:", error);
+      console.error("Error while fetching the data", error);
     } finally {
       setLoading(false);
     }
