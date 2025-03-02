@@ -5,10 +5,7 @@ import com.example.thy.validator.ValidateOperationDays;
 import com.example.thy.enums.TransportationTypeEnum;
 import jakarta.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.Type;
 
@@ -16,6 +13,7 @@ import org.hibernate.annotations.Type;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@ToString
 @Entity
 @Table(name = "transportation",
         uniqueConstraints = @UniqueConstraint(

@@ -3,6 +3,7 @@ package com.example.thy.service;
 import com.example.thy.dto.LocationDto;
 import com.example.thy.dto.request.SaveTransportationRequestDto;
 import com.example.thy.dto.TransportationDto;
+import com.example.thy.dto.request.SearchTransportationDto;
 import com.example.thy.dto.request.UpdateTransportationRequestDto;
 import com.example.thy.entity.Location;
 import com.example.thy.entity.Transportation;
@@ -10,16 +11,25 @@ import com.example.thy.enums.ConstraintEnum;
 import com.example.thy.exception.*;
 import com.example.thy.repository.LocationRepository;
 import com.example.thy.repository.TransportationRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +43,55 @@ public class TransportationService {
     private final TransportationRepository transportationRepository;
     private final ModelMapper modelMapper;
     private final LocationRepository locationRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
+    public Page<TransportationDto> searchTransportations(SearchTransportationDto searchDto, Pageable pageable) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Transportation> query = cb.createQuery(Transportation.class);
+        Root<Transportation> root = query.from(Transportation.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        if (StringUtils.hasText(searchDto.getDestinationLocationCode())) {
+            Location byLocationCode = locationRepository.findByLocationCode(searchDto.getDestinationLocationCode());
+            predicates.add(cb.equal(root.get("destinationLocation"), byLocationCode));
+        }
+        if (StringUtils.hasText(searchDto.getOriginLocationCode())) {
+            Location byLocationCode = locationRepository.findByLocationCode(searchDto.getOriginLocationCode());
+            predicates.add(cb.equal(root.get("originLocation"), byLocationCode));
+        }
+
+        if (searchDto.getTransportationType() != null) {
+            predicates.add(cb.equal(root.get("transportationType"), searchDto.getTransportationType().toString()));
+        }
+
+        if (searchDto.getOperationDays() != null) {
+            predicates.add(cb.equal(root.get("operationDays"), searchDto.getOperationDays()));
+
+        }
+
+        query.where(cb.and(predicates.toArray(new Predicate[0])));
+
+
+        TypedQuery<Transportation> typedQuery = entityManager.createQuery(query);
+        typedQuery.setFirstResult((int) pageable.getOffset());
+        typedQuery.setMaxResults(pageable.getPageSize());
+
+        CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
+        Root<Transportation> countRoot = countQuery.from(Transportation.class);
+        countQuery.select(cb.count(countRoot));
+        Long totalCount = entityManager.createQuery(countQuery).getSingleResult();
+
+
+        List<Transportation> resultList = typedQuery.getResultList();
+
+        List<TransportationDto> collect = resultList.stream().map(transportation -> modelMapper.map(transportation, TransportationDto.class)).collect(Collectors.toList());
+
+        return new PageImpl<>(collect, pageable, totalCount);
+    }
 
     public List<TransportationDto> findAll() {
         return transportationRepository.findAll().stream().map(transportation -> modelMapper.map(transportation, TransportationDto.class)).collect(Collectors.toList());

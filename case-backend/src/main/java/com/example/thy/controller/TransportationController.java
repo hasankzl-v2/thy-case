@@ -3,6 +3,7 @@ package com.example.thy.controller;
 import com.example.thy.dto.LocationDto;
 import com.example.thy.dto.request.SaveTransportationRequestDto;
 import com.example.thy.dto.TransportationDto;
+import com.example.thy.dto.request.SearchTransportationDto;
 import com.example.thy.dto.request.UpdateTransportationRequestDto;
 import com.example.thy.dto.response.ErrorResponse;
 import com.example.thy.dto.response.ValidRoutesResponseDto;
@@ -16,6 +17,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,7 +69,7 @@ public class TransportationController {
     @PutMapping("/update")
     @Operation(summary = "update transportation", description = "update transportation")
     @ApiResponse(responseCode = "200", description = "Successful Request",
-            content = @Content(mediaType = "application/json",schema = @Schema(implementation = LocationDto.class)))
+            content = @Content(mediaType = "application/json",schema = @Schema(implementation = TransportationDto.class)))
     public ResponseEntity<TransportationDto> updateTransportation(@Valid @RequestBody UpdateTransportationRequestDto updateTransportationRequestDto)
     {
         return ResponseEntity.ok().body(transportationService.update(updateTransportationRequestDto));
@@ -78,5 +82,17 @@ public class TransportationController {
     {
         transportationService.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+
+    @PostMapping("/search")
+    @Operation(summary = "Search Transportation", description = "Search Transportation")
+    @ApiResponse(responseCode = "200", description = "Successful Request",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = TransportationDto.class)))
+    public ResponseEntity<Page<TransportationDto>> SaveLocation(
+            @RequestBody SearchTransportationDto searchDto,
+            @PageableDefault(size = 10) Pageable pageable
+    ) {
+        return ResponseEntity.ok().body(transportationService.searchTransportations(searchDto, pageable));
     }
 }

@@ -155,4 +155,11 @@ public class LocationService {
         log.info("Location updated with id {}", savedLocation.getId());
         return modelMapper.map(savedLocation, LocationDto.class);
     }
+
+    public LocationDto findByLocationCode(String locationCode) {
+
+        Location byLocationCode = locationRepository.findByLocationCode(locationCode);
+
+        return modelMapper.map(byLocationCode, LocationDto.class);
+    }
 }
