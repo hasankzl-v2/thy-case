@@ -52,6 +52,9 @@ public class LocationService {
 
         List<Predicate> predicates = new ArrayList<>();
 
+        if (searchDto.getId() != null && searchDto.getId() > 0) {
+            predicates.add(cb.equal(root.get("id"), searchDto.getId()));
+        }
         if (StringUtils.hasText(searchDto.getName())) {
             predicates.add(cb.like(cb.lower(root.get("name")), searchDto.getName().toLowerCase() + "%"));
         }

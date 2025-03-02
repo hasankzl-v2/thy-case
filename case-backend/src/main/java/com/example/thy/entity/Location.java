@@ -9,7 +9,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Data
 @Entity
 @Table(name = "location")
@@ -33,4 +32,14 @@ public class Location extends BaseEntity {
 
     @OneToMany(mappedBy = "destinationLocation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transportation> destinationTransportations;
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "name='" + name + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", locationCode='" + locationCode + '\'' +
+                '}';
+    }
 }

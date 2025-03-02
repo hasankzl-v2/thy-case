@@ -55,6 +55,9 @@ public class TransportationService {
 
         List<Predicate> predicates = new ArrayList<>();
 
+        if (searchDto.getId() != null) {
+            predicates.add(cb.equal(root.get("id"), searchDto.getId()));
+        }
         if (StringUtils.hasText(searchDto.getDestinationLocationCode())) {
             Location byLocationCode = locationRepository.findByLocationCode(searchDto.getDestinationLocationCode());
             predicates.add(cb.equal(root.get("destinationLocation"), byLocationCode));
@@ -68,7 +71,7 @@ public class TransportationService {
             predicates.add(cb.equal(root.get("transportationType"), searchDto.getTransportationType().toString()));
         }
 
-        if (searchDto.getOperationDays() != null) {
+        if (searchDto.getOperationDays() != null && searchDto.getOperationDays().length > 0) {
             predicates.add(cb.equal(root.get("operationDays"), searchDto.getOperationDays()));
 
         }

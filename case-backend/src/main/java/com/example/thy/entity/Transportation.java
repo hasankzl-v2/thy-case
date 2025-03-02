@@ -9,6 +9,8 @@ import lombok.*;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.Type;
 
+import java.util.Arrays;
+
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
@@ -41,4 +43,12 @@ public class Transportation extends BaseEntity {
     @ValidateOperationDays(message = "operation days must contain unique values,values should be between 1-7 ,length should not be bigger that 7 ")
     private Integer[] operationDays;
 
+
+    @Override
+    public String toString() {
+        return "Transportation{" +
+                "transportationType=" + transportationType +
+                ", operationDays=" + Arrays.toString(operationDays) +
+                '}';
+    }
 }

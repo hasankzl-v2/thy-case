@@ -7,7 +7,12 @@ import lombok.Data;
 
 @Data
 public class SearchTransportationDto {
-
+    @Schema(
+            description = "id of the transportation",
+            name = "id",
+            type = "Long",
+            example = "1")
+    private Long id;
     @Schema(
             description = "transportation type of the transportation",
             name = "transportationType",
@@ -21,7 +26,7 @@ public class SearchTransportationDto {
             type = "Long",
             example = "SAW")
     @NotNull(message = "destination Location code should not be set")
-    private String destinationLocationCode;
+        private String destinationLocationCode;
     @Schema(
             description = "origin location code of the transportation",
             name = "originLocationCode",
