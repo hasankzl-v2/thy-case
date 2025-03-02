@@ -1,13 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Autocomplete, TextField, Chip } from "@mui/material";
 import { daysOfWeek } from "../Constants";
 
 interface MultiSelectDaysProps {
   handleSelect: (selectedDays: Array<number>) => void;
+  selectedOperationDays: Array<number> | null;
 }
-const MultiSelectDays = ({ handleSelect }: MultiSelectDaysProps) => {
+const MultiSelectDays = ({
+  handleSelect,
+  selectedOperationDays,
+}: MultiSelectDaysProps) => {
   const [selectedDays, setSelectedDays] = useState([]);
 
+  useEffect(() => {
+    debugger;
+    if (selectedOperationDays == null) {
+      setSelectedDays([]);
+    }
+  }, [selectedOperationDays]);
   return (
     <div>
       <Autocomplete
@@ -21,11 +31,7 @@ const MultiSelectDays = ({ handleSelect }: MultiSelectDaysProps) => {
         }}
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (
-            <Chip
-              key={option.value}
-              label={option.label}
-              {...getTagProps({ index })}
-            />
+            <Chip label={option.label} {...getTagProps({ index })} />
           ))
         }
         renderInput={(params) => (

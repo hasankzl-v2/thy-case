@@ -1,3 +1,6 @@
+import ITransportationData from "./types/ITransportationData";
+import ISearchTransportationRequest from "./types/request/ISearchTransportationRequest";
+
 export const daysOfWeek = [
   { label: "Monday", value: 1 },
   { label: "Tuesday", value: 2 },
@@ -14,4 +17,23 @@ export const emptyLocation = {
     country: "",
     city: "",
     locationCode: "",
+  };
+
+  export const transportOptions = ["FLIGHT", "BUS", "SUBWAY", "UBER"];
+
+
+  export const emptyTransportation: ITransportationData = {
+    id: null,
+    transportationType: null,
+    originLocation: emptyLocation,
+    destinationLocation: emptyLocation,
+    operationDays: null,
+  };
+  
+  export const emptySearchTransportation: ISearchTransportationRequest = {
+    id: null,
+    transportationType: null,
+    originLocationCode: "",
+    destinationLocationCode: "",
+    operationDays: null,
   };

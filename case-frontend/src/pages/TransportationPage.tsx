@@ -4,11 +4,7 @@ import TransportationService from "../service/TransportationService";
 import ToastComponents from "../components/ToastComponents";
 import IErrorResponse from "../types/response/IErrorResponse";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import {
-  Edit as EditIcon,
-  Delete as DeleteIcon,
-  Label,
-} from "@mui/icons-material";
+import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { Box, Button, Chip, IconButton, Paper, TextField } from "@mui/material";
 import ConfirmDialog from "../components/ConfirmationDialog";
 import { toast } from "react-toastify";
@@ -17,29 +13,14 @@ import MultiSelectDays from "../components/MulitSelectDays";
 import ILocationData from "../types/ILocationData";
 import LocationService from "../service/LocationService";
 import ISearchTransportationRequest from "../types/request/ISearchTransportationRequest";
-import { daysOfWeek } from "../Constants";
-const emtpyLocation = {
-  id: 0,
-  name: "",
-  country: "",
-  city: "",
-  locationCode: "",
-};
-const emptyTransportation: ITransportationData = {
-  id: null,
-  transportationType: "",
-  originLocation: emtpyLocation,
-  destinationLocation: emtpyLocation,
-  operationDays: null,
-};
-
-const emptySearchTransportation: ISearchTransportationRequest = {
-  id: null,
-  transportationType: null,
-  originLocationCode: "",
-  destinationLocationCode: "",
-  operationDays: null,
-};
+import {
+  daysOfWeek,
+  emptyLocation,
+  emptySearchTransportation,
+  emptyTransportation,
+} from "../Constants";
+import TransportationTypeSelect from "../components/TransportationTypeSelect";
+import { TransportationTypeEnum } from "../types/enum/TransportationTypeEnum";
 const paginationModel = { page: 0, pageSize: 5 };
 function TransportationPage() {
   const [data, setData] = useState<ITransportationData[]>([]);
@@ -63,9 +44,9 @@ function TransportationPage() {
   const [originSelectData, setOriginSelectData] = useState<ILocationData[]>([]);
   const [originSearch, setOriginSearch] = useState<string>("");
   const [selecetedDestinationForSearch, setSelectedDestinationForSearch] =
-    useState<ILocationData>(emtpyLocation);
+    useState<ILocationData>(emptyLocation);
   const [selecetedOriginForSearch, setSelectedOriginForSearch] =
-    useState<ILocationData>(emtpyLocation);
+    useState<ILocationData>(emptyLocation);
 
   useEffect(() => {
     fetchDestination();
@@ -90,7 +71,7 @@ function TransportationPage() {
   };
   const fetchDestination = () => {
     const location: ILocationData = {
-      ...emtpyLocation,
+      ...emptyLocation,
       locationCode: destinationSearch,
     };
     LocationService.search(location, 0, 20).then((res) =>
@@ -100,10 +81,10 @@ function TransportationPage() {
 
   const fetchOrigin = () => {
     const location: ILocationData = {
-      ...emtpyLocation,
+      ...emptyLocation,
       locationCode: originSearch,
     };
-    LocationService.search(location, 0, 2).then((res) =>
+    LocationService.search(location, 0, 20).then((res) =>
       setOriginSelectData(res.data.content)
     );
   };
@@ -227,7 +208,6 @@ function TransportationPage() {
   const clear = () => {
     setPage(0);
     setFilters(emptySearchTransportation);
-    fetchData();
   };
   const fetchData = async () => {
     setLoading(true);
@@ -254,10 +234,18 @@ function TransportationPage() {
   };
 
   const handleFilterId = (id: number | null) => {
-    debugger;
     setFilters({
       ...filters,
       id,
+    });
+  };
+
+  const handleFilterTransportationType = (
+    transportationType: TransportationTypeEnum | null
+  ) => {
+    setFilters({
+      ...filters,
+      transportationType,
     });
   };
   return (
@@ -274,9 +262,9 @@ function TransportationPage() {
           <TextField
             label="Id"
             variant="outlined"
-            value={filters.id}
+            type="text"
+            value={filters.id ?? ""}
             onChange={(e) => {
-              debugger;
               if (e.target.value == "") {
                 handleFilterId(null);
               } else {
@@ -285,20 +273,29 @@ function TransportationPage() {
             }}
           />
           <SearchableSelect
-            label={"origin"}
+            label="origin"
             data={originSelectData}
             handleSelect={handleSelectOrigin}
             selectedData={filters.originLocationCode}
             handleSearch={setOriginSearch}
           />
           <SearchableSelect
-            label={"destination"}
+            label="destination"
             data={destinationSelectData}
             handleSelect={handleSelectDest}
             selectedData={filters.destinationLocationCode}
             handleSearch={setOriginSearch}
           />
-          <MultiSelectDays handleSelect={handleDaySelect} />
+
+          <TransportationTypeSelect
+            selectedType={filters.transportationType}
+            handleSelect={handleFilterTransportationType}
+          />
+
+          <MultiSelectDays
+            handleSelect={handleDaySelect}
+            selectedOperationDays={filters.operationDays}
+          />
           <Button variant="contained" onClick={search}>
             Search
           </Button>

@@ -18,11 +18,11 @@ const SearchableSelect = ({
 }: SearchableSelectProps) => {
   return (
     <Autocomplete
-      options={data}
-      getOptionLabel={(option) => option.locationCode}
+      options={data.map((loc) => loc.locationCode)}
+      value={selectedData}
       onChange={(event, newValue) => {
         if (newValue) {
-          handleSelect(newValue.locationCode);
+          handleSelect(newValue);
         } else {
           handleSelect("");
         }
