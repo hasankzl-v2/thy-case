@@ -1,4 +1,5 @@
 import ITransportationData from "./types/ITransportationData";
+import ISaveTransportationRequest from "./types/request/ISaveTransportationRequest";
 import ISearchTransportationRequest from "./types/request/ISearchTransportationRequest";
 
 export const daysOfWeek = [
@@ -37,3 +38,10 @@ export const emptyLocation = {
     destinationLocationCode: "",
     operationDays: null,
   };
+
+  export const emptySaveTransportation :ISaveTransportationRequest ={
+    transportationType:null,
+    originLocationId:null,
+    destinationLocationId:null,
+    operationDays:null
+  }

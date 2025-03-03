@@ -8,19 +8,18 @@ import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { Box, Button, Chip, IconButton, Paper, TextField } from "@mui/material";
 import ConfirmDialog from "../components/ConfirmationDialog";
 import { toast } from "react-toastify";
-import SearchableSelect from "../components/SearchableSearch";
+import SearchableSelect from "../components/SearchableLocationSelect";
 import MultiSelectDays from "../components/MulitSelectDays";
-import ILocationData from "../types/ILocationData";
-import LocationService from "../service/LocationService";
 import ISearchTransportationRequest from "../types/request/ISearchTransportationRequest";
 import {
   daysOfWeek,
-  emptyLocation,
   emptySearchTransportation,
   emptyTransportation,
 } from "../Constants";
 import TransportationTypeSelect from "../components/TransportationTypeSelect";
 import { TransportationTypeEnum } from "../types/enum/TransportationTypeEnum";
+import ILocationData from "../types/ILocationData";
+import TransportationSaveModal from "../components/TransportationSaveModal";
 const paginationModel = { page: 0, pageSize: 5 };
 function TransportationPage() {
   const [data, setData] = useState<ITransportationData[]>([]);
@@ -37,56 +36,21 @@ function TransportationPage() {
   const [updateData, setUpdateData] =
     useState<ITransportationData>(emptyTransportation);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
-  const [destinationSelectData, setDestinationSelectData] = useState<
-    ILocationData[]
-  >([]);
-  const [destinationSearch, setDestinationSearch] = useState<string>("");
-  const [originSelectData, setOriginSelectData] = useState<ILocationData[]>([]);
-  const [originSearch, setOriginSearch] = useState<string>("");
-  const [selecetedDestinationForSearch, setSelectedDestinationForSearch] =
-    useState<ILocationData>(emptyLocation);
-  const [selecetedOriginForSearch, setSelectedOriginForSearch] =
-    useState<ILocationData>(emptyLocation);
 
-  useEffect(() => {
-    fetchDestination();
-  }, [destinationSearch]);
-
-  useEffect(() => {
-    fetchOrigin();
-  }, [originSearch]);
-
-  const handleSelectDest = (locationCode: string) => {
+  const handleSelectDest = (location: ILocationData | null) => {
+    const code = location != null ? location.locationCode : "";
     setFilters({
       ...filters,
-      destinationLocationCode: locationCode,
+      destinationLocationCode: code,
     });
   };
 
-  const handleSelectOrigin = (locationCode: string) => {
+  const handleSelectOrigin = (location: ILocationData | null) => {
+    const code = location != null ? location.locationCode : "";
     setFilters({
       ...filters,
-      originLocationCode: locationCode,
+      originLocationCode: code,
     });
-  };
-  const fetchDestination = () => {
-    const location: ILocationData = {
-      ...emptyLocation,
-      locationCode: destinationSearch,
-    };
-    LocationService.search(location, 0, 20).then((res) =>
-      setDestinationSelectData(res.data.content)
-    );
-  };
-
-  const fetchOrigin = () => {
-    const location: ILocationData = {
-      ...emptyLocation,
-      locationCode: originSearch,
-    };
-    LocationService.search(location, 0, 20).then((res) =>
-      setOriginSelectData(res.data.content)
-    );
   };
 
   const handleEditClick = (row: ITransportationData) => {
@@ -227,6 +191,7 @@ function TransportationPage() {
   };
 
   const handleDaySelect = (selectedDays: Array<number>) => {
+    selectedDays = selectedDays.length == 0 ? null : selectedDays;
     setFilters({
       ...filters,
       operationDays: selectedDays,
@@ -248,16 +213,23 @@ function TransportationPage() {
       transportationType,
     });
   };
+
+  const handleSave = () => {
+    refreshTable();
+  };
   return (
     <div>
-      <Paper sx={{ mt: 5, height: 800, width: "100%" }}>
+      <Paper sx={{ mt: 5, mb: 5, height: 800, width: "100%" }}>
         <div
           style={{
             display: "flex",
             justifyContent: "right",
             alignItems: "right",
+            marginBottom: 30,
           }}
-        ></div>
+        >
+          <TransportationSaveModal handleSave={handleSave} />
+        </div>
         <Box sx={{ display: "flex", gap: 2, paddingBottom: 2 }}>
           <TextField
             label="Id"
@@ -274,17 +246,13 @@ function TransportationPage() {
           />
           <SearchableSelect
             label="origin"
-            data={originSelectData}
             handleSelect={handleSelectOrigin}
             selectedData={filters.originLocationCode}
-            handleSearch={setOriginSearch}
           />
           <SearchableSelect
             label="destination"
-            data={destinationSelectData}
             handleSelect={handleSelectDest}
             selectedData={filters.destinationLocationCode}
-            handleSearch={setOriginSearch}
           />
 
           <TransportationTypeSelect

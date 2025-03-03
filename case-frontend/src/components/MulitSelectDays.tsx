@@ -13,7 +13,6 @@ const MultiSelectDays = ({
   const [selectedDays, setSelectedDays] = useState([]);
 
   useEffect(() => {
-    debugger;
     if (selectedOperationDays == null) {
       setSelectedDays([]);
     }

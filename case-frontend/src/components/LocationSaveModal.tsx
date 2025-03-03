@@ -56,7 +56,6 @@ const LocationModal = ({ handleSave }: LocationModalProps) => {
       })
       .catch((e) => {
         const errorRequest: IErrorResponse = e.response.data;
-        debugger;
         ToastComponents.showErrorToast(errorRequest);
       });
   };
