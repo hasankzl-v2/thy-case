@@ -1,6 +1,7 @@
 import ITransportationData from "./types/ITransportationData";
 import ISaveTransportationRequest from "./types/request/ISaveTransportationRequest";
 import ISearchTransportationRequest from "./types/request/ISearchTransportationRequest";
+import IUpdateTransportationRequest from "./types/request/IUpdateTransportationRequest";
 
 export const daysOfWeek = [
   { label: "Monday", value: 1 },
@@ -40,6 +41,14 @@ export const emptyLocation = {
   };
 
   export const emptySaveTransportation :ISaveTransportationRequest ={
+    transportationType:null,
+    originLocationId:null,
+    destinationLocationId:null,
+    operationDays:null
+  }
+
+  export const emptyUpdateTransportation :IUpdateTransportationRequest={
+    id:null,
     transportationType:null,
     originLocationId:null,
     destinationLocationId:null,

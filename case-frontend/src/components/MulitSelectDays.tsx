@@ -10,11 +10,17 @@ const MultiSelectDays = ({
   handleSelect,
   selectedOperationDays,
 }: MultiSelectDaysProps) => {
-  const [selectedDays, setSelectedDays] = useState([]);
+  const [selectedDays, setSelectedDays] = useState<any>([]);
 
   useEffect(() => {
     if (selectedOperationDays == null) {
       setSelectedDays([]);
+    } else {
+      setSelectedDays(
+        selectedOperationDays.map((d) =>
+          daysOfWeek.find((dow) => dow.value == d)
+        )
+      );
     }
   }, [selectedOperationDays]);
   return (

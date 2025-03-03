@@ -1,7 +1,9 @@
 import http from "../http-commons";
 import ITransportationData from "../types/ITransportationData";
 import ISaveLocationRequest from "../types/request/ISaveLocationRequest";
+import ISaveTransportationRequest from "../types/request/ISaveTransportationRequest";
 import ISearchTransportationRequest from "../types/request/ISearchTransportationRequest";
+import IUpdateTransportationRequest from "../types/request/IUpdateTransportationRequest";
 import ITransportationSearchResponse from "../types/response/ISearchTransportationResponse";
 
 const getAll = () => {
@@ -15,11 +17,11 @@ const getAll = () => {
     return http.get<ITransportationData>(`/transportation/findById/${id}`);
   };
   
-  const create = (data: ISaveLocationRequest) => {
+  const create = (data: ISaveTransportationRequest) => {
     return http.post<ITransportationData>("/transportation/save", data);
   };
   
-  const update = (data: ITransportationData) => {
+  const update = (data: IUpdateTransportationRequest) => {
     return http.put<any>(`/transportation/update`, data);
   };
   

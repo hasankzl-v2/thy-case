@@ -36,11 +36,6 @@ const LocationUpdateModal = ({
   useEffect(() => {
     setFormData(locationData);
   }, [locationData]);
-  // Modal'ı açma
-  const handleOpen = () => {
-    setOpen(true);
-    setFormData(emptyLocation);
-  };
 
   // Modal'ı kapama
   const handleClose = () => {

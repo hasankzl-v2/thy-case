@@ -20,6 +20,7 @@ import TransportationTypeSelect from "../components/TransportationTypeSelect";
 import { TransportationTypeEnum } from "../types/enum/TransportationTypeEnum";
 import ILocationData from "../types/ILocationData";
 import TransportationSaveModal from "../components/TransportationSaveModal";
+import TransportationUpdateModal from "../components/TransportationUpdateModal";
 const paginationModel = { page: 0, pageSize: 5 };
 function TransportationPage() {
   const [data, setData] = useState<ITransportationData[]>([]);
@@ -36,6 +37,10 @@ function TransportationPage() {
   const [updateData, setUpdateData] =
     useState<ITransportationData>(emptyTransportation);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
+
+  useEffect(() => {
+    fetchData();
+  }, [page, pageSize]);
 
   const handleSelectDest = (location: ILocationData | null) => {
     const code = location != null ? location.locationCode : "";
@@ -160,10 +165,15 @@ function TransportationPage() {
       },
     },
   ];
-
-  useEffect(() => {
-    fetchData();
-  }, [page, pageSize]);
+  const handleUpdateCancel = () => {
+    setOpenUpdateModal(false);
+    setUpdateData(emptyTransportation);
+  };
+  const handleUpdateConfirm = () => {
+    setOpenUpdateModal(false);
+    setUpdateData(emptyTransportation);
+    refreshTable();
+  };
 
   const search = () => {
     setPage(0);
@@ -293,6 +303,12 @@ function TransportationPage() {
           handleConfirm={handleDeleteData}
         />
       </Paper>
+      <TransportationUpdateModal
+        handleUpdate={handleUpdateConfirm}
+        modelOpen={openUpdateModal}
+        selectedTransportation={updateData}
+        handleCancel={() => setOpenUpdateModal(false)}
+      />
     </div>
   );
 }
