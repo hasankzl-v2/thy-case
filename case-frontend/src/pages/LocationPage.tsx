@@ -132,6 +132,9 @@ function LocationPage() {
     setPage(0);
     fetchData();
   };
+  const handleClear = () => {
+    setFilters(emptyLocation);
+  };
   const paginationModel = { page: 0, pageSize: 5 };
   return (
     <div>
@@ -150,40 +153,38 @@ function LocationPage() {
           <TextField
             label="Id"
             variant="outlined"
-            size="small"
-            value={filters.id}
+            value={filters.id == null ? "" : filters.id}
             onChange={(e) => handleSearchChange("id", e.target.value)}
           />
           <TextField
             label="Name"
             variant="outlined"
-            size="small"
             value={filters.name}
             onChange={(e) => handleSearchChange("name", e.target.value)}
           />
           <TextField
             label="Country"
             variant="outlined"
-            size="small"
             value={filters.country}
             onChange={(e) => handleSearchChange("country", e.target.value)}
           />
           <TextField
             label="City"
             variant="outlined"
-            size="small"
             value={filters.city}
             onChange={(e) => handleSearchChange("city", e.target.value)}
           />
           <TextField
             label="Location Code"
             variant="outlined"
-            size="small"
             value={filters.locationCode}
             onChange={(e) => handleSearchChange("locationCode", e.target.value)}
           />
           <Button variant="contained" onClick={handleSearch}>
             Search
+          </Button>
+          <Button variant="contained" onClick={handleClear}>
+            clear
           </Button>
         </Box>
         <DataGrid
