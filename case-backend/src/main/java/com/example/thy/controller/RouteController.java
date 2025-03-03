@@ -2,6 +2,7 @@ package com.example.thy.controller;
 
 
 import com.example.thy.dto.LocationDto;
+import com.example.thy.dto.RouteDto;
 import com.example.thy.dto.request.RouteRequestDto;
 import com.example.thy.dto.response.ErrorResponse;
 import com.example.thy.dto.response.ValidRoutesResponseDto;
@@ -16,10 +17,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/route")
@@ -34,13 +34,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class RouteController {
 
     private final RouteService routeService;
-    @GetMapping("/findValidRoutes")
+    @PostMapping("/findValidRoutes")
     @Operation(summary = "find valid routes", description = "Find all valid routes by given data")
     @ApiResponse(responseCode = "200", description = "Successful Request",
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = ValidRoutesResponseDto.class))))
-    public ResponseEntity<ValidRoutesResponseDto> findValidRoutes(@Valid @RequestBody RouteRequestDto routeRequestDto) {
-        return ResponseEntity.ok().body(routeService.findAllValidRoutes(routeRequestDto));
+    public ResponseEntity<List<RouteDto>> findValidRoutes(@Valid @RequestBody RouteRequestDto routeRequestDto) {
+        return ResponseEntity.ok().body(routeService.findAllValidRoutes(routeRequestDto).getValidRoutes());
     }
 
 }
