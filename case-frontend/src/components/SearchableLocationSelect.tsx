@@ -33,7 +33,7 @@ const SearchableLocationSelect = ({
   };
   return (
     <Autocomplete
-      sx={{ margin: 4 }}
+      sx={{ maxWidth: 400 }}
       options={data.map((loc) => loc.locationCode)}
       value={selectedData}
       onChange={(event, newValue) => {
@@ -52,7 +52,6 @@ const SearchableLocationSelect = ({
         />
       )}
       fullWidth
-      sx={{ maxWidth: 400 }}
     />
   );
 };

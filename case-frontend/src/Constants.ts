@@ -1,4 +1,5 @@
 import ITransportationData from "./types/ITransportationData";
+import IFindValidRoutesRequest from "./types/request/IFindValidRoutesRequest";
 import ISaveTransportationRequest from "./types/request/ISaveTransportationRequest";
 import ISearchTransportationRequest from "./types/request/ISearchTransportationRequest";
 import IUpdateTransportationRequest from "./types/request/IUpdateTransportationRequest";
@@ -53,4 +54,10 @@ export const emptyLocation = {
     originLocationId:null,
     destinationLocationId:null,
     operationDays:null
+  }
+
+  export const emptyFindValidRouteRequest : IFindValidRoutesRequest={
+    startLocationId: null,
+    endLocationId: null,
+    departureDate: "" 
   }
