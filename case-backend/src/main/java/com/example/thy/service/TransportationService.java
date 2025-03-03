@@ -8,6 +8,7 @@ import com.example.thy.dto.request.UpdateTransportationRequestDto;
 import com.example.thy.entity.Location;
 import com.example.thy.entity.Transportation;
 import com.example.thy.enums.ConstraintEnum;
+import com.example.thy.enums.TransportationTypeEnum;
 import com.example.thy.exception.*;
 import com.example.thy.repository.LocationRepository;
 import com.example.thy.repository.TransportationRepository;
@@ -140,34 +141,12 @@ public class TransportationService {
 
     }
 
-    public TransportationDto update(UpdateTransportationRequestDto saveTransportationRequestDto) {
-        Optional<Transportation> transportation = transportationRepository.findById(saveTransportationRequestDto.getId());
-        // if not present throw exception
-        if (transportation.isEmpty()) {
-            throw new TransportationNotFoundException("Transportation not found for update", saveTransportationRequestDto.getId());
-        }
-        Transportation savedTransportation = transportation.get();
-
-        try {
-            if (savedTransportation.getTransportationType() != null) {
-                savedTransportation.setTransportationType(saveTransportationRequestDto.getTransportationType());
-            }
-            if (saveTransportationRequestDto.getDestinationLocationId() != null) {
-                Location location = findLocationForUpdate(saveTransportationRequestDto.getDestinationLocationId());
-                savedTransportation.setDestinationLocation(location);
-            }
-            if (saveTransportationRequestDto.getOriginLocationId() != null) {
-                Location location = findLocationForUpdate(saveTransportationRequestDto.getOriginLocationId());
-                savedTransportation.setOriginLocation(location);
-            }
-            savedTransportation = transportationRepository.save(savedTransportation);
-        } catch (DataIntegrityViolationException e) {
-            log.error(e.getMessage());
-            throw new TransportationAlreadyExistsException(e.getMessage());
-        }
-        log.info("Updated transportation with id: {}", saveTransportationRequestDto.getId());
-        return modelMapper.map(savedTransportation, TransportationDto.class);
+    public void update(UpdateTransportationRequestDto updateTransportationRequestDto) {
+        transportationRepository.updateOperationDays(updateTransportationRequestDto.getId(), updateTransportationRequestDto.getTransportationType(), new Location(updateTransportationRequestDto.getDestinationLocationId()),
+                new Location(updateTransportationRequestDto.getOriginLocationId()),
+                updateTransportationRequestDto.getOperationDays());
     }
+
 
     @Transactional
     public void deleteById(Long id) {

@@ -33,6 +33,10 @@ public class Location extends BaseEntity {
     @OneToMany(mappedBy = "destinationLocation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transportation> destinationTransportations;
 
+    public Location(Long id) {
+        this.setId(id);
+    }
+
     @Override
     public String toString() {
         return "Location{" +
@@ -42,4 +46,5 @@ public class Location extends BaseEntity {
                 ", locationCode='" + locationCode + '\'' +
                 '}';
     }
+
 }

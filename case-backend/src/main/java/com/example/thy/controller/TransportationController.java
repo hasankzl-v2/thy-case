@@ -70,9 +70,11 @@ public class TransportationController {
     @Operation(summary = "update transportation", description = "update transportation")
     @ApiResponse(responseCode = "200", description = "Successful Request",
             content = @Content(mediaType = "application/json",schema = @Schema(implementation = TransportationDto.class)))
-    public ResponseEntity<TransportationDto> updateTransportation(@Valid @RequestBody UpdateTransportationRequestDto updateTransportationRequestDto)
+    public ResponseEntity<UpdateTransportationRequestDto> updateTransportation(@Valid @RequestBody UpdateTransportationRequestDto updateTransportationRequestDto)
     {
-        return ResponseEntity.ok().body(transportationService.update(updateTransportationRequestDto));
+        transportationService.update(updateTransportationRequestDto);
+
+        return ResponseEntity.ok().body(updateTransportationRequestDto);
     }
     @DeleteMapping("/deleteById/{id}")
     @Operation(summary = "delete transportation by id", description = "delete transportation by id")
@@ -89,7 +91,7 @@ public class TransportationController {
     @Operation(summary = "Search Transportation", description = "Search Transportation")
     @ApiResponse(responseCode = "200", description = "Successful Request",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = TransportationDto.class)))
-    public ResponseEntity<Page<TransportationDto>> SaveLocation(
+    public ResponseEntity<Page<TransportationDto>> saveTransportation(
             @RequestBody SearchTransportationDto searchDto,
             @PageableDefault(size = 10) Pageable pageable
     ) {
