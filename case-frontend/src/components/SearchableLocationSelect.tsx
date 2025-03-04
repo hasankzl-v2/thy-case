@@ -31,14 +31,25 @@ const SearchableLocationSelect = ({
   const handleSearch = (s: string) => {
     setSearch(s);
   };
+  const getValue = () => {
+    const value = data.filter((d) => d.locationCode == selectedData)[0];
+    if (value) {
+      return value;
+    } else {
+      return null;
+    }
+  };
   return (
     <Autocomplete
       sx={{ maxWidth: 400 }}
-      options={data.map((loc) => loc.locationCode)}
-      value={selectedData}
+      options={data}
+      getOptionLabel={(option) =>
+        `${option.locationCode} - ${option.city} - ${option.name}`
+      }
+      value={getValue()}
       onChange={(event, newValue) => {
         if (newValue) {
-          handleSelect(data.filter((d) => d.locationCode == newValue)[0]);
+          handleSelect(newValue);
         } else {
           handleSelect(null);
         }

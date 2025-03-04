@@ -21,6 +21,7 @@ import { TransportationTypeEnum } from "../types/enum/TransportationTypeEnum";
 import ILocationData from "../types/ILocationData";
 import TransportationSaveModal from "../components/TransportationSaveModal";
 import TransportationUpdateModal from "../components/TransportationUpdateModal";
+import ButtonComponent from "../components/ButtonComponent";
 const paginationModel = { page: 0, pageSize: 5 };
 function TransportationPage() {
   const [data, setData] = useState<ITransportationData[]>([]);
@@ -126,7 +127,7 @@ function TransportationPage() {
                   key={index}
                   label={daysOfWeek.find((d) => d.value == o)?.label}
                   sx={{
-                    backgroundColor: "#1976d2",
+                    backgroundColor: "#e60012",
                     color: "white",
                     fontWeight: "bold",
                     borderRadius: "16px",
@@ -255,12 +256,12 @@ function TransportationPage() {
             }}
           />
           <SearchableSelect
-            label="origin"
+            label="From"
             handleSelect={handleSelectOrigin}
             selectedData={filters.originLocationCode}
           />
           <SearchableSelect
-            label="destination"
+            label="to"
             handleSelect={handleSelectDest}
             selectedData={filters.destinationLocationCode}
           />
@@ -274,12 +275,9 @@ function TransportationPage() {
             handleSelect={handleDaySelect}
             selectedOperationDays={filters.operationDays}
           />
-          <Button variant="contained" onClick={search}>
-            Search
-          </Button>
-          <Button variant="contained" onClick={clear}>
-            clear
-          </Button>
+
+          <ButtonComponent text={"Search"} onClick={search} />
+          <ButtonComponent text={"Clear"} onClick={clear} />
         </Box>
         <DataGrid
           rows={data}

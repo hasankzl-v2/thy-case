@@ -11,6 +11,7 @@ import ISaveTransportationRequest from "../types/request/ISaveTransportationRequ
 import SearchableLocationSelect from "./SearchableLocationSelect";
 import TransportationTypeSelect from "./TransportationTypeSelect";
 import MultiSelectDays from "./MulitSelectDays";
+import ButtonComponent from "./ButtonComponent";
 interface transportationSaveModalProps {
   handleSave: () => void;
 }
@@ -128,9 +129,14 @@ const TransportationSaveModal = ({
     <div>
       <Button
         startIcon={<Add />}
-        variant="contained"
-        color="success"
         onClick={handleOpen}
+        sx={{
+          backgroundColor: "white", // Türk Hava Yolları kırmızısı
+          color: "#e60012", // Beyaz metin
+          "&:hover": {
+            backgroundColor: "#fff4f4", // Hover durumunda daha koyu kırmızı
+          },
+        }}
       >
         Add New Transportation
       </Button>
@@ -164,7 +170,7 @@ const TransportationSaveModal = ({
           </IconButton>
           <Box m={2}>
             <SearchableLocationSelect
-              label="origin"
+              label="From"
               handleSelect={handleSelectOrigin}
               selectedData={selectedOrigin.locationCode}
             />
@@ -172,7 +178,7 @@ const TransportationSaveModal = ({
 
           <Box m={2}>
             <SearchableLocationSelect
-              label="destination"
+              label="to"
               handleSelect={handleSelectDest}
               selectedData={selectedDest.locationCode}
             />
@@ -191,12 +197,8 @@ const TransportationSaveModal = ({
             />
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-            <Button onClick={handleClose} color="secondary">
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} variant="contained" color="primary">
-              Save
-            </Button>
+            <ButtonComponent text={"Cancel"} onClick={handleClose} />
+            <ButtonComponent text={"Save"} onClick={handleSubmit} />
           </Box>
         </Box>
       </Modal>

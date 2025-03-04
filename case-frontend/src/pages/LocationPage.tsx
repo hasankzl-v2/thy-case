@@ -14,6 +14,7 @@ import LocationUpdateModal from "../components/LocationUpdateModal";
 import IErrorResponse from "../types/response/IErrorResponse";
 import ToastComponents from "../components/ToastComponents";
 import { emptyLocation } from "../Constants";
+import ButtonComponent from "../components/ButtonComponent";
 
 function LocationPage() {
   const [data, setData] = useState<ILocationData[]>([]);
@@ -180,12 +181,8 @@ function LocationPage() {
             value={filters.locationCode}
             onChange={(e) => handleSearchChange("locationCode", e.target.value)}
           />
-          <Button variant="contained" onClick={handleSearch}>
-            Search
-          </Button>
-          <Button variant="contained" onClick={handleClear}>
-            clear
-          </Button>
+          <ButtonComponent text={"Search"} onClick={handleSearch} />
+          <ButtonComponent text={"clear"} onClick={handleClear} />
         </Box>
         <DataGrid
           rows={data}
@@ -203,7 +200,7 @@ function LocationPage() {
         />
       </Paper>
       <ConfirmDialog
-        message="Are you sure to delete this data?"
+        message="Are you sure to delete this data? (releted transportation will be deleted)"
         isOpen={openDialog}
         handleCancel={handleCancelDeleteData}
         handleConfirm={handleDeleteData}

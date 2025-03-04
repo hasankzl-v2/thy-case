@@ -24,6 +24,7 @@ import TransportationTypeSelect from "./TransportationTypeSelect";
 import MultiSelectDays from "./MulitSelectDays";
 import ITransportationData from "../types/ITransportationData";
 import IUpdateTransportationRequest from "../types/request/IUpdateTransportationRequest";
+import ButtonComponent from "./ButtonComponent";
 interface transportationUpdateModalProps {
   selectedTransportation: ITransportationData;
   modelOpen: boolean;
@@ -228,12 +229,8 @@ const TransportationUpdateModal = ({
             />
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-            <Button onClick={handleClose} color="secondary">
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} variant="contained" color="primary">
-              Save
-            </Button>
+            <ButtonComponent text={"Cancel"} onClick={handleClose} />
+            <ButtonComponent text={"Update"} onClick={handleSubmit} />
           </Box>
         </Box>
       </Modal>
