@@ -1,12 +1,10 @@
 package com.example.thy.controller;
 
-import com.example.thy.dto.LocationDto;
 import com.example.thy.dto.request.SaveTransportationRequestDto;
 import com.example.thy.dto.TransportationDto;
 import com.example.thy.dto.request.SearchTransportationDto;
 import com.example.thy.dto.request.UpdateTransportationRequestDto;
 import com.example.thy.dto.response.ErrorResponse;
-import com.example.thy.dto.response.ValidRoutesResponseDto;
 import com.example.thy.service.TransportationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

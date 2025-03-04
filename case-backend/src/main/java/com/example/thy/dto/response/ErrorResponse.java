@@ -13,7 +13,7 @@ public class ErrorResponse {
             example = "GENERAL_ERROR")
     private ErrorCodeEnum errorCode;
     @Schema(
-            description = "Error messsage",
+            description = "Error message",
             name = "errorMessage",
             type = "String",
             example = "not found")

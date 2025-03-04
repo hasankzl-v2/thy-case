@@ -35,7 +35,7 @@ public class UpdateLocationRequestDto {
             example = "Istanbul")
     private String city;
     @Schema(
-            description = "id of the location",
+            description = "location code of the location",
             name = "locationCode",
             type = "String",
             example = "SAW")

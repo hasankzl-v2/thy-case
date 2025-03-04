@@ -1,11 +1,9 @@
 package com.example.thy.controller;
 
 
-import com.example.thy.dto.LocationDto;
 import com.example.thy.dto.RouteDto;
 import com.example.thy.dto.request.RouteRequestDto;
 import com.example.thy.dto.response.ErrorResponse;
-import com.example.thy.dto.response.ValidRoutesResponseDto;
 import com.example.thy.service.RouteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -38,7 +36,7 @@ public class RouteController {
     @Operation(summary = "find valid routes", description = "Find all valid routes by given data")
     @ApiResponse(responseCode = "200", description = "Successful Request",
             content = @Content(mediaType = "application/json",
-                    array = @ArraySchema(schema = @Schema(implementation = ValidRoutesResponseDto.class))))
+                    array = @ArraySchema(schema = @Schema(implementation = RouteDto.class))))
     public ResponseEntity<List<RouteDto>> findValidRoutes(@Valid @RequestBody RouteRequestDto routeRequestDto) {
         return ResponseEntity.ok().body(routeService.findAllValidRoutes(routeRequestDto).getValidRoutes());
     }

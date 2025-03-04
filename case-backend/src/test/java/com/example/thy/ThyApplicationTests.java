@@ -1,7 +1,7 @@
 package com.example.thy;
 
+import com.example.thy.dto.RouteValidationDto;
 import com.example.thy.dto.request.RouteRequestDto;
-import com.example.thy.dto.response.ValidRoutesResponseDto;
 import com.example.thy.service.RouteService;
 import jakarta.annotation.PostConstruct;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import java.time.LocalDate;
 class ThyApplicationTests {
 	@Autowired
 	RouteService routeService;
-	static ValidRoutesResponseDto allValidRoutes;
+	static RouteValidationDto allRouteValidationDto;
 	static RouteRequestDto routeRequestDto;
 	@PostConstruct
 	void init() {
@@ -22,12 +22,12 @@ class ThyApplicationTests {
 		routeRequestDto.setStartLocationId(15L);
 		routeRequestDto.setEndLocationId(17L);
 		routeRequestDto.setDepartureDate(LocalDate.of(2024,4,30));
-		 allValidRoutes = routeService.findAllValidRoutes(routeRequestDto);
+		 allRouteValidationDto = routeService.findAllValidRoutes(routeRequestDto);
 	}
 
 	@Test
 	void validateRoutes() {
-		allValidRoutes.getValidRoutes().forEach(validRoute -> {
+		allRouteValidationDto.getValidRoutes().forEach(validRoute -> {
 			assert validRoute.getDepartureDate().equals(LocalDate.of(2024,4,30));
 			assert validRoute.isValid();
 			assert validRoute.getEndLocationId().equals(routeRequestDto.getEndLocationId());

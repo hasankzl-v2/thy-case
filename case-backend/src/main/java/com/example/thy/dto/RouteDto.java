@@ -2,6 +2,7 @@ package com.example.thy.dto;
 
 import com.example.thy.enums.TransferTypeEnum;
 import com.example.thy.enums.TransportationTypeEnum;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
@@ -20,11 +21,13 @@ public class RouteDto {
             type = "integer",
             example = "1")
     private int id;
-    @Schema(
-            description = "list of locations route depending on origin and destination locations",
-            name = "validRoutes",
-            type = "RouteLocationDto")
-    private List<RouteLocationDto> validRoutes = new ArrayList<>();
+    @ArraySchema(
+            schema = @Schema(implementation = RouteLocationDto.class),
+            arraySchema = @Schema(
+                    description = "List of locations route depending on origin and destination locations"
+            )
+    )
+    private final List<RouteLocationDto> validRoutes = new ArrayList<>();
     @Schema(
             description = "flight Transfer Count",
             name = "flightTransferCount",

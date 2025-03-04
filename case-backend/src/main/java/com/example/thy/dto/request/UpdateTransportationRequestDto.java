@@ -37,7 +37,7 @@ public class UpdateTransportationRequestDto {
     private Long originLocationId;
 
     @Schema(
-            description = "allowed oparation days for transportation",
+            description = "allowed operation days for transportation",
             name = "operationDays",
             type = "array",
             example = "[1,2,3,4,5]")

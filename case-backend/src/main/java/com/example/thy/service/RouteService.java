@@ -3,7 +3,6 @@ package com.example.thy.service;
 import com.example.thy.dto.*;
 import com.example.thy.dto.request.RouteRequestDto;
 import com.example.thy.dto.TransportationDto;
-import com.example.thy.dto.response.ValidRoutesResponseDto;
 import com.example.thy.enums.TransportationTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,8 +19,8 @@ public class RouteService {
     private final TransportationService transportationService;
 
 
-    public ValidRoutesResponseDto findAllValidRoutes(RouteRequestDto routeRequestDto) {
-        ValidRoutesResponseDto validRoutesResponseDto = new ValidRoutesResponseDto();
+    public RouteValidationDto findAllValidRoutes(RouteRequestDto routeRequestDto) {
+        RouteValidationDto routeValidationDtoResponseDto = new RouteValidationDto();
         List<TransportationDto> firstTransportationDtoListByOriginLocation = transportationService.findByOriginLocationId(routeRequestDto.getStartLocationId());
 
         firstTransportationDtoListByOriginLocation.forEach(firstTransportationDto -> {
@@ -30,7 +29,7 @@ public class RouteService {
                 RouteDto routeDto = new RouteDto(routeRequestDto.getDepartureDate(),routeRequestDto.getStartLocationId(),routeRequestDto.getEndLocationId());
                 routeDto.addValidRoute(firstTransportationDto.getOriginLocation(),firstTransportationDto.getTransportationType(),firstTransportationDto.getOperationDays());
                 routeDto.addValidRoute(firstTransportationDto.getDestinationLocation(),firstTransportationDto.getTransportationType(),firstTransportationDto.getOperationDays());
-                validRoutesResponseDto.addRouteIfValid(routeDto);
+                routeValidationDtoResponseDto.addRouteIfValid(routeDto);
             } else {
                 List<TransportationDto> secondTransportationDtoListByOriginLocation = transportationService.findByOriginLocationId(firstTransportationDto.getDestinationLocation().getId());
 
@@ -40,7 +39,7 @@ public class RouteService {
                         routeDto.addValidRoute(firstTransportationDto.getOriginLocation(), firstTransportationDto.getTransportationType(), firstTransportationDto.getOperationDays());
                         routeDto.addValidRoute(secondTransportationDto.getOriginLocation(), secondTransportationDto.getTransportationType(), secondTransportationDto.getOperationDays());
                         routeDto.addValidRoute(secondTransportationDto.getDestinationLocation(), secondTransportationDto.getTransportationType(), secondTransportationDto.getOperationDays());
-                        validRoutesResponseDto.addRouteIfValid(routeDto);
+                        routeValidationDtoResponseDto.addRouteIfValid(routeDto);
                     } else {
                         List<TransportationDto> thirdTransportationDtoListByOriginLocation = transportationService.findByOriginLocationId(secondTransportationDto.getDestinationLocation().getId());
                         thirdTransportationDtoListByOriginLocation.forEach(thirdTransportationDto -> {
@@ -50,14 +49,14 @@ public class RouteService {
                                 routeDto.addValidRoute(secondTransportationDto.getOriginLocation(), secondTransportationDto.getTransportationType(),secondTransportationDto.getOperationDays());
                                 routeDto.addValidRoute(thirdTransportationDto.getOriginLocation(), thirdTransportationDto.getTransportationType(), thirdTransportationDto.getOperationDays());
                                 routeDto.addValidRoute(thirdTransportationDto.getDestinationLocation(), thirdTransportationDto.getTransportationType(), thirdTransportationDto.getOperationDays());
-                                validRoutesResponseDto.addRouteIfValid(routeDto);
+                                routeValidationDtoResponseDto.addRouteIfValid(routeDto);
                             }
                         });
                     }
                 });
             }
         });
-        log.info("Found valid routes count: {}", validRoutesResponseDto.getValidRoutes().size());
-        return validRoutesResponseDto;
+        log.info("Found valid routes count: {}", routeValidationDtoResponseDto.getValidRoutes().size());
+        return routeValidationDtoResponseDto;
     }
 }
