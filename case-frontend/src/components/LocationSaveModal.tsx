@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import IErrorResponse from "../types/response/IErrorResponse";
 import ToastComponents from "./ToastComponents";
 import { emptyLocation } from "../Constants";
+import ButtonComponent from "./ButtonComponent";
 interface LocationModalProps {
   handleSave: () => void;
 }
@@ -64,8 +65,13 @@ const LocationModal = ({ handleSave }: LocationModalProps) => {
     <div>
       <Button
         startIcon={<Add />}
-        variant="contained"
-        color="success"
+        sx={{
+          backgroundColor: "white", // Türk Hava Yolları kırmızısı
+          color: "#e60012", // Beyaz metin
+          "&:hover": {
+            backgroundColor: "#fff4f4", // Hover durumunda daha koyu kırmızı
+          },
+        }}
         onClick={handleOpen}
       >
         Add New Location
@@ -134,12 +140,8 @@ const LocationModal = ({ handleSave }: LocationModalProps) => {
 
           {/* Submit ve Cancel butonları */}
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-            <Button onClick={handleClose} color="secondary">
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} variant="contained" color="primary">
-              Submit
-            </Button>
+            <ButtonComponent text={"Cancel"} onClick={handleClose} />
+            <ButtonComponent text={"Submit"} onClick={handleSubmit} />
           </Box>
         </Box>
       </Modal>

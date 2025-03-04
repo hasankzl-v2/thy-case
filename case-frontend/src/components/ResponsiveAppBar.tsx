@@ -13,61 +13,24 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { Link } from "react-router-dom";
-
+import thyIcon from "../assets/thy-icon.png";
 function ResponsiveAppBar() {
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-            component={Link}
-            to="/"
-          >
-            HOME
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button
-              component={Link}
-              to="/location"
-              color="primary"
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              Locations
-            </Button>
-
-            <Button
-              component={Link}
-              to="/transportation"
-              color="primary"
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              Transportations
-            </Button>
-
-            <Button
-              component={Link}
-              to="/route"
-              color="primary"
-              sx={{ my: 2, color: "white", display: "block" }}
-            >
-              Routes
-            </Button>
-          </Box>
-        </Toolbar>
-      </Container>
+    <AppBar position="static" color="transparent" variant="outlined">
+      <Toolbar disableGutters>
+        <IconButton
+          color="inherit"
+          component={Link}
+          to="/"
+          style={{ borderRadius: "1px" }}
+        >
+          <img
+            src={thyIcon}
+            alt="Custom Icon"
+            style={{ width: "160px", height: "80px" }}
+          />
+        </IconButton>
+      </Toolbar>
     </AppBar>
   );
 }

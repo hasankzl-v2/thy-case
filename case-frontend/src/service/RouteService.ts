@@ -1,8 +1,8 @@
 import http from "../http-commons";
 import IFindValidRoutesRequest from "../types/request/IFindValidRoutesRequest";
-import ITransportationSearchResponse from "../types/response/ISearchTransportationResponse";
+import IValidRoutesResponse from "../types/response/IValidRoutesResponse";
   const findValidRoutes = (data : IFindValidRoutesRequest) =>{
-    return http.post<ITransportationSearchResponse>(`/route/findValidRoutes`, data);
+    return http.post<Array<IValidRoutesResponse>>(`/route/findValidRoutes`, data);
   }
 
   const RouteService = {

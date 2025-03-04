@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import IErrorResponse from "../types/response/IErrorResponse";
 import ToastComponents from "./ToastComponents";
 import { emptyLocation } from "../Constants";
+import ButtonComponent from "./ButtonComponent";
 interface LocationUpdateModalProps {
   locationData: ILocationData;
   modelOpen: boolean;
@@ -140,12 +141,8 @@ const LocationUpdateModal = ({
 
           {/* Submit ve Cancel butonları */}
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-            <Button onClick={() => handleCancel()} color="secondary">
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit} variant="contained" color="primary">
-              Update
-            </Button>
+            <ButtonComponent text={"Cancel"} onClick={handleCancel} />
+            <ButtonComponent text={"Update"} onClick={handleSubmit} />
           </Box>
         </Box>
       </Modal>
