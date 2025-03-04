@@ -8,12 +8,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.TYPE) // Class seviyesinde kullanacağız
+/*
+* FieldsMatch validator can be use to validate 2 different data should be same or not.
+* if shouldMatch is true fistField and secondField should match otherwise throws error
+* */
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = FieldsMatchValidator.class) // Validatör sınıfı
+@Constraint(validatedBy = FieldsMatchValidator.class) // Validator class
 public @interface FieldsMatch {
-
-    String message() default "field matcher error"; // Hata mesajı
+    // Error message
+    String message() default "field matcher error";
 
     Class<?>[] groups() default {};
 

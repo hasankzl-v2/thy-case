@@ -6,6 +6,9 @@ import org.hibernate.usertype.UserType;
 import java.io.Serializable;
 import java.sql.*;
 
+/*
+ * CustomIntegerArrayType added for mapping integer[] to database table
+ * */
 public class CustomIntegerArrayType implements UserType<Integer[]> {
     public int sqlType() {
         return Types.ARRAY;
@@ -31,6 +34,9 @@ public class CustomIntegerArrayType implements UserType<Integer[]> {
         return 0;
     }
 
+    /*
+     * get
+     * */
     @Override
     public Integer[] nullSafeGet(ResultSet rs, int position, SharedSessionContractImplementor session,
                                  Object owner) throws SQLException {
@@ -38,6 +44,9 @@ public class CustomIntegerArrayType implements UserType<Integer[]> {
         return array != null ? (Integer[]) array.getArray() : null;
     }
 
+    /*
+     * set value
+     * */
     @Override
     public void nullSafeSet(PreparedStatement st, Integer[] value, int index,
                             SharedSessionContractImplementor session) throws SQLException {
@@ -71,5 +80,4 @@ public class CustomIntegerArrayType implements UserType<Integer[]> {
         return new Integer[0];
     }
 
-    //implement equals, hashCode, and other methods 
 }

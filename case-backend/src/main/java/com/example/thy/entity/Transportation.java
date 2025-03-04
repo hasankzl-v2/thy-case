@@ -17,7 +17,6 @@ import java.util.Arrays;
 @Data
 @ToString
 @Entity
-
 @Table(name = "transportation",
         uniqueConstraints = @UniqueConstraint(
                 name = "unique_transportation",

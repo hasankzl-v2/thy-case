@@ -16,10 +16,11 @@ public interface TransportationRepository extends JpaRepository<Transportation, 
     List<Transportation> findByOriginLocationId(Long originLocationId);
 
 
+    // update transportation by given parameters, added this for update operationDays successfully
     @Modifying
     @Transactional
     @Query("UPDATE Transportation e SET e.operationDays = :operationDays, e.transportationType = :transportationType, e.destinationLocation = :dest,e.originLocation =:origin WHERE e.id = :id")
-    void updateOperationDays(@Param("id") Long id, @Param("transportationType") TransportationTypeEnum transportationType, @Param("dest") Location dest, @Param("origin") Location origin,
+    void updateTransportation(@Param("id") Long id, @Param("transportationType") TransportationTypeEnum transportationType, @Param("dest") Location dest, @Param("origin") Location origin,
                              @Param("operationDays") Integer[] operationDays);
 
 }

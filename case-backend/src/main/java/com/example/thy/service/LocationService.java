@@ -45,6 +45,9 @@ public class LocationService {
     @PersistenceContext
     private EntityManager entityManager;
 
+    /*
+     * search location with given data and pagination
+     * */
     public Page<LocationDto> searchLocations(LocationDto searchDto, Pageable pageable) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Location> query = cb.createQuery(Location.class);
@@ -52,6 +55,7 @@ public class LocationService {
 
         List<Predicate> predicates = new ArrayList<>();
 
+        // add predicate if given data exist
         if (searchDto.getId() != null && searchDto.getId() > 0) {
             predicates.add(cb.equal(root.get("id"), searchDto.getId()));
         }
@@ -72,11 +76,12 @@ public class LocationService {
         }
         query.where(cb.and(predicates.toArray(new Predicate[0])));
 
-
+        // create query for pagination
         TypedQuery<Location> typedQuery = entityManager.createQuery(query);
         typedQuery.setFirstResult((int) pageable.getOffset());
         typedQuery.setMaxResults(pageable.getPageSize());
 
+        // get max data size for pagination
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<Location> countRoot = countQuery.from(Location.class);
         countQuery.select(cb.count(countRoot));
@@ -85,6 +90,7 @@ public class LocationService {
 
         List<Location> resultList = typedQuery.getResultList();
 
+        // map result in dto
         List<LocationDto> collect = resultList.stream().map(location -> modelMapper.map(location, LocationDto.class)).collect(Collectors.toList());
 
         return new PageImpl<>(collect, pageable, totalCount);
@@ -112,7 +118,9 @@ public class LocationService {
         Location location = modelMapper.map(saveLocationRequestDto, Location.class);
         try {
             location = locationRepository.save(location);
-        } catch (DataIntegrityViolationException e) {
+        }
+        // if data integrity exist throw specific error
+        catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
             throw new LocationAlreadyExistsException(e.getMessage());
         }
@@ -130,6 +138,9 @@ public class LocationService {
         log.info("Location deleted with id {}", id);
     }
 
+    /*
+     * update location by only given data
+     * */
     public LocationDto update(UpdateLocationRequestDto updateLocationRequestDto) {
         Optional<Location> location = locationRepository.findById(updateLocationRequestDto.getId());
         if (location.isEmpty()) {
@@ -151,7 +162,9 @@ public class LocationService {
                 savedLocation.setCountry(updateLocationRequestDto.getCountry());
             }
             savedLocation = locationRepository.save(savedLocation);
-        } catch (DataIntegrityViolationException e) {
+        }
+        // if data integrity exist throw specific error
+        catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
             throw new LocationAlreadyExistsException(e.getMessage());
         }

@@ -19,6 +19,7 @@ public class RouteService {
     private final TransportationService transportationService;
 
 
+
     public RouteValidationDto findAllValidRoutes(RouteRequestDto routeRequestDto) {
         RouteValidationDto routeValidationDtoResponseDto = new RouteValidationDto();
         List<TransportationDto> firstTransportationDtoListByOriginLocation = transportationService.findByOriginLocationId(routeRequestDto.getStartLocationId());

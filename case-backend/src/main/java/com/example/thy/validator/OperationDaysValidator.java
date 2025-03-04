@@ -9,6 +9,11 @@ import java.util.Set;
 
 public class OperationDaysValidator implements ConstraintValidator<ValidateOperationDays, Integer[]> {
 
+    /*
+    * validates operation days data
+    * Operation days array can have at most 7 elements.
+    * array values should not be lower than 1 and bigger than 7
+    * */
     @Override
     public boolean isValid(Integer[] values, ConstraintValidatorContext context) {
         if (values == null) return false;

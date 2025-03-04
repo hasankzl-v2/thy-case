@@ -49,6 +49,9 @@ public class TransportationService {
     private EntityManager entityManager;
 
 
+    /*
+    * Search Transportation by given data and pagination
+    * */
     public Page<TransportationDto> searchTransportations(SearchTransportationDto searchDto, Pageable pageable) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Transportation> query = cb.createQuery(Transportation.class);
@@ -56,6 +59,7 @@ public class TransportationService {
 
         List<Predicate> predicates = new ArrayList<>();
 
+        // add predicate if given data exist
         if (searchDto.getId() != null) {
             predicates.add(cb.equal(root.get("id"), searchDto.getId()));
         }
@@ -79,11 +83,12 @@ public class TransportationService {
 
         query.where(cb.and(predicates.toArray(new Predicate[0])));
 
-
+        // create query for pagination
         TypedQuery<Transportation> typedQuery = entityManager.createQuery(query);
         typedQuery.setFirstResult((int) pageable.getOffset());
         typedQuery.setMaxResults(pageable.getPageSize());
 
+        // get max data size for pagination
         CriteriaQuery<Long> countQuery = cb.createQuery(Long.class);
         Root<Transportation> countRoot = countQuery.from(Transportation.class);
         countQuery.select(cb.count(countRoot));
@@ -116,7 +121,9 @@ public class TransportationService {
         Transportation transportation = modelMapper.map(saveTransportationRequestDto.convertToDto(), Transportation.class);
         try {
             transportation = transportationRepository.save(transportation);
-        } catch (DataIntegrityViolationException e) {
+        }
+        // throws different error messages by instance of error
+        catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
             if (e.getCause() instanceof ConstraintViolationException) {
                 String constraintName = ((ConstraintViolationException) e.getCause()).getConstraintName();
@@ -141,8 +148,11 @@ public class TransportationService {
 
     }
 
+    /*
+    * update transportation with query, all values required
+    * */
     public void update(UpdateTransportationRequestDto updateTransportationRequestDto) {
-        transportationRepository.updateOperationDays(updateTransportationRequestDto.getId(), updateTransportationRequestDto.getTransportationType(), new Location(updateTransportationRequestDto.getDestinationLocationId()),
+        transportationRepository.updateTransportation(updateTransportationRequestDto.getId(), updateTransportationRequestDto.getTransportationType(), new Location(updateTransportationRequestDto.getDestinationLocationId()),
                 new Location(updateTransportationRequestDto.getOriginLocationId()),
                 updateTransportationRequestDto.getOperationDays());
     }

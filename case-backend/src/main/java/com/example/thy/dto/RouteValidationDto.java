@@ -18,9 +18,10 @@ public class RouteValidationDto {
     )
     private final List<RouteDto> validRoutes = new ArrayList<>();
 
+    // checks route before adding to list
     public void addRouteIfValid(RouteDto routeDto) {
-        if(routeDto.isValid()){
-            routeDto.setId(validRoutes.size()+1);
+        if (routeDto.isValid()) {
+            routeDto.setId(validRoutes.size() + 1);
             validRoutes.add(routeDto);
         }
     }
