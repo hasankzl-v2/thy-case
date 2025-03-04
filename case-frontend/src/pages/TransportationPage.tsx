@@ -16,6 +16,8 @@ import {
   emptySearchTransportation,
   emptyTransportation,
 } from "../Constants";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 import TransportationTypeSelect from "../components/TransportationTypeSelect";
 import { TransportationTypeEnum } from "../types/enum/TransportationTypeEnum";
 import ILocationData from "../types/ILocationData";
@@ -241,7 +243,7 @@ function TransportationPage() {
         >
           <TransportationSaveModal handleSave={handleSave} />
         </div>
-        <Box sx={{ display: "flex", gap: 2, paddingBottom: 2 }}>
+        <Box sx={{ display: "flex", gap: 5, paddingBottom: 2 }}>
           <TextField
             label="Id"
             variant="outlined"
@@ -275,9 +277,27 @@ function TransportationPage() {
             handleSelect={handleDaySelect}
             selectedOperationDays={filters.operationDays}
           />
-
-          <ButtonComponent text={"Search"} onClick={search} />
-          <ButtonComponent text={"Clear"} onClick={clear} />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end", // Butonları sağa hizalar
+            gap: 2, // Butonlar arasında boşluk bırakır
+            mt: 2,
+            mr: 5,
+            mb: 5, // Üstten biraz boşluk ekler (opsiyonel)
+          }}
+        >
+          <ButtonComponent
+            icon={<SearchIcon />}
+            text={"Search"}
+            onClick={search}
+          />
+          <ButtonComponent
+            icon={<ClearIcon />}
+            text={"Clear"}
+            onClick={clear}
+          />
         </Box>
         <DataGrid
           rows={data}

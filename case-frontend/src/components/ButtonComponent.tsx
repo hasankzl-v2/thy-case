@@ -4,10 +4,12 @@ import { Button } from "@mui/material";
 interface ButtonComponentProps {
   text: String;
   onClick: () => void;
+  icon?: React.ReactNode;
 }
-const ButtonComponent = ({ text, onClick }: ButtonComponentProps) => {
+const ButtonComponent = ({ text, onClick, icon }: ButtonComponentProps) => {
   return (
     <Button
+      startIcon={icon}
       variant="contained"
       sx={{
         backgroundColor: "#e60012", // Türk Hava Yolları kırmızısı

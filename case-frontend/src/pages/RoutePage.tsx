@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import SearchableLocationSelect from "../components/SearchableLocationSelect";
 import ILocationData from "../types/ILocationData";
 import { emptyFindValidRouteRequest, emptyLocation } from "../Constants";
-import SearchIcon from "@mui/icons-material/Search";
 import DatePickerComponent from "../components/DatePickerComponent";
 import { toast } from "react-toastify";
 import RouteService from "../service/RouteService";
@@ -13,6 +12,8 @@ import IValidRoutesResponse from "../types/response/IValidRoutesResponse";
 import IRouteData from "../types/IRouteData";
 import RouteInspectModal from "../components/RouteInspectModal";
 import ButtonComponent from "../components/ButtonComponent";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 function RoutePage() {
   const [destination, setDestination] = useState<ILocationData>(emptyLocation);
   const [origin, setOrigin] = useState<ILocationData>(emptyLocation);
@@ -107,8 +108,8 @@ function RoutePage() {
     setSelectedDate("");
   };
   return (
-    <Paper sx={{ mt: 5, height: 800, width: "100%" }}>
-      <Box sx={{ display: "flex", gap: 2, paddingBottom: 2, paddingTop: 2 }}>
+    <Paper sx={{ mt: 5, mb: 5, height: 800, width: "100%" }}>
+      <Box sx={{ display: "flex", gap: 5, paddingBottom: 2, paddingTop: 2 }}>
         <SearchableLocationSelect
           label="From"
           handleSelect={handleSelectOrigin}
@@ -123,9 +124,24 @@ function RoutePage() {
           handleSelect={setSelectedDate}
           selectedDate={selectedDate}
         />
+      </Box>
 
-        <ButtonComponent text={"Search"} onClick={search} />
-        <ButtonComponent text={"Clear"} onClick={clear} />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end", // Butonları sağa hizalar
+          gap: 2, // Butonlar arasında boşluk bırakır
+          mt: 2,
+          mr: 5,
+          mb: 5, // Üstten biraz boşluk ekler (opsiyonel)
+        }}
+      >
+        <ButtonComponent
+          text={"Search"}
+          icon={<SearchIcon />}
+          onClick={search}
+        />
+        <ButtonComponent text={"Clear"} icon={<ClearIcon />} onClick={clear} />
       </Box>
       <DataGrid
         rows={data}

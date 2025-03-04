@@ -16,7 +16,9 @@ import {
 } from "@mui/material";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Link } from "react-router-dom";
-
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
+import RouteIcon from "@mui/icons-material/Route";
 const App = () => {
   return (
     <Drawer
@@ -43,7 +45,7 @@ const App = () => {
         >
           <ListItemButton component={Link} to="/location">
             <ListItemIcon>
-              <SettingsIcon />
+              <LocationOnIcon />
             </ListItemIcon>
             <ListItemText primary="Locations" />
           </ListItemButton>
@@ -51,7 +53,7 @@ const App = () => {
         <ListItem disablePadding>
           <ListItemButton component={Link} to="/transportation">
             <ListItemIcon>
-              <SettingsIcon />
+              <DirectionsCarIcon />
             </ListItemIcon>
             <ListItemText primary="Transportations" />
           </ListItemButton>
@@ -59,7 +61,7 @@ const App = () => {
         <ListItem disablePadding>
           <ListItemButton component={Link} to="/route">
             <ListItemIcon>
-              <SettingsIcon />
+              <RouteIcon />
             </ListItemIcon>
             <ListItemText primary="Routes" />
           </ListItemButton>

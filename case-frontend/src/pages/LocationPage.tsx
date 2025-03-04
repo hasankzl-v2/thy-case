@@ -15,7 +15,8 @@ import IErrorResponse from "../types/response/IErrorResponse";
 import ToastComponents from "../components/ToastComponents";
 import { emptyLocation } from "../Constants";
 import ButtonComponent from "../components/ButtonComponent";
-
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 function LocationPage() {
   const [data, setData] = useState<ILocationData[]>([]);
   const [openDialog, setOpenDialog] = useState(false); // Dialog açık mı kontrolü
@@ -139,7 +140,7 @@ function LocationPage() {
   const paginationModel = { page: 0, pageSize: 5 };
   return (
     <div>
-      <Paper sx={{ mt: 5, height: 800, width: "100%" }}>
+      <Paper sx={{ mt: 5, mb: 5, height: 800, width: "100%" }}>
         <div
           style={{
             display: "flex",
@@ -150,7 +151,7 @@ function LocationPage() {
           <LocationModal handleSave={handleSave} />
         </div>
 
-        <Box sx={{ display: "flex", gap: 2, paddingBottom: 2 }}>
+        <Box sx={{ display: "flex", gap: 5, paddingBottom: 2 }}>
           <TextField
             label="Id"
             variant="outlined"
@@ -181,8 +182,26 @@ function LocationPage() {
             value={filters.locationCode}
             onChange={(e) => handleSearchChange("locationCode", e.target.value)}
           />
-          <ButtonComponent text={"Search"} onClick={handleSearch} />
-          <ButtonComponent text={"clear"} onClick={handleClear} />
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end", // Butonları sağa hizalar
+            gap: 2, // Butonlar arasında boşluk bırakır
+            mt: 2,
+            mr: 5, // Üstten biraz boşluk ekler (opsiyonel)
+          }}
+        >
+          <ButtonComponent
+            icon={<SearchIcon />}
+            text={"Search"}
+            onClick={handleSearch}
+          />
+          <ButtonComponent
+            icon={<ClearIcon />}
+            text={"clear"}
+            onClick={handleClear}
+          />
         </Box>
         <DataGrid
           rows={data}
