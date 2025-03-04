@@ -1,4 +1,4 @@
-import { StrictMode } from "react";
+import { StrictMode, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import "@fontsource/roboto/300.css";
@@ -16,10 +16,11 @@ import ResponsiveAppBar from "./components/ResponsiveAppBar.tsx";
 import { ToastContainer } from "react-toastify";
 import Sidebar from "./components/SideBarComponent.tsx";
 import Grid from "@mui/material/Grid2";
-import { DemoItem } from "@mui/x-date-pickers/internals/demo/DemoContainer";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import { Box } from "@mui/material";
+import Loader from "./components/LoaderComponent.tsx";
+import { LoaderProvider, useLoader } from "./context/LoaderContext.tsx";
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#fff",
   ...theme.typography.body2,
@@ -32,7 +33,8 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 function Layout() {
   return (
-    <>
+    <LoaderProvider>
+      <Loader />
       <ToastContainer />
       <Box sx={{ flexGrow: 1 }}>
         <ResponsiveAppBar />
@@ -45,7 +47,7 @@ function Layout() {
           </Grid>
         </Grid>
       </Box>
-    </>
+    </LoaderProvider>
   );
 }
 const router = createBrowserRouter([
