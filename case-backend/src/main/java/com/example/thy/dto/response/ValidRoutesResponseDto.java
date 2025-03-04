@@ -9,10 +9,11 @@ import java.util.List;
 @Getter
 public class ValidRoutesResponseDto {
 
-    List<RouteDto> validRoutes = new ArrayList<>();
+    private final List<RouteDto> validRoutes = new ArrayList<>();
 
     public void addRouteIfValid(RouteDto routeDto) {
         if(routeDto.isValid()){
+            routeDto.setId(validRoutes.size()+1);
             validRoutes.add(routeDto);
         }
     }

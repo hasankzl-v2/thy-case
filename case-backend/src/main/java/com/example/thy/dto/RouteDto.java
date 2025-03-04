@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 public class RouteDto {
 
+    private int id;
     private List<RouteLocationDto> validRoutes = new ArrayList<>();
     private int flightTransferCount = 0;
     private int afterFlightTransferCount = 0;
@@ -87,5 +88,9 @@ public class RouteDto {
         this.startLocationId = startLocationId;
         this.endLocationId = endLocationId;
         this.departureDay = departureDate.getDayOfWeek().getValue();
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
