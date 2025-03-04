@@ -14,11 +14,10 @@ import {
   ListItemButton,
   ListItemIcon,
 } from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
 import { Link } from "react-router-dom";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
-import RouteIcon from "@mui/icons-material/Route";
+import RouteIcon from "@mui/icons-material/AltRoute";
 const App = () => {
   return (
     <Drawer
