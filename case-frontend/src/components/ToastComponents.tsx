@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
 import IErrorResponse from "../types/response/IErrorResponse";
+
+// spesific toast component for showing validation errors
 const showErrorToast = ({ errorCode, errorMessage }: IErrorResponse) => {
   toast.error(
     <div>
@@ -7,11 +9,11 @@ const showErrorToast = ({ errorCode, errorMessage }: IErrorResponse) => {
       <p>{errorMessage}</p>
     </div>,
     {
-      autoClose: 5000, // 5 saniye sonra kapanır
-      hideProgressBar: false, // İlerleme çubuğunu göster
-      closeOnClick: true, // Tıklanınca kapanır
-      pauseOnHover: true, // Üzerine gelindiğinde durur
-      draggable: true, // Sürüklenebilir
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
     }
   );
 };

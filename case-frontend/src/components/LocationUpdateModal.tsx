@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {
-  Modal,
-  Box,
-  Typography,
-  TextField,
-  Button,
-  IconButton,
-} from "@mui/material";
-import { Close, Add } from "@mui/icons-material";
+import { Modal, Box, Typography, TextField, IconButton } from "@mui/material";
+import { Close } from "@mui/icons-material";
 import ILocationData from "../types/ILocationData";
 import LocationService from "../service/LocationService";
 import { toast } from "react-toastify";
@@ -21,7 +14,6 @@ interface LocationUpdateModalProps {
   handleCancel: () => void;
   handleConfirm: () => void;
 }
-// Modal bileşenini içeren ana bileşen
 
 const LocationUpdateModal = ({
   locationData,
@@ -29,21 +21,21 @@ const LocationUpdateModal = ({
   handleCancel,
   handleConfirm,
 }: LocationUpdateModalProps) => {
-  // Modal'ın açık olup olmadığını kontrol eden state
+  // modal show state
   const [open, setOpen] = useState(false);
 
-  // Form alanları için state
+  // when a data selected from props update state
   const [formData, setFormData] = useState<ILocationData>(locationData);
   useEffect(() => {
     setFormData(locationData);
   }, [locationData]);
 
-  // Modal'ı kapama
+  // close modal
   const handleClose = () => {
     setOpen(false);
     setFormData(emptyLocation);
   };
-  // Form verilerini güncelleme
+  // update form valeus
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -52,15 +44,13 @@ const LocationUpdateModal = ({
     }));
   };
 
-  // Formu gönderme işlemi
+  // send data
   const handleSubmit = () => {
-    // Veriyi işleme (örneğin API'ye gönderme veya başka bir işlem)
-    console.log("Form submitted:", formData);
     LocationService.update(formData)
       .then(() => {
         toast("Location Updated Successfully");
         handleConfirm();
-        handleClose(); // Modal'ı kapat
+        handleClose(); // close modal after successfully sent
       })
       .catch((e) => {
         const errorRequest: IErrorResponse = e.response.data;
@@ -91,7 +81,6 @@ const LocationUpdateModal = ({
             Update Location
           </Typography>
 
-          {/* Modal'ı kapatma butonu */}
           <IconButton
             onClick={handleCancel}
             sx={{ position: "absolute", top: 10, right: 10 }}
@@ -138,8 +127,6 @@ const LocationUpdateModal = ({
             fullWidth
             margin="normal"
           />
-
-          {/* Submit ve Cancel butonları */}
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
             <ButtonComponent text={"Cancel"} onClick={handleCancel} />
             <ButtonComponent text={"Update"} onClick={handleSubmit} />

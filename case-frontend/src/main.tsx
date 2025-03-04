@@ -1,4 +1,4 @@
-import { StrictMode, useEffect } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import "@fontsource/roboto/300.css";
@@ -12,25 +12,18 @@ import NotFoundPage from "./pages/NotFoundPage.tsx";
 import RoutePage from "./pages/RoutePage.tsx";
 import TransportationPage from "./pages/TransportationPage.tsx";
 import ResponsiveAppBar from "./components/ResponsiveAppBar.tsx";
-
 import { ToastContainer } from "react-toastify";
 import Sidebar from "./components/SideBarComponent.tsx";
 import Grid from "@mui/material/Grid2";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
 import { Box } from "@mui/material";
 import Loader from "./components/LoaderComponent.tsx";
-import { LoaderProvider, useLoader } from "./context/LoaderContext.tsx";
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  ...theme.applyStyles("dark", {
-    backgroundColor: "#1A2027",
-  }),
-}));
+import { LoaderProvider } from "./context/LoaderContext.tsx";
+
+/*
+layout for every page
+LoaderProvider added for update loader context
+ToastContainer added for toast
+*/
 function Layout() {
   return (
     <LoaderProvider>
@@ -50,6 +43,8 @@ function Layout() {
     </LoaderProvider>
   );
 }
+
+// browser router defination
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -74,6 +69,7 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <RouterProvider router={router} />

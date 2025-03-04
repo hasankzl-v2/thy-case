@@ -1,6 +1,7 @@
 import axios from "axios";
 import { triggerShowLoader, triggerHideLoader } from "./Loader";
 
+//default request
 const http = axios.create({
   baseURL: "http://localhost:8080/api",
   headers: {
@@ -8,7 +9,7 @@ const http = axios.create({
   },
 });
 
-// ✅ Request Interceptor: Loader'ı aç
+// ✅ Request Interceptor for showing loader before request
 http.interceptors.request.use(
   (config) => {
     triggerShowLoader();
@@ -20,7 +21,7 @@ http.interceptors.request.use(
   }
 );
 
-// ✅ Response Interceptor: Loader'ı kapat
+// ✅ Response Interceptor for closing loader after request
 http.interceptors.response.use(
   (response) => {
     triggerHideLoader();

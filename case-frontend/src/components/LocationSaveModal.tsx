@@ -19,24 +19,23 @@ interface LocationModalProps {
   handleSave: () => void;
 }
 const LocationModal = ({ handleSave }: LocationModalProps) => {
-  // Modal'ın açık olup olmadığını kontrol eden state
   const [open, setOpen] = useState(false);
 
-  // Form alanları için state
+  // state for form data
   const [formData, setFormData] = useState<ILocationData>(emptyLocation);
 
-  // Modal'ı açma
+  // open modal with empty form
   const handleOpen = () => {
     setOpen(true);
     setFormData(emptyLocation);
   };
 
-  // Modal'ı kapama
+  // close modal
   const handleClose = () => {
     setOpen(false);
     setFormData(emptyLocation);
   };
-  // Form verilerini güncelleme
+  // update form input
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -45,10 +44,8 @@ const LocationModal = ({ handleSave }: LocationModalProps) => {
     }));
   };
 
-  // Formu gönderme işlemi
+  // send data
   const handleSubmit = () => {
-    // Veriyi işleme (örneğin API'ye gönderme veya başka bir işlem)
-    console.log("Form submitted:", formData);
     LocationService.create(formData)
       .then(() => {
         toast("New Location Added Successfully");
@@ -66,10 +63,10 @@ const LocationModal = ({ handleSave }: LocationModalProps) => {
       <Button
         startIcon={<Add />}
         sx={{
-          backgroundColor: "white", // Türk Hava Yolları kırmızısı
-          color: "#e60012", // Beyaz metin
+          backgroundColor: "white", //
+          color: "#e60012", // thy red
           "&:hover": {
-            backgroundColor: "#fff4f4", // Hover durumunda daha koyu kırmızı
+            backgroundColor: "#fff4f4", // hover red
           },
         }}
         onClick={handleOpen}
@@ -97,7 +94,6 @@ const LocationModal = ({ handleSave }: LocationModalProps) => {
             Location Details
           </Typography>
 
-          {/* Modal'ı kapatma butonu */}
           <IconButton
             onClick={handleClose}
             sx={{ position: "absolute", top: 10, right: 10 }}
@@ -138,7 +134,6 @@ const LocationModal = ({ handleSave }: LocationModalProps) => {
             margin="normal"
           />
 
-          {/* Submit ve Cancel butonları */}
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
             <ButtonComponent text={"Cancel"} onClick={handleClose} />
             <ButtonComponent text={"Submit"} onClick={handleSubmit} />

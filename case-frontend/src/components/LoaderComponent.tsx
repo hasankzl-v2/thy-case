@@ -1,7 +1,8 @@
-import React from "react";
-import { CircularProgress, Box } from "@mui/material";
 import { useLoader } from "../context/LoaderContext";
 import logo from "../assets/logo.png";
+import { Box } from "@mui/material";
+
+// loadar component used for showing loader after every axios request until request finish
 const Loader = () => {
   const { loading } = useLoader();
 

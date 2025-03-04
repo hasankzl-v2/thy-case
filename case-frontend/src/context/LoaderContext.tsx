@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState } from "react";
 import { setLoaderFunctions } from "../Loader";
 
-// 1. Context oluştur
+// context for loader
 interface LoaderContextType {
   loading: boolean;
   showLoader: () => void;
@@ -10,16 +10,15 @@ interface LoaderContextType {
 
 const LoaderContext = createContext<LoaderContextType | undefined>(undefined);
 
-// 2. Provider Bileşeni
-export const LoaderProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+// loader context added for showing loader in every page
+export const LoaderProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(false);
 
   const showLoader = () => setLoading(true);
   const hideLoader = () => setLoading(false);
 
   setLoaderFunctions(showLoader, hideLoader);
+
   return (
     <LoaderContext.Provider value={{ loading, showLoader, hideLoader }}>
       {children}
@@ -27,7 +26,6 @@ export const LoaderProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 };
 
-// 3. Custom Hook (Kolay Kullanım İçin)
 export const useLoader = () => {
   const context = useContext(LoaderContext);
   if (!context) {

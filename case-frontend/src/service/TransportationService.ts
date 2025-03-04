@@ -1,11 +1,12 @@
 import http from "../http-commons";
 import ITransportationData from "../types/ITransportationData";
-import ISaveLocationRequest from "../types/request/ISaveLocationRequest";
 import ISaveTransportationRequest from "../types/request/ISaveTransportationRequest";
 import ISearchTransportationRequest from "../types/request/ISearchTransportationRequest";
 import IUpdateTransportationRequest from "../types/request/IUpdateTransportationRequest";
 import ITransportationSearchResponse from "../types/response/ISearchTransportationResponse";
-
+/*
+Service operation for Transportation
+*/ 
 const getAll = () => {
     return http.get<Array<ITransportationData>>("/transportation/findAll");
   };

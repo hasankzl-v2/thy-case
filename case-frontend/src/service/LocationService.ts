@@ -1,9 +1,10 @@
 import http from "../http-commons";
 import ILocationData from "../types/ILocationData";
 import ISaveLocationRequest from "../types/request/ISaveLocationRequest";
-import IUpdateLocationRequest from "../types/request/IUpdateLocationRequest";
 import ISearchLocationResponse from "../types/response/ISearchLocationResponse";
-
+/*
+Service operation for Location
+*/ 
 const getAll = () => {
     return http.get<Array<ILocationData>>("/location/findAll");
   };

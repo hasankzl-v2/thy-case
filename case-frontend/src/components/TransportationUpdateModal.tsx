@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from "react";
-import {
-  Modal,
-  Box,
-  Typography,
-  Button,
-  IconButton,
-  TextField,
-} from "@mui/material";
-import { Close, Add } from "@mui/icons-material";
+import { useEffect, useState } from "react";
+import { Modal, Box, Typography, IconButton, TextField } from "@mui/material";
+import { Close } from "@mui/icons-material";
 import ILocationData from "../types/ILocationData";
 import { toast } from "react-toastify";
 import IErrorResponse from "../types/response/IErrorResponse";
 import ToastComponents from "./ToastComponents";
-import {
-  emptyLocation,
-  emptySaveTransportation,
-  emptyUpdateTransportation,
-} from "../Constants";
+import { emptyLocation, emptyUpdateTransportation } from "../Constants";
 import TransportationService from "../service/TransportationService";
-import ISaveTransportationRequest from "../types/request/ISaveTransportationRequest";
 import SearchableLocationSelect from "./SearchableLocationSelect";
 import TransportationTypeSelect from "./TransportationTypeSelect";
 import MultiSelectDays from "./MulitSelectDays";
@@ -31,15 +19,13 @@ interface transportationUpdateModalProps {
   handleCancel: () => void;
   handleUpdate: () => void;
 }
+// update modal for transportation , id should be set in data
 const TransportationUpdateModal = ({
   modelOpen,
   handleUpdate,
   handleCancel,
   selectedTransportation,
 }: transportationUpdateModalProps) => {
-  // Modal'ın açık olup olmadığını kontrol eden state
-  const [open, setOpen] = useState(false);
-
   const [selectedDest, setSelectedDest] =
     useState<ILocationData>(emptyLocation);
   const [selectedOrigin, setSelectedOrigin] =
@@ -48,11 +34,6 @@ const TransportationUpdateModal = ({
     emptyUpdateTransportation
   );
 
-  // Modal'ı açma
-  const handleOpen = () => {
-    setOpen(true);
-    setFormData(emptyUpdateTransportation);
-  };
   useEffect(() => {
     const data = emptyUpdateTransportation;
     if (selectedTransportation.destinationLocation) {
@@ -71,11 +52,13 @@ const TransportationUpdateModal = ({
     data.id = selectedTransportation.id;
     setFormData(data);
   }, [selectedTransportation]);
-  // Modal'ı kapama
+  // close modal
   const handleClose = () => {
     handleCancel();
     clearForm();
   };
+
+  // validate data before send
   const checkBeforeSubmit = () => {
     if (formData.operationDays == null || formData.operationDays.length == 0) {
       toast.error("operatation days should be selected");
@@ -96,15 +79,16 @@ const TransportationUpdateModal = ({
 
     return true;
   };
+
+  // submit update request
   const handleSubmit = () => {
-    console.log("Form submitted:", formData);
     if (checkBeforeSubmit()) {
       TransportationService.update(formData)
         .then(() => {
           toast(" Transportation Updated Successfully");
           clearForm();
           handleUpdate();
-          handleClose(); // Modal'ı kapat
+          handleClose();
         })
         .catch((e) => {
           const errorRequest: IErrorResponse = e.response.data;
@@ -112,9 +96,11 @@ const TransportationUpdateModal = ({
         });
     }
   };
+
+  // select origin of transportation
   const handleSelectOrigin = (location: ILocationData | null) => {
     if (selectedDest.locationCode == location?.locationCode) {
-      toast.error("origin and destination should not be same ! ");
+      toast.error("origin and destination should not be same! ");
       return;
     }
     const id = location != null ? location.id : null;
@@ -132,9 +118,11 @@ const TransportationUpdateModal = ({
     setSelectedOrigin(emptyLocation);
     setFormData(emptyUpdateTransportation);
   };
+
+  // select destination of transportation
   const handleSelectDest = (location: ILocationData | null) => {
     if (selectedOrigin.locationCode == location?.locationCode) {
-      toast.error("origin and destination should not be same ! ");
+      toast.error("origin and destination should not be same! ");
       return;
     }
     const id = location != null ? location.id : null;
@@ -183,7 +171,6 @@ const TransportationUpdateModal = ({
             Update Transportation
           </Typography>
 
-          {/* Modal'ı kapatma butonu */}
           <IconButton
             onClick={handleClose}
             sx={{ position: "absolute", top: 10, right: 10 }}

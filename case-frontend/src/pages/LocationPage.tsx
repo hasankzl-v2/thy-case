@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import ILocationData from "../types/ILocationData";
 import LocationService from "../service/LocationService";
-import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
 import { Box, IconButton, TextField } from "@mui/material";
 import ConfirmDialog from "../components/ConfirmationDialog";
-
 import { toast } from "react-toastify";
 import LocationModal from "../components/LocationSaveModal";
 import LocationUpdateModal from "../components/LocationUpdateModal";
@@ -17,21 +15,24 @@ import { emptyLocation } from "../Constants";
 import ButtonComponent from "../components/ButtonComponent";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+
 function LocationPage() {
   const [data, setData] = useState<ILocationData[]>([]);
-  const [openDialog, setOpenDialog] = useState(false); // Dialog açık mı kontrolü
-  const [selectedData, setSelectedData] = useState<ILocationData | null>(); // Silinecek verinin id'si
-  const [loading, setLoading] = useState<boolean>(true);
+  const [openDialog, setOpenDialog] = useState(false); // diolog open state
+  const [selectedData, setSelectedData] = useState<ILocationData | null>(); // column selected Location
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [totalRows, setTotalRows] = useState<number>(0);
   const [filters, setFilters] = useState<ILocationData>(emptyLocation);
   const [updateData, setUpdateData] = useState<ILocationData>(emptyLocation);
   const [openUpdateModal, setOpenUpdateModal] = useState(false);
+
+  // fetch data after page or pageSize change
   useEffect(() => {
     fetchData();
   }, [page, pageSize]);
 
+  // column definations
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 130, filterable: true },
     { field: "name", headerName: "Name", width: 470, filterable: true },
@@ -48,6 +49,7 @@ function LocationPage() {
       description: "Column Actions.",
       sortable: false,
       flex: 1,
+      // render edit end delete icons
       renderCell: (params) => {
         return (
           <div
@@ -95,25 +97,22 @@ function LocationPage() {
   const handleSearchChange = (field: keyof typeof filters, value: string) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
   };
+  // set page to 0 and fetch data
   const handleSearch = () => {
     setPage(0);
     fetchData();
   };
 
   const fetchData = async () => {
-    setLoading(true);
     try {
       LocationService.search(filters, page, pageSize)
         .then((response) => {
           setData(response.data.content);
           setTotalRows(response.data.totalPages * response.data.size);
         })
-        .catch((e: IErrorResponse) => ToastComponents.showErrorToast(e))
-        .finally(() => setLoading(false));
+        .catch((e: IErrorResponse) => ToastComponents.showErrorToast(e));
     } catch (error) {
       console.error("Error while fetching the data", error);
-    } finally {
-      setLoading(false);
     }
   };
   const handleSave = () => {
@@ -186,10 +185,10 @@ function LocationPage() {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "flex-end", // Butonları sağa hizalar
-            gap: 2, // Butonlar arasında boşluk bırakır
+            justifyContent: "flex-end",
+            gap: 2,
             mt: 2,
-            mr: 5, // Üstten biraz boşluk ekler (opsiyonel)
+            mr: 5,
           }}
         >
           <ButtonComponent
@@ -211,7 +210,6 @@ function LocationPage() {
           pageSizeOptions={[2, 10, 20]}
           rowCount={totalRows}
           paginationMode="server"
-          loading={loading}
           onPaginationModelChange={(model) => {
             setPage(model.page);
             setPageSize(model.pageSize);

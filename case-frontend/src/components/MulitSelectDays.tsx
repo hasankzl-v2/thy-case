@@ -6,16 +6,19 @@ interface MultiSelectDaysProps {
   handleSelect: (selectedDays: Array<number>) => void;
   selectedOperationDays: Array<number> | null;
 }
+// select days compoment for operation days
 const MultiSelectDays = ({
   handleSelect,
   selectedOperationDays,
 }: MultiSelectDaysProps) => {
   const [selectedDays, setSelectedDays] = useState<any>([]);
 
+  // set empty array for selected days when prop is null and form cleared
   useEffect(() => {
     if (selectedOperationDays == null) {
       setSelectedDays([]);
     } else {
+      // set selected days by matching operation days
       setSelectedDays(
         selectedOperationDays.map((d) =>
           daysOfWeek.find((dow) => dow.value == d)

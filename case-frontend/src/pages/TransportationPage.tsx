@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ITransportationData from "../types/ITransportationData";
 import TransportationService from "../service/TransportationService";
 import ToastComponents from "../components/ToastComponents";
 import IErrorResponse from "../types/response/IErrorResponse";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Edit as EditIcon, Delete as DeleteIcon } from "@mui/icons-material";
-import { Box, Button, Chip, IconButton, Paper, TextField } from "@mui/material";
+import { Box, Chip, IconButton, Paper, TextField } from "@mui/material";
 import ConfirmDialog from "../components/ConfirmationDialog";
 import { toast } from "react-toastify";
 import SearchableSelect from "../components/SearchableLocationSelect";
@@ -27,10 +27,9 @@ import ButtonComponent from "../components/ButtonComponent";
 const paginationModel = { page: 0, pageSize: 5 };
 function TransportationPage() {
   const [data, setData] = useState<ITransportationData[]>([]);
-  const [openDialog, setOpenDialog] = useState(false); // Dialog açık mı kontrolü
+  const [openDialog, setOpenDialog] = useState(false); // delete dialog open state
   const [selectedData, setSelectedData] =
-    useState<ITransportationData | null>(); // Silinecek verinin id'si
-  const [loading, setLoading] = useState<boolean>(true);
+    useState<ITransportationData | null>(); // selected data
   const [page, setPage] = useState<number>(0);
   const [pageSize, setPageSize] = useState<number>(10);
   const [totalRows, setTotalRows] = useState<number>(0);
@@ -89,6 +88,8 @@ function TransportationPage() {
     setPage(0);
     fetchData();
   };
+
+  // column defination
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 130, filterable: true },
     {
@@ -120,6 +121,7 @@ function TransportationPage() {
       headerName: "Operation Days",
       width: 470,
       filterable: true,
+      //render operation days
       renderCell: (params) => {
         return (
           <Box>
@@ -168,10 +170,6 @@ function TransportationPage() {
       },
     },
   ];
-  const handleUpdateCancel = () => {
-    setOpenUpdateModal(false);
-    setUpdateData(emptyTransportation);
-  };
   const handleUpdateConfirm = () => {
     setOpenUpdateModal(false);
     setUpdateData(emptyTransportation);
@@ -187,27 +185,23 @@ function TransportationPage() {
     setFilters(emptySearchTransportation);
   };
   const fetchData = async () => {
-    setLoading(true);
     try {
       TransportationService.search(filters, page, pageSize)
         .then((response) => {
           setData(response.data.content);
           setTotalRows(response.data.totalPages * response.data.size);
         })
-        .catch((e: IErrorResponse) => ToastComponents.showErrorToast(e))
-        .finally(() => setLoading(false));
+        .catch((e: IErrorResponse) => ToastComponents.showErrorToast(e));
     } catch (error) {
       console.error("Error while fetching the data", error);
-    } finally {
-      setLoading(false);
     }
   };
 
   const handleDaySelect = (selectedDays: Array<number>) => {
-    selectedDays = selectedDays.length == 0 ? null : selectedDays;
+    const days = selectedDays.length == 0 ? null : selectedDays;
     setFilters({
       ...filters,
-      operationDays: selectedDays,
+      operationDays: days,
     });
   };
 
@@ -281,11 +275,11 @@ function TransportationPage() {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "flex-end", // Butonları sağa hizalar
-            gap: 2, // Butonlar arasında boşluk bırakır
+            justifyContent: "flex-end",
+            gap: 2,
             mt: 2,
             mr: 5,
-            mb: 5, // Üstten biraz boşluk ekler (opsiyonel)
+            mb: 5,
           }}
         >
           <ButtonComponent
@@ -307,7 +301,6 @@ function TransportationPage() {
           pageSizeOptions={[2, 10, 20]}
           rowCount={totalRows}
           paginationMode="server"
-          loading={loading}
           onPaginationModelChange={(model) => {
             setPage(model.page);
             setPageSize(model.pageSize);

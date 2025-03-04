@@ -27,18 +27,19 @@ interface routeInspectModalProps {
   closeModal: () => void;
   openInspectModal: boolean;
 }
+
+// shows details of selected route
 const RouteInspectModal = ({
   selectedRoute,
   closeModal,
   openInspectModal,
 }: routeInspectModalProps) => {
-  // Modal'ın açık olup olmadığını kontrol eden state
-
-  // Modal'ı kapama
+  // close modal
   const handleClose = () => {
     closeModal();
   };
 
+  // get icon by TransportationType
   const getTransportIcon = (type: TransportationTypeEnum) => {
     switch (type) {
       case TransportationTypeEnum.BUS:

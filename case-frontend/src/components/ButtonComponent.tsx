@@ -6,6 +6,7 @@ interface ButtonComponentProps {
   onClick: () => void;
   icon?: React.ReactNode;
 }
+// button component style for thy application
 const ButtonComponent = ({ text, onClick, icon }: ButtonComponentProps) => {
   return (
     <Button

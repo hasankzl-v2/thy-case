@@ -1,5 +1,4 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import React from "react";
 import { TransportationTypeEnum } from "../types/enum/TransportationTypeEnum";
 
 interface TransportationTypeSelectProps {
@@ -7,6 +6,7 @@ interface TransportationTypeSelectProps {
   selectedType: TransportationTypeEnum | null;
 }
 
+// select component for TransportationTypeEnum
 function TransportationTypeSelect({
   handleSelect,
   selectedType,

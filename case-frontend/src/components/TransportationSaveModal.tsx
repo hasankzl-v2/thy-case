@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Modal, Box, Typography, Button, IconButton } from "@mui/material";
 import { Close, Add } from "@mui/icons-material";
 import ILocationData from "../types/ILocationData";
@@ -18,7 +18,7 @@ interface transportationSaveModalProps {
 const TransportationSaveModal = ({
   handleSave,
 }: transportationSaveModalProps) => {
-  // Modal'ın açık olup olmadığını kontrol eden state
+  // modal open state
   const [open, setOpen] = useState(false);
 
   const [selectedDest, setSelectedDest] =
@@ -29,17 +29,19 @@ const TransportationSaveModal = ({
     emptySaveTransportation
   );
 
-  // Modal'ı açma
+  // open modal with empty form data
   const handleOpen = () => {
     setOpen(true);
     setFormData(emptySaveTransportation);
   };
 
-  // Modal'ı kapama
+  // close modal with empty form
   const handleClose = () => {
     setOpen(false);
     clearForm();
   };
+
+  // validate data before submit, backend validation also added
   const checkBeforeSubmit = () => {
     if (formData.operationDays == null || formData.operationDays.length == 0) {
       toast.error("operatation days should be selected");
@@ -60,15 +62,16 @@ const TransportationSaveModal = ({
 
     return true;
   };
+
+  // send save request if data is valid
   const handleSubmit = () => {
-    console.log("Form submitted:", formData);
     if (checkBeforeSubmit()) {
       TransportationService.create(formData)
         .then(() => {
           toast("New Transportation Added Successfully");
           clearForm();
           handleSave();
-          handleClose(); // Modal'ı kapat
+          handleClose();
         })
         .catch((e) => {
           const errorRequest: IErrorResponse = e.response.data;
@@ -76,12 +79,15 @@ const TransportationSaveModal = ({
         });
     }
   };
+
+  // select origin of transportation
   const handleSelectOrigin = (location: ILocationData | null) => {
     if (selectedDest.locationCode == location?.locationCode) {
-      toast.error("origin and destination should not be same ! ");
+      toast.error("origin and destination should not be same! ");
       return;
     }
     const id = location != null ? location.id : null;
+    // set id if location is not null
     setFormData({
       ...formData,
       originLocationId: id,
@@ -91,17 +97,21 @@ const TransportationSaveModal = ({
       setSelectedOrigin(location);
     }
   };
+  // clear form data
   const clearForm = () => {
     setSelectedDest(emptyLocation);
     setSelectedOrigin(emptyLocation);
     setFormData(emptySaveTransportation);
   };
+
+  // select destination of transportation
   const handleSelectDest = (location: ILocationData | null) => {
     if (selectedOrigin.locationCode == location?.locationCode) {
       toast.error("origin and destination should not be same ! ");
       return;
     }
     const id = location != null ? location.id : null;
+    // set id if location is not null
     setFormData({
       ...formData,
       destinationLocationId: id,
@@ -131,10 +141,10 @@ const TransportationSaveModal = ({
         startIcon={<Add />}
         onClick={handleOpen}
         sx={{
-          backgroundColor: "white", // Türk Hava Yolları kırmızısı
-          color: "#e60012", // Beyaz metin
+          backgroundColor: "white",
+          color: "#e60012",
           "&:hover": {
-            backgroundColor: "#fff4f4", // Hover durumunda daha koyu kırmızı
+            backgroundColor: "#fff4f4",
           },
         }}
       >
@@ -161,7 +171,6 @@ const TransportationSaveModal = ({
             Save Transportation
           </Typography>
 
-          {/* Modal'ı kapatma butonu */}
           <IconButton
             onClick={handleClose}
             sx={{ position: "absolute", top: 10, right: 10 }}

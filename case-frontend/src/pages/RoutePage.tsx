@@ -1,6 +1,6 @@
-import { Box, Button, IconButton, Paper } from "@mui/material";
+import { Box, IconButton, Paper } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import React, { useState } from "react";
+import { useState } from "react";
 import SearchableLocationSelect from "../components/SearchableLocationSelect";
 import ILocationData from "../types/ILocationData";
 import { emptyFindValidRouteRequest, emptyLocation } from "../Constants";
@@ -21,6 +21,8 @@ function RoutePage() {
   const [selectedDate, setSelectedDate] = useState<string>("");
   const [selectedRoute, setSelecetedRoute] = useState<IRouteData[]>([]);
   const [openInspectModal, setOpenInspectModal] = useState<boolean>(false);
+
+  // column defination
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 130, filterable: true },
     {
@@ -47,7 +49,7 @@ function RoutePage() {
       description: "Column Actions.",
       sortable: false,
       width: 230,
-
+      // render inspect icon
       renderCell: (params) => {
         return (
           <div
@@ -67,6 +69,7 @@ function RoutePage() {
       },
     },
   ];
+
   const handleInspectClick = (routeList: Array<IRouteData>) => {
     setSelecetedRoute(routeList);
     setOpenInspectModal(true);
@@ -83,6 +86,7 @@ function RoutePage() {
     }
   };
 
+  // check values before search
   const search = () => {
     if (
       origin.id == null ||
@@ -96,12 +100,14 @@ function RoutePage() {
       data.departureDate = selectedDate;
       data.endLocationId = destination.id;
       data.startLocationId = origin.id;
+      // search for valid roues and set return data
       RouteService.findValidRoutes(data).then((res) => {
         setData(res.data);
       });
     }
   };
 
+  // clear form data
   const clear = () => {
     setDestination(emptyLocation);
     setOrigin(emptyLocation);
@@ -129,11 +135,11 @@ function RoutePage() {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "flex-end", // Butonları sağa hizalar
-          gap: 2, // Butonlar arasında boşluk bırakır
+          justifyContent: "flex-end",
+          gap: 2,
           mt: 2,
           mr: 5,
-          mb: 5, // Üstten biraz boşluk ekler (opsiyonel)
+          mb: 5,
         }}
       >
         <ButtonComponent

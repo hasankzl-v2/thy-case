@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
 import ILocationData from "../types/ILocationData";
 import LocationService from "../service/LocationService";
@@ -9,6 +9,7 @@ interface SearchableSelectProps {
   selectedData: string;
   label: string;
 }
+// select component for location, it includes server side rendering by location code
 const SearchableLocationSelect = ({
   handleSelect,
   selectedData,
@@ -16,9 +17,13 @@ const SearchableLocationSelect = ({
 }: SearchableSelectProps) => {
   const [data, setData] = useState<Array<ILocationData>>([]);
   const [search, setSearch] = useState<string>("");
+
+  //when search updated fetch data again
   useEffect(() => {
     fetchData();
   }, [search]);
+
+  // fetch data by location code
   const fetchData = () => {
     const location: ILocationData = {
       ...emptyLocation,
@@ -31,6 +36,7 @@ const SearchableLocationSelect = ({
   const handleSearch = (s: string) => {
     setSearch(s);
   };
+  // find selected value by given data . useful while updating Transportation
   const getValue = () => {
     const value = data.filter((d) => d.locationCode == selectedData)[0];
     if (value) {
