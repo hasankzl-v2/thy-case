@@ -19,8 +19,8 @@ class ThyApplicationTests {
 	@PostConstruct
 	void init() {
 		 routeRequestDto = new RouteRequestDto();
-		routeRequestDto.setStartLocationId(15L);
-		routeRequestDto.setEndLocationId(17L);
+		routeRequestDto.setStartLocationId(39L);
+		routeRequestDto.setEndLocationId(43L);
 		routeRequestDto.setDepartureDate(LocalDate.of(2024,4,30));
 		 allRouteValidationDto = routeService.findAllValidRoutes(routeRequestDto);
 	}
