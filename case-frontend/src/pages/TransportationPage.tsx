@@ -97,15 +97,21 @@ function TransportationPage() {
       headerName: "Origin",
       width: 230,
       filterable: true,
+      valueGetter: (params: ILocationData) => {
+        return params.locationCode;
+      },
       renderCell: (params) => {
         return <div>{params.row.originLocation.locationCode}</div>;
       },
     },
     {
-      field: "destionationLocation",
+      field: "destinationLocation",
       headerName: "Destination",
       width: 230,
       filterable: true,
+      valueGetter: (params: ILocationData) => {
+        return params.locationCode;
+      },
       renderCell: (params) => {
         return <div>{params.row.destinationLocation.locationCode}</div>;
       },
@@ -121,6 +127,7 @@ function TransportationPage() {
       headerName: "Operation Days",
       width: 470,
       filterable: true,
+      sortable: false,
       //render operation days
       renderCell: (params) => {
         return (
