@@ -77,7 +77,6 @@ const LocationUpdateModal = ({
           }}
         >
           <Typography variant="h6" component="h2" gutterBottom>
-            {locationData.id}
             Update Location
           </Typography>
 
