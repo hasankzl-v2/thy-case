@@ -37,6 +37,7 @@ function LocationPage() {
     { field: "id", headerName: "ID", width: 130, filterable: true },
     { field: "name", headerName: "Name", width: 470, filterable: true },
     { field: "country", headerName: "Country", width: 330, filterable: true },
+    { field: "city", headerName: "City", width: 330, filterable: true },
     {
       field: "locationCode",
       headerName: "Location Code",

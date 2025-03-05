@@ -138,7 +138,7 @@ const RouteInspectModal = ({
 
         <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
           <Button onClick={handleClose} color="secondary">
-            Cancel
+            Close
           </Button>
         </Box>
       </Box>
