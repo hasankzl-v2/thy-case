@@ -3,6 +3,8 @@ package com.example.thy.repository;
 import com.example.thy.entity.Location;
 import com.example.thy.entity.Transportation;
 import com.example.thy.enums.TransportationTypeEnum;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,7 +16,7 @@ import java.util.List;
 public interface TransportationRepository extends JpaRepository<Transportation, Long> {
 
     List<Transportation> findByOriginLocationId(Long originLocationId);
-
+    Page<Transportation> findAll(Pageable pageable);
 
     // update transportation by given parameters, added this for update operationDays successfully
     @Modifying

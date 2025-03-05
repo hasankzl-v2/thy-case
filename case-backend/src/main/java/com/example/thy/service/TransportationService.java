@@ -102,8 +102,9 @@ public class TransportationService {
         return new PageImpl<>(collect, pageable, totalCount);
     }
 
-    public List<TransportationDto> findAll() {
-        return transportationRepository.findAll().stream().map(transportation -> modelMapper.map(transportation, TransportationDto.class)).collect(Collectors.toList());
+    public Page<TransportationDto> findAll(Pageable pageable) {
+
+        return transportationRepository.findAll(pageable).map(transportation -> modelMapper.map(transportation, TransportationDto.class));
     }
 
     public TransportationDto findById(Long id) {

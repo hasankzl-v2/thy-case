@@ -42,44 +42,41 @@ public class TransportationController {
     @ApiResponse(responseCode = "200", description = "Successful Request",
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = TransportationDto.class))))
-    public ResponseEntity<List<TransportationDto>> findAllTransportations(){
-        return ResponseEntity.ok().body(transportationService.findAll());
+    public ResponseEntity<Page<TransportationDto>> findAllTransportations(@PageableDefault(size = 10) Pageable pageable) {
+        return ResponseEntity.ok().body(transportationService.findAll(pageable));
     }
 
     @GetMapping("/findById/{id}")
     @Operation(summary = "Find transportation by id", description = "Returns a transportation by id")
     @ApiResponse(responseCode = "200", description = "Successful Request",
-            content = @Content(mediaType = "application/json",schema = @Schema(implementation = TransportationDto.class)))
-    public ResponseEntity<TransportationDto> findTransportationById(@PathVariable Long id)
-    {
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = TransportationDto.class)))
+    public ResponseEntity<TransportationDto> findTransportationById(@PathVariable Long id) {
         return ResponseEntity.ok().body(transportationService.findById(id));
     }
 
     @PostMapping("/save")
     @Operation(summary = "save transportation", description = "save transportation")
     @ApiResponse(responseCode = "200", description = "Successful Request",
-            content = @Content(mediaType = "application/json",schema = @Schema(implementation = TransportationDto.class)))
-    public ResponseEntity<TransportationDto> SaveTransportation(@Valid @RequestBody SaveTransportationRequestDto saveTransportationRequestDto)
-    {
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = TransportationDto.class)))
+    public ResponseEntity<TransportationDto> SaveTransportation(@Valid @RequestBody SaveTransportationRequestDto saveTransportationRequestDto) {
         return ResponseEntity.ok().body(transportationService.save(saveTransportationRequestDto));
     }
 
     @PutMapping("/update")
     @Operation(summary = "update transportation", description = "update transportation")
     @ApiResponse(responseCode = "200", description = "Successful Request",
-            content = @Content(mediaType = "application/json",schema = @Schema(implementation = TransportationDto.class)))
-    public ResponseEntity<UpdateTransportationRequestDto> updateTransportation(@Valid @RequestBody UpdateTransportationRequestDto updateTransportationRequestDto)
-    {
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = TransportationDto.class)))
+    public ResponseEntity<UpdateTransportationRequestDto> updateTransportation(@Valid @RequestBody UpdateTransportationRequestDto updateTransportationRequestDto) {
         transportationService.update(updateTransportationRequestDto);
 
         return ResponseEntity.ok().body(updateTransportationRequestDto);
     }
+
     @DeleteMapping("/deleteById/{id}")
     @Operation(summary = "delete transportation by id", description = "delete transportation by id")
     @ApiResponse(responseCode = "200", description = "Successful Request",
             content = @Content(mediaType = "application/json"))
-    public ResponseEntity<Void> deleteTransportationById(@PathVariable Long id)
-    {
+    public ResponseEntity<Void> deleteTransportationById(@PathVariable Long id) {
         transportationService.deleteById(id);
         return ResponseEntity.ok().build();
     }
@@ -89,7 +86,7 @@ public class TransportationController {
     @Operation(summary = "Search Transportation", description = "Search Transportation")
     @ApiResponse(responseCode = "200", description = "Successful Request",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = TransportationDto.class)))
-    public ResponseEntity<Page<TransportationDto>> saveTransportation(
+    public ResponseEntity<Page<TransportationDto>> searchTransportation(
             @RequestBody SearchTransportationDto searchDto,
             @PageableDefault(size = 10) Pageable pageable
     ) {

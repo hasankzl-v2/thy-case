@@ -98,9 +98,10 @@ public class LocationService {
     }
 
 
-    public List<LocationDto> findAll() {
+    public Page<LocationDto> findAll(Pageable pageable) {
 
-        return locationRepository.findAll().stream().map(location -> modelMapper.map(location, LocationDto.class)).collect(Collectors.toList());
+        return locationRepository.findAll(pageable)
+                .map(location -> modelMapper.map(location, LocationDto.class));
     }
 
     public LocationDto findById(Long id) {

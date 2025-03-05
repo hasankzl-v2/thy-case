@@ -44,8 +44,8 @@ public class LocationController {
     @ApiResponse(responseCode = "200", description = "Successful Request",
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = LocationDto.class))))
-    public ResponseEntity<List<LocationDto>> findAllLocations() {
-        return ResponseEntity.ok().body(locationService.findAll());
+    public ResponseEntity<Page<LocationDto>> findAllLocations(@PageableDefault(size = 10, sort = "name") Pageable pageable) {
+        return ResponseEntity.ok().body(locationService.findAll(pageable));
     }
 
     @GetMapping("/findById/{id}")
