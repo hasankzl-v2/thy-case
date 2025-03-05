@@ -248,7 +248,7 @@ function TransportationPage() {
           <TextField
             label="Id"
             variant="outlined"
-            type="text"
+            type="number"
             value={filters.id ?? ""}
             onChange={(e) => {
               if (e.target.value == "") {

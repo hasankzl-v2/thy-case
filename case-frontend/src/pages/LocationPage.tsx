@@ -155,6 +155,7 @@ function LocationPage() {
           <TextField
             label="Id"
             variant="outlined"
+            type="number"
             value={filters.id == null ? "" : filters.id}
             onChange={(e) => handleSearchChange("id", e.target.value)}
           />
