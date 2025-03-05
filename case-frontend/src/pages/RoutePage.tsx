@@ -114,7 +114,7 @@ function RoutePage() {
     setSelectedDate("");
   };
   return (
-    <Paper sx={{ mt: 5, mb: 5, height: 800, width: "100%" }}>
+    <Paper sx={{ mt: 5, mb: 5, width: "100%" }}>
       <Box sx={{ display: "flex", gap: 5, paddingBottom: 2, paddingTop: 2 }}>
         <SearchableLocationSelect
           label="From"

@@ -140,7 +140,7 @@ function LocationPage() {
   const paginationModel = { page: 0, pageSize: 10 };
   return (
     <div>
-      <Paper sx={{ mt: 5, mb: 5, height: 800, width: "100%" }}>
+      <Paper sx={{ mt: 5, mb: 5, width: "100%" }}>
         <div
           style={{
             display: "flex",

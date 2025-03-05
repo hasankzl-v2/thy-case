@@ -233,7 +233,7 @@ function TransportationPage() {
   };
   return (
     <div>
-      <Paper sx={{ mt: 5, mb: 5, height: 800, width: "100%" }}>
+      <Paper sx={{ mt: 5, mb: 5, width: "100%" }}>
         <div
           style={{
             display: "flex",
