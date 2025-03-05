@@ -1,0 +1,400 @@
+{
+	"info": {
+		"_postman_id": "f53834db-33c0-40c9-8eef-6c39bb659b6c",
+		"name": "thy case",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6873031",
+		"_collection_link": "https://lunar-sunset-423841.postman.co/workspace/Akbank~1c374bcf-3fc8-4594-805b-2b273ab4af0a/collection/6873031-f53834db-33c0-40c9-8eef-6c39bb659b6c?action=share&source=collection_link&creator=6873031"
+	},
+	"item": [
+		{
+			"name": "location",
+			"item": [
+				{
+					"name": "find all locations",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/location/findAll?size=5&page=0",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"location",
+								"findAll"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete location",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/location/deleteById/40",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"location",
+								"deleteById",
+								"40"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save location",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Sabiha Gökçen\",\r\n    \"country\":\"Turkiye\",\r\n    \"city\":\"Istanbul\",\r\n    \"locationCode\":\"SAW\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/location/save",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"location",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find location by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/location/findById/44",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"location",
+								"findById",
+								"44"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update location",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 44,\r\n    \"name\": \"Sabiha Gökçen Airport\",\r\n    \"country\": \"Turkiye\",\r\n    \"city\": \"Istanbul\",\r\n    \"locationCode\": \"SAW\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/location/update",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"location",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search location",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"sabiha\",\r\n  \"country\": \"\",\r\n  \"city\": \"\",\r\n  \"locationCode\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/location/search?page=0&size=1&sort=name,asc",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"location",
+								"search"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "1"
+								},
+								{
+									"key": "sort",
+									"value": "name,asc"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "thy-case location service requests"
+		},
+		{
+			"name": "transportation",
+			"item": [
+				{
+					"name": "find all transportation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/transportation/findAll?size=5&page=0",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transportation",
+								"findAll"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "5"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete transportation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/transportation/deleteById/39",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transportation",
+								"deleteById",
+								"39"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "save transportation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"originLocationId\":43,\r\n    \"destinationLocationId\":42,\r\n    \"transportationType\":\"BUS\",\r\n    \"operationDays\":[1,2,3,4,5]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/transportation/save",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transportation",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find transportation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/transportation/findById/40",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transportation",
+								"findById",
+								"40"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update transportation",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"id\":40,\"transportationType\":\"BUS\",\"originLocationId\":42,\"destinationLocationId\":43,\"operationDays\":[2,3,5]}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/transportation/update",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transportation",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "search transportation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"originLocationCode\":\"IST\",\r\n    \"destinationLocationCode\":\"\",\r\n    \"operationDays\":[1,2,3,4,5]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/transportation/search?page=0&size=2",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"transportation",
+								"search"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "thy-case transportation service requests"
+		},
+		{
+			"name": "route",
+			"item": [
+				{
+					"name": "find valid routes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"startLocationId\":39,\"endLocationId\":43,\"departureDate\":\"04/03/2025\"}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/route/findValidRoutes",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"route",
+								"findValidRoutes"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "thy-case route service requests"
+		}
+	]
+}
