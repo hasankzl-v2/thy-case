@@ -43,11 +43,16 @@ public class LocationDto {
     @NotBlank(message = "Location code should not be empty")
     private String locationCode;
 
+
+    public void setLocationCode(String locationCode) {
+        this.locationCode = locationCode != null ? locationCode.toUpperCase() : null;
+    }
+
     public LocationDto(Long id) {
         this.id = id;
     }
 
-    public LocationDto(){
+    public LocationDto() {
 
     }
 }

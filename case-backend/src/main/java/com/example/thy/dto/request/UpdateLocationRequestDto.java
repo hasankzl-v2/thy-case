@@ -1,8 +1,6 @@
 package com.example.thy.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.PrePersist;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -43,10 +41,5 @@ public class UpdateLocationRequestDto {
     private String locationCode;
 
 
-    @PrePersist
-    public void prePersist() {
-        if (locationCode != null) {
-            locationCode = locationCode.toUpperCase();
-        }
-    }
+
 }
