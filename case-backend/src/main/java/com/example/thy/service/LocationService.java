@@ -150,16 +150,16 @@ public class LocationService {
         Location savedLocation = location.get();
 
         try {
-            if (updateLocationRequestDto.getName() != null) {
+            if (updateLocationRequestDto.getName() != null && !updateLocationRequestDto.getName().isBlank()) {
                 savedLocation.setName(updateLocationRequestDto.getName());
             }
-            if (updateLocationRequestDto.getLocationCode() != null) {
+            if (updateLocationRequestDto.getLocationCode() != null &&  !updateLocationRequestDto.getLocationCode().isBlank()) {
                 savedLocation.setLocationCode(updateLocationRequestDto.getLocationCode());
             }
-            if (updateLocationRequestDto.getCity() != null) {
+            if (updateLocationRequestDto.getCity() != null && !updateLocationRequestDto.getCity().isBlank()) {
                 savedLocation.setCity(updateLocationRequestDto.getCity());
             }
-            if (updateLocationRequestDto.getCountry() != null) {
+            if (updateLocationRequestDto.getCountry() != null && !updateLocationRequestDto.getCountry().isBlank()) {
                 savedLocation.setCountry(updateLocationRequestDto.getCountry());
             }
             savedLocation = locationRepository.save(savedLocation);
