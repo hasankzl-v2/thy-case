@@ -137,7 +137,7 @@ function LocationPage() {
   const handleClear = () => {
     setFilters(emptyLocation);
   };
-  const paginationModel = { page: 0, pageSize: 5 };
+  const paginationModel = { page: 0, pageSize: 10 };
   return (
     <div>
       <Paper sx={{ mt: 5, mb: 5, height: 800, width: "100%" }}>

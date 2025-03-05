@@ -24,7 +24,7 @@ import ILocationData from "../types/ILocationData";
 import TransportationSaveModal from "../components/TransportationSaveModal";
 import TransportationUpdateModal from "../components/TransportationUpdateModal";
 import ButtonComponent from "../components/ButtonComponent";
-const paginationModel = { page: 0, pageSize: 5 };
+const paginationModel = { page: 0, pageSize: 10 };
 function TransportationPage() {
   const [data, setData] = useState<ITransportationData[]>([]);
   const [openDialog, setOpenDialog] = useState(false); // delete dialog open state
