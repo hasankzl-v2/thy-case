@@ -50,8 +50,8 @@ public class TransportationService {
 
 
     /*
-    * Search Transportation by given data and pagination
-    * */
+     * Search Transportation by given data and pagination
+     * */
     public Page<TransportationDto> searchTransportations(SearchTransportationDto searchDto, Pageable pageable) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Transportation> query = cb.createQuery(Transportation.class);
@@ -107,11 +107,23 @@ public class TransportationService {
         return transportationRepository.findAll(pageable).map(transportation -> modelMapper.map(transportation, TransportationDto.class));
     }
 
+    @Transactional
     public TransportationDto findById(Long id) {
         Optional<Transportation> optional = transportationRepository.findById(id);
         if (optional.isPresent()) {
             log.info("Transportation found with id: {}", id);
             return modelMapper.map(optional.get(), TransportationDto.class);
+        } else {
+            throw new TransportationNotFoundException("Transportation not found for find", id);
+        }
+    }
+
+    @Transactional
+    public Transportation findByIdv2(Long id) {
+        Optional<Transportation> optional = transportationRepository.findById(id);
+        if (optional.isPresent()) {
+            log.info("Transportation found with id: {}", id);
+            return optional.get();
         } else {
             throw new TransportationNotFoundException("Transportation not found for find", id);
         }
@@ -149,15 +161,6 @@ public class TransportationService {
 
     }
 
-    /*
-    * update transportation with query, all values required
-    * */
-    public void update(UpdateTransportationRequestDto updateTransportationRequestDto) {
-        transportationRepository.updateTransportation(updateTransportationRequestDto.getId(), updateTransportationRequestDto.getTransportationType(), new Location(updateTransportationRequestDto.getDestinationLocationId()),
-                new Location(updateTransportationRequestDto.getOriginLocationId()),
-                updateTransportationRequestDto.getOperationDays());
-    }
-
 
     @Transactional
     public void deleteById(Long id) {
@@ -172,5 +175,51 @@ public class TransportationService {
     public List<TransportationDto> findByOriginLocationId(Long startLocationId) {
         List<Transportation> byOriginLocationId = transportationRepository.findByOriginLocationId(startLocationId);
         return byOriginLocationId.stream().map(transportation -> modelMapper.map(transportation, TransportationDto.class)).toList();
+    }
+
+    /*
+     * update transportation entity with given data
+     * */
+    @Transactional
+    public TransportationDto update(UpdateTransportationRequestDto updateTransportationRequestDto) {
+        Optional<Transportation> transportation = transportationRepository.findById(updateTransportationRequestDto.getId());
+        // if not present throw exception
+        if (transportation.isEmpty()) {
+            throw new TransportationNotFoundException("Transportation not found for update", updateTransportationRequestDto.getId());
+        }
+        Transportation savedTransportation = transportation.get();
+
+        try {
+            if (updateTransportationRequestDto.getTransportationType() != null) {
+                savedTransportation.setTransportationType(updateTransportationRequestDto.getTransportationType());
+            }
+            if (updateTransportationRequestDto.getOriginLocationId() != null) {
+                Location location = findLocationForUpdate(updateTransportationRequestDto.getOriginLocationId());
+                savedTransportation.setOriginLocation(location);
+            }
+            if (updateTransportationRequestDto.getDestinationLocationId() != null) {
+                Location location = findLocationForUpdate(updateTransportationRequestDto.getDestinationLocationId());
+                savedTransportation.setDestinationLocation(location);
+            }
+            if (updateTransportationRequestDto.getOperationDays() != null && updateTransportationRequestDto.getOperationDays().length > 0) {
+                savedTransportation.setOperationDays(updateTransportationRequestDto.getOperationDays());
+            }
+
+            transportationRepository.save(savedTransportation);
+        } catch (DataIntegrityViolationException e) {
+            log.error(e.getMessage());
+            throw new TransportationAlreadyExistsException(e.getMessage());
+        }
+        return modelMapper.map(savedTransportation, TransportationDto.class);
+    }
+
+    private void validateTransportationDataBeforeUpdate(TransportationDto transportationDto) {
+        if (transportationDto.getOriginLocation() != null && transportationDto.getOriginLocation().getId() != null
+                && transportationDto.getDestinationLocation() != null && transportationDto.getDestinationLocation().getId() != null
+        ) {
+            if (transportationDto.getOriginLocation().getId().equals(transportationDto.getDestinationLocation().getId())) {
+                throw new GeneralException("transport location and destination location should not be the same");
+            }
+        }
     }
 }

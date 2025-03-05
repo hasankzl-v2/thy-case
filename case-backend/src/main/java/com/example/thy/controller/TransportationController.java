@@ -62,16 +62,6 @@ public class TransportationController {
         return ResponseEntity.ok().body(transportationService.save(saveTransportationRequestDto));
     }
 
-    @PutMapping("/update")
-    @Operation(summary = "update transportation", description = "update transportation")
-    @ApiResponse(responseCode = "200", description = "Successful Request",
-            content = @Content(mediaType = "application/json", schema = @Schema(implementation = TransportationDto.class)))
-    public ResponseEntity<UpdateTransportationRequestDto> updateTransportation(@Valid @RequestBody UpdateTransportationRequestDto updateTransportationRequestDto) {
-        transportationService.update(updateTransportationRequestDto);
-
-        return ResponseEntity.ok().body(updateTransportationRequestDto);
-    }
-
     @DeleteMapping("/deleteById/{id}")
     @Operation(summary = "delete transportation by id", description = "delete transportation by id")
     @ApiResponse(responseCode = "200", description = "Successful Request",
@@ -92,4 +82,15 @@ public class TransportationController {
     ) {
         return ResponseEntity.ok().body(transportationService.searchTransportations(searchDto, pageable));
     }
+
+
+    @PutMapping("/update")
+    @Operation(summary = "update transportation", description = "update transportation")
+    @ApiResponse(responseCode = "200", description = "Successful Request",
+            content = @Content(mediaType = "application/json", schema = @Schema(implementation = TransportationDto.class)))
+    public ResponseEntity<TransportationDto> updateTransportation(@Valid @RequestBody UpdateTransportationRequestDto updateTransportationRequestDto) {
+        TransportationDto transportationDto = transportationService.update(updateTransportationRequestDto);
+        return ResponseEntity.ok().body(transportationDto);
+    }
+
 }

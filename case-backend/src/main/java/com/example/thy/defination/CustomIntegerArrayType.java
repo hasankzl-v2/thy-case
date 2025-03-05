@@ -5,6 +5,7 @@ import org.hibernate.usertype.UserType;
 
 import java.io.Serializable;
 import java.sql.*;
+import java.util.Arrays;
 
 /*
  * CustomIntegerArrayType added for mapping integer[] to database table
@@ -61,9 +62,10 @@ public class CustomIntegerArrayType implements UserType<Integer[]> {
     }
 
     @Override
-    public Integer[] deepCopy(Integer[] integers) {
-        return new Integer[0];
+    public Integer[] deepCopy(Integer[] value) {
+        return (value == null) ? null : Arrays.copyOf(value, value.length);
     }
+
 
     @Override
     public boolean isMutable() {
