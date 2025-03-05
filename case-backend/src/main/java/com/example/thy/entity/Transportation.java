@@ -5,6 +5,7 @@ import com.example.thy.validator.ValidateOperationDays;
 import com.example.thy.enums.TransportationTypeEnum;
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.Check;
 import org.hibernate.annotations.Type;
@@ -35,6 +36,7 @@ public class Transportation extends BaseEntity {
     private Location destinationLocation;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Transportation Type cannot be null")
     private TransportationTypeEnum transportationType;
 
 

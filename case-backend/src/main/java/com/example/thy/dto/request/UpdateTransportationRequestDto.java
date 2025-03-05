@@ -22,18 +22,21 @@ public class UpdateTransportationRequestDto {
             name = "transportationType",
             type = "TransportationTypeEnum",
             example = "BUS")
+    @NotNull(message = "transportationType should not be null when updating")
     private TransportationTypeEnum transportationType;
     @Schema(
             description = "destination location id of the transportation",
             name = "destinationLocationId",
             type = "Long",
             example = "1")
+    @NotNull(message = "destinationLocationId should not be null when updating")
     private Long destinationLocationId;
     @Schema(
             description = "origin location id of the transportation",
             name = "originLocationId",
             type = "Long",
             example = "1")
+    @NotNull(message = "originLocationId should not be null when updating")
     private Long originLocationId;
 
     @Schema(
@@ -41,5 +44,6 @@ public class UpdateTransportationRequestDto {
             name = "operationDays",
             type = "array",
             example = "[1,2,3,4,5]")
+    @NotNull(message = "operationDays should not be null when updating")
     private Integer[] operationDays;
 }
