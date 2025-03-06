@@ -11,9 +11,6 @@ import java.util.Arrays;
  * CustomIntegerArrayType added for mapping integer[] to database table
  * */
 public class CustomIntegerArrayType implements UserType<Integer[]> {
-    public int sqlType() {
-        return Types.ARRAY;
-    }
 
     @Override
     public int getSqlType() {
@@ -27,12 +24,12 @@ public class CustomIntegerArrayType implements UserType<Integer[]> {
 
     @Override
     public boolean equals(Integer[] integers, Integer[] j1) {
-        return false;
+        return Arrays.equals(integers, j1);
     }
 
     @Override
     public int hashCode(Integer[] integers) {
-        return 0;
+        return Arrays.hashCode(integers);
     }
 
     /*
@@ -72,14 +69,15 @@ public class CustomIntegerArrayType implements UserType<Integer[]> {
         return false;
     }
 
+
     @Override
-    public Serializable disassemble(Integer[] integers) {
-        return null;
+    public Serializable disassemble(Integer[] value) {
+        return deepCopy(value);
     }
 
     @Override
-    public Integer[] assemble(Serializable serializable, Object o) {
-        return new Integer[0];
+    public Integer[] assemble(Serializable cached, Object owner) {
+        return deepCopy((Integer[]) cached);
     }
 
 }

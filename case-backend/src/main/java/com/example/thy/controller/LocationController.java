@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -24,27 +25,23 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/location")
 @Tag(name = "Location Controller", description = "Location APIs")
-
 @ApiResponses({
         @ApiResponse(responseCode = "400", description = "Invalid Request",
                 content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))),
         @ApiResponse(responseCode = "500", description = "Server Error",
                 content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 })
+@RequiredArgsConstructor
 public class LocationController {
 
     private final LocationService locationService;
-
-    public LocationController(LocationService locationService) {
-        this.locationService = locationService;
-    }
 
     @GetMapping("/findAll")
     @Operation(summary = "Get all Locations", description = "Returns a list of location")
     @ApiResponse(responseCode = "200", description = "Successful Request",
             content = @Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = LocationDto.class))))
-    public ResponseEntity<Page<LocationDto>> findAllLocations(@PageableDefault(size = 10, sort = "name") Pageable pageable) {
+    public ResponseEntity<Page<LocationDto>> findAllLocations(@PageableDefault(size = 10) Pageable pageable) {
         return ResponseEntity.ok().body(locationService.findAll(pageable));
     }
 

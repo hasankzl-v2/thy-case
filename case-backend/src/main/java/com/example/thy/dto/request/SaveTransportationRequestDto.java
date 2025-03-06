@@ -42,7 +42,7 @@ public class SaveTransportationRequestDto {
     @NotNull(message = "operation days  should not be empty")
     private Integer[] operationDays;
 
-    public TransportationDto convertToDto() {
+    public TransportationDto convertToTransportationDto() {
         TransportationDto transportationDto = new TransportationDto();
         transportationDto.setTransportationType(transportationType);
         transportationDto.setOperationDays(operationDays);

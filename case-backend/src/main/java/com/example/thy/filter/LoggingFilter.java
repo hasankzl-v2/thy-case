@@ -24,7 +24,7 @@ public class LoggingFilter implements Filter {
 
         log.info("Incoming Request: {} {}", req.getMethod(), req.getRequestURI());
 
-        // Devam et
+
         chain.doFilter(request, response);
 
         log.info("Outgoing Response: {} {}", res.getStatus(), req.getRequestURI());

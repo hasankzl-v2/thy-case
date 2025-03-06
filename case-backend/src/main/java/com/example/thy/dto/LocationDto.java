@@ -36,7 +36,7 @@ public class LocationDto {
     @NotBlank(message = "City should not be empty")
     private String city;
     @Schema(
-            description = "id of the location",
+            description = "Location code of the location",
             name = "locationCode",
             type = "String",
             example = "SAW")

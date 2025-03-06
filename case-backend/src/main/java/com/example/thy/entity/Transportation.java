@@ -16,7 +16,6 @@ import java.util.Arrays;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@ToString
 @Entity
 @Table(name = "transportation",
         uniqueConstraints = @UniqueConstraint(

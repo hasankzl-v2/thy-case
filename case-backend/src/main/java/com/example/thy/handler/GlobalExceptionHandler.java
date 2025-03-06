@@ -63,7 +63,7 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ErrorCodeEnum.VIOLATION_ERROR, ex.getMessage()));
     }
 
-    @ExceptionHandler(Exception.class) // Tüm Exception türlerini yakalar
+    @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex) {
         log.error(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse(ErrorCodeEnum.UNEXPECTED_ERROR, ex.getMessage()));

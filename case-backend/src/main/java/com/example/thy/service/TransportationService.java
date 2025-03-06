@@ -131,7 +131,7 @@ public class TransportationService {
 
     public TransportationDto save(@Valid SaveTransportationRequestDto saveTransportationRequestDto) {
 
-        Transportation transportation = modelMapper.map(saveTransportationRequestDto.convertToDto(), Transportation.class);
+        Transportation transportation = modelMapper.map(saveTransportationRequestDto.convertToTransportationDto(), Transportation.class);
         try {
             transportation = transportationRepository.save(transportation);
         }
@@ -213,13 +213,4 @@ public class TransportationService {
         return modelMapper.map(savedTransportation, TransportationDto.class);
     }
 
-    private void validateTransportationDataBeforeUpdate(TransportationDto transportationDto) {
-        if (transportationDto.getOriginLocation() != null && transportationDto.getOriginLocation().getId() != null
-                && transportationDto.getDestinationLocation() != null && transportationDto.getDestinationLocation().getId() != null
-        ) {
-            if (transportationDto.getOriginLocation().getId().equals(transportationDto.getDestinationLocation().getId())) {
-                throw new GeneralException("transport location and destination location should not be the same");
-            }
-        }
-    }
 }
