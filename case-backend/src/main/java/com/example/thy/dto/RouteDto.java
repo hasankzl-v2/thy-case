@@ -72,11 +72,11 @@ public class RouteDto {
             example = "1")
     private final Long endLocationId;
 
-    @Getter(AccessLevel.NONE)
+
     private final int flightTransferLimit;
-    @Getter(AccessLevel.NONE)
+
     private final int beforeFlightTransferLimit;
-    @Getter(AccessLevel.NONE)
+
     private final int afterFlightTransferLimit;
 
     public void addValidRoute(LocationDto locationDto, TransportationTypeEnum transportationType, Integer[] operationDays) {

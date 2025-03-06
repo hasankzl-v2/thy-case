@@ -23,7 +23,7 @@ public class RouteControllerTest {
     private TestRestTemplate restTemplate;
 
     @Test
-    public void createUser_ShouldReturnCreatedUser() {
+    public void findValidRoutes() {
         RouteRequestDto routeRequestDto = new RouteRequestDto();
         routeRequestDto.setStartLocationId(39L);
         routeRequestDto.setEndLocationId(43L);
