@@ -3,6 +3,7 @@ package com.example.thy.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,6 +41,10 @@ public class Location extends BaseEntity {
 
     public Location(Long id) {
         this.setId(id);
+    }
+
+    public void setLocationCode(String locationCode) {
+        this.locationCode = StringUtils.upperCase(locationCode);
     }
 
     @Override
